@@ -38,8 +38,6 @@ if ($_GET) {
     $totalSales = $orderProductDAO->getTotalSell();
 
     $responseOrders = $orderProductDAO->getOrdersWithUsers();
-    print_r($responseOrders);
-
 
 } else {
     $modelUser = new UserDTO();
@@ -90,7 +88,8 @@ if ($_GET) {
 <h2>Historial de pedidos</h2>
 <p>Total de ventas de todoooooooo: S/ <?php echo($totalSales['total_sales']); ?></p>
 
-<h1>Acá te dejo un ejemplo en una tabla de la lista de órdenes, los 3 datos que están en el diseño: nombre del usuario, id y precio total</h1>
+<h1>Acá te dejo un ejemplo en una tabla de la lista de órdenes, los 3 datos que están en el diseño: nombre del usuario,
+  id y precio total</h1>
 
 <table class="table">
   <thead>
