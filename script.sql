@@ -106,7 +106,7 @@ CREATE TABLE `order_products`
 -- Volcado de datos para la tabla `order_products`
 --
 
-INSERT INTO `order_products` (`id`, `order_id`, `product_id`, `quantity`)
+INSERT INTO order_product (`id`, `order_id`, `product_id`, `quantity`)
 VALUES (1, 1, 1, 1),
        (2, 1, 2, 1),
        (3, 2, 2, 3);
@@ -335,7 +335,7 @@ ALTER TABLE `order`
 --
 -- Indices de la tabla `order_products`
 --
-ALTER TABLE `order_products`
+ALTER TABLE order_product
     ADD PRIMARY KEY (`id`),
     ADD KEY `order_id` (`order_id`),
     ADD KEY `product_id` (`product_id`);
@@ -433,7 +433,7 @@ ALTER TABLE `order`
 --
 -- AUTO_INCREMENT de la tabla `order_products`
 --
-ALTER TABLE `order_products`
+ALTER TABLE order_product
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
     AUTO_INCREMENT = 4;
 
@@ -521,7 +521,7 @@ ALTER TABLE `order`
 --
 -- Filtros para la tabla `order_products`
 --
-ALTER TABLE `order_products`
+ALTER TABLE order_product
     ADD CONSTRAINT `order_products_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`),
     ADD CONSTRAINT `order_products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 

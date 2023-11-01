@@ -1,22 +1,17 @@
 <?php
 
-namespace data_access_objects;
-require_once '../datasource/db_connection.php';
+require_once 'C:\xampp\htdocs\el_chino_cevicheria\datasource\db_connection.php';
 
-use DbConnection;
-use Exception;
-use PDO;
-
-class categoryDAO
+class CategoryDAO
 {
-    private PDO $conn;
+    private $conn;
 
     public function __construct()
     {
         $this->conn = DbConnection::connect();
     }
 
-    public function getCategories(): false|array
+    public function getCategories()
     {
         try {
             $sql = /** @lang text */
@@ -32,7 +27,7 @@ class categoryDAO
         }
     }
 
-    public function getCategoryById($id): false|array
+    public function getCategoryById($id)
     {
         $sql = /** @lang text */
             "SELECT * FROM category WHERE id = ?";
@@ -43,9 +38,9 @@ class categoryDAO
     }
 
 }
-
-$categoryDAO = new categoryDAO();
-$categories = $categoryDAO->getCategories();
-$category = $categoryDAO->getCategoryById(1);
-print_r($categories);
-print_r($category);
+//
+//$categoryDAO = new categoryDAO();
+//$categories = $categoryDAO->getCategories();
+//$category = $categoryDAO->getCategoryById(1);
+//print_r($categories);
+//print_r($category);

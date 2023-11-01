@@ -2,7 +2,7 @@
 
 namespace data_transfer_objects;
 
-class userDTO
+class UserDTO
 {
     private $id;
     private $idRole;
@@ -15,31 +15,33 @@ class userDTO
     private $active;
     private $createdAt;
 
-    public function __construct($id, $idRole, $idAddress, $name, $lastName, $img, $email, $password, $active, $createdAt)
+    public static function createFromResponse($response)
+    {
+        $modelUser = new UserDTO();
+        $modelUser->setId($response['id']);
+        $modelUser->setIdRole($response['id_role']);
+        $modelUser->setIdAddress($response['id_address']);
+        $modelUser->setName($response['name']);
+        $modelUser->setLastName($response['last_name']);
+        $modelUser->setImg($response['img']);
+        $modelUser->setEmail($response['email']);
+        $modelUser->setPassword($response['password']);
+        $modelUser->setActive($response['active']);
+        $modelUser->setCreatedAt($response['created_at']);
+        return $modelUser;
+    }
+
+    public function setId($id = 0)
     {
         $this->id = $id;
-        $this->idRole = $idRole;
-        $this->idAddress = $idAddress;
-        $this->name = $name;
-        $this->lastName = $lastName;
-        $this->img = $img;
-        $this->email = $email;
-        $this->password = $password;
-        $this->active = $active;
-        $this->createdAt = $createdAt;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function setIdRole($idRole)
+    public function setIdRole($idRole = 0)
     {
         $this->idRole = $idRole;
     }
 
-    public function setIdAddress($idAddress)
+    public function setIdAddress($idAddress = 0)
     {
         $this->idAddress = $idAddress;
     }
@@ -129,5 +131,9 @@ class userDTO
         return $this->createdAt;
     }
 
+    public function __toString()
+    {
+        return "id=" . $this->id . ", idRole=" . $this->idRole . ", idAddress=" . $this->idAddress . ", name=" . $this->name . ", lastName=" . $this->lastName . ", img=" . $this->img . ", email=" . $this->email . ", password=" . $this->password . ", active=" . $this->active . ", createdAt=" . $this->createdAt;
+    }
 
 }

@@ -2,15 +2,16 @@
 
 namespace data_transfer_objects;
 
-class cartDTO
+class RoleDTO
 {
-    private $id;
-    private $orderId;
 
-    public function __construct($id, $orderId)
+    private $id;
+    private $role;
+
+    public function __construct($id, $role)
     {
         $this->id = $id;
-        $this->orderId = $orderId;
+        $this->role = $role;
     }
 
     public function setId($id)
@@ -18,9 +19,9 @@ class cartDTO
         $this->id = $id;
     }
 
-    public function setOrderId($orderId)
+    public function setRole($role)
     {
-        $this->orderId = $orderId;
+        $this->role = $role;
     }
 
     public function getId()
@@ -28,10 +29,9 @@ class cartDTO
         return $this->id;
     }
 
-    public function getOrderId()
+    public function getRole()
     {
-        return $this->orderId;
+        return $this->role;
     }
-
 
 }

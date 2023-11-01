@@ -2,7 +2,7 @@
 
 namespace data_transfer_objects;
 
-class reviewDTO
+class ReviewDTO
 {
     private $id;
     private $userId;

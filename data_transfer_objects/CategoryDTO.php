@@ -2,17 +2,19 @@
 
 namespace data_transfer_objects;
 
-class categoryDTO
+class CategoryDTO
 {
     private $id;
     private $name;
     private $createdAt;
 
-    public function __construct($id, $name, $createdAt)
+    public static function createFromResponse($response)
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->createdAt = $createdAt;
+        $modelCategory = new CategoryDTO();
+        $modelCategory->setId($response['id']);
+        $modelCategory->setName($response['name']);
+        $modelCategory->setCreatedAt($response['created_at']);
+        return $modelCategory;
     }
 
     public function setId($id)
@@ -43,5 +45,10 @@ class categoryDTO
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    public function __toString()
+    {
+        return "id=" . $this->id . ", name=" . $this->name . ", createdAt=" . $this->createdAt;
     }
 }

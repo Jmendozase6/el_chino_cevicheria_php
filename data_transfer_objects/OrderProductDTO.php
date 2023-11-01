@@ -2,21 +2,13 @@
 
 namespace data_transfer_objects;
 
-class orderProductDTO
+class OrderProductDTO
 {
 
     private $id;
     private $orderId;
     private $productId;
     private $quantity;
-
-    public function __construct($id, $orderId, $productId, $quantity)
-    {
-        $this->id = $id;
-        $this->orderId = $orderId;
-        $this->productId = $productId;
-        $this->quantity = $quantity;
-    }
 
     public function setId($id)
     {

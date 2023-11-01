@@ -2,19 +2,12 @@
 
 namespace data_transfer_objects;
 
-class userAddressDTO
+class UserAddressDTO
 {
 
     private $id;
     private $userId;
     private $address;
-
-    public function __construct($id, $userId, $address)
-    {
-        $this->id = $id;
-        $this->userId = $userId;
-        $this->address = $address;
-    }
 
     public function getId()
     {
