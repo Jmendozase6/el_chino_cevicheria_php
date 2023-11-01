@@ -9,18 +9,20 @@ class userDTO
     private $idAddress;
     private $name;
     private $lastName;
+    private $img;
     private $email;
     private $password;
     private $active;
     private $createdAt;
 
-    public function __construct($id, $idRole, $idAddress, $name, $lastName, $email, $password, $active, $createdAt)
+    public function __construct($id, $idRole, $idAddress, $name, $lastName, $img, $email, $password, $active, $createdAt)
     {
         $this->id = $id;
         $this->idRole = $idRole;
         $this->idAddress = $idAddress;
         $this->name = $name;
         $this->lastName = $lastName;
+        $this->img = $img;
         $this->email = $email;
         $this->password = $password;
         $this->active = $active;
@@ -50,6 +52,11 @@ class userDTO
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
+    }
+
+    public function setImg($img)
+    {
+        $this->img = $img;
     }
 
     public function setEmail($email)
@@ -95,6 +102,11 @@ class userDTO
     public function getLastName()
     {
         return $this->lastName;
+    }
+
+    public function getImg()
+    {
+        return $this->img;
     }
 
     public function getEmail()

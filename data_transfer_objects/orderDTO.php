@@ -4,68 +4,67 @@ namespace data_transfer_objects;
 
 class orderDTO
 {
+    private int $id;
+    private int $userId;
+    private int $paymentId;
+    private float $total;
+    private string $createdAt;
 
-    private $id;
-    private $userId;
-    private $paymentMethodId;
-    private $total;
-    private $createdAt;
-
-    public function __construct($id, $userId, $paymentMethodId, $total, $createdAt)
+    public function __construct($id, $userId, $paymentId, $total, $createdAt)
     {
         $this->id = $id;
         $this->userId = $userId;
-        $this->paymentMethodId = $paymentMethodId;
+        $this->paymentId = $paymentId;
         $this->total = $total;
         $this->createdAt = $createdAt;
     }
 
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
-    public function setUserId($userId)
+    public function setUserId($userId): void
     {
         $this->userId = $userId;
     }
 
-    public function setPaymentMethodId($paymentMethodId)
+    public function setPaymentMethodId($paymentId): void
     {
-        $this->paymentMethodId = $paymentMethodId;
+        $this->paymentId = $paymentId;
     }
 
-    public function setTotal($total)
+    public function setTotal($total): void
     {
         $this->total = $total;
     }
 
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt($createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
-    public function getPaymentMethodId()
+    public function getPaymentMethodId(): int
     {
-        return $this->paymentMethodId;
+        return $this->paymentId;
     }
 
-    public function getTotal()
+    public function getTotal(): float
     {
         return $this->total;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): string
     {
         return $this->createdAt;
     }

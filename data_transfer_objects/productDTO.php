@@ -6,25 +6,25 @@ class productDTO
 {
     private $id;
     private $idCategory;
-    private $idProductDiscount;
-    private $idProductStock;
+    private $discount;
     private $name;
     private $description;
     private $image;
     private $price;
+    private $stock;
     private $active;
     private $createdAt;
 
-    public function __construct($id, $idCategory, $idProductDiscount, $idProductStock, $name, $description, $image, $price, $active, $createdAt)
+    public function __construct($id, $idCategory, $discount, $name, $description, $image, $price, $stock, $active, $createdAt)
     {
         $this->id = $id;
         $this->idCategory = $idCategory;
-        $this->idProductDiscount = $idProductDiscount;
-        $this->idProductStock = $idProductStock;
+        $this->discount = $discount;
         $this->name = $name;
         $this->description = $description;
         $this->image = $image;
         $this->price = $price;
+        $this->stock = $stock;
         $this->active = $active;
         $this->createdAt = $createdAt;
     }
@@ -34,47 +34,47 @@ class productDTO
         $this->id = $id;
     }
 
-    public function setIdCategory($idCategory)
+    public function setIdCategory($idCategory): void
     {
         $this->idCategory = $idCategory;
     }
 
-    public function setIdProductDiscount($idProductDiscount)
+    public function setDiscount($discount): void
     {
-        $this->idProductDiscount = $idProductDiscount;
+        $this->discount = $discount;
     }
 
-    public function setIdProductStock($idProductStock)
-    {
-        $this->idProductStock = $idProductStock;
-    }
-
-    public function setName($name)
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    public function setDescription($description)
+    public function setDescription($description): void
     {
         $this->description = $description;
     }
 
-    public function setImage($image)
+    public function setImage($image): void
     {
         $this->image = $image;
     }
 
-    public function setPrice($price)
+    public function setPrice($price): void
     {
         $this->price = $price;
     }
 
-    public function setActive($active)
+    public function setStock($stock): void
+    {
+        $this->stock = $stock;
+    }
+
+    public function setActive($active): void
     {
         $this->active = $active;
     }
 
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt($createdAt): void
     {
         $this->createdAt = $createdAt;
     }
@@ -89,14 +89,9 @@ class productDTO
         return $this->idCategory;
     }
 
-    public function getIdProductDiscount()
+    public function getDiscount()
     {
-        return $this->idProductDiscount;
-    }
-
-    public function getIdProductStock()
-    {
-        return $this->idProductStock;
+        return $this->discount;
     }
 
     public function getName()
@@ -117,6 +112,11 @@ class productDTO
     public function getPrice()
     {
         return $this->price;
+    }
+
+    public function getStock()
+    {
+        return $this->stock;
     }
 
     public function getActive()

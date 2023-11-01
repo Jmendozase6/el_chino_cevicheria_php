@@ -4,8 +4,8 @@ namespace data_transfer_objects;
 
 class saleDTO
 {
-    private $id;
-    private $orderId;
+    private int $id;
+    private int $orderId;
 
     public function __construct($id, $orderId)
     {
@@ -13,22 +13,22 @@ class saleDTO
         $this->orderId = $orderId;
     }
 
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
-    public function setOrderId($orderId)
+    public function setOrderId($orderId): void
     {
         $this->orderId = $orderId;
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getOrderId()
+    public function getOrderId(): int
     {
         return $this->orderId;
     }

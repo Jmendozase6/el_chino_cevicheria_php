@@ -2,7 +2,7 @@
 
 namespace data_transfer_objects;
 
-class paymentMethod
+class payment
 {
 
     private $id;
