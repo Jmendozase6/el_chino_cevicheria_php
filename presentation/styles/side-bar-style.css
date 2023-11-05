@@ -45,6 +45,10 @@
     margin-left: 2rem;
 }
 
+.content-menu {
+    margin: 1.20rem 0;
+}
+
 .content-menu h2 {
     color: #25396F;
     font-weight: bold;
@@ -65,3 +69,20 @@
     color: #19777A;
     font-weight: bold;
 }
+
+.content-menu2 {
+    margin: 1.25rem 0;
+    padding: 1.5rem 0.8rem;
+}
+
+.most-sold {
+    color: #25396F;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.year {
+    font-size: 0.74rem;
+    color: #B0B6C3;
+}
+
