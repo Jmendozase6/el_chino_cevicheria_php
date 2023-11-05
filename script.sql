@@ -45,6 +45,7 @@ CREATE TABLE `category`
 (
     `id`         int(11)     NOT NULL,
     `name`       varchar(20) NOT NULL,
+    `img`        varchar(1000)        DEFAULT NULL,
     `created_at` timestamp   NOT NULL DEFAULT current_timestamp()
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
