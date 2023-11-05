@@ -7,17 +7,20 @@
 }
 
 .side-menu {
-    width: 220px;
+    width: 15rem;
+    min-width: 15rem;
 }
 
 .side-bar .side-menu img {
     width: 127px;
     height: 127px;
 }
+
 .btn-start {
     padding-left: 2rem;
 }
-.side-bar .side-menu .btn-start p{
+
+.side-bar .side-menu .btn-start p {
     margin-bottom: 0;
     font-size: 0.875rem; /* 14px */
     line-height: 1.25rem; /* 20px */
@@ -26,11 +29,12 @@
 .btn-start:hover {
     background: #e1f1f3;
 }
+
 .btn-start:hover {
     cursor: pointer;
 }
 
-.header-text{
+.header-text {
     font-weight: bold;
     color: #25396F;
 }
@@ -42,11 +46,22 @@
 }
 
 .content-menu h2 {
-    font-size: 1rem;
-    font-weight: bold;
     color: #25396F;
+    font-weight: bold;
+    font-size: 1.5rem;
 }
 
 .content-menu p {
-    font-size: 12px;
+    font-size: 1rem;
+    color: #B0B6C3;
+}
+
+.card-body p {
+    color: #25396F;
+}
+
+.content-menu .row .col-auto a {
+    text-decoration: none;
+    color: #19777A;
+    font-weight: bold;
 }

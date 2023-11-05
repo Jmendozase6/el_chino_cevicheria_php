@@ -6,6 +6,7 @@ class CategoryDTO
 {
     private $id;
     private $name;
+    private $img;
     private $createdAt;
 
     public static function createFromResponse($response)
@@ -13,6 +14,7 @@ class CategoryDTO
         $modelCategory = new CategoryDTO();
         $modelCategory->setId($response['id']);
         $modelCategory->setName($response['name']);
+        $modelCategory->setImg($response['img']);
         $modelCategory->setCreatedAt($response['created_at']);
         return $modelCategory;
     }
@@ -26,6 +28,12 @@ class CategoryDTO
     {
         $this->name = $name;
     }
+
+    public function setImg($img)
+    {
+        $this->img = $img;
+    }
+
 
     public function setCreatedAt($createdAt)
     {
@@ -42,6 +50,11 @@ class CategoryDTO
         return $this->name;
     }
 
+    public function getImg()
+    {
+        return $this->img;
+    }
+
     public function getCreatedAt()
     {
         return $this->createdAt;
@@ -49,6 +62,6 @@ class CategoryDTO
 
     public function __toString()
     {
-        return "id=" . $this->id . ", name=" . $this->name . ", createdAt=" . $this->createdAt;
+        return "id=" . $this->id . ", name=" . $this->name . ", image=" . $this->getImg() . ", createdAt=" . $this->createdAt;
     }
 }
