@@ -40,10 +40,10 @@ class OrderProductDAO
     public function getOrdersWithUsers()
     {
         $sql = /** @lang text */
-            "SELECT o.id, o.total, u.name
+            "SELECT o.id, o.total, u.name, u.img
                 FROM `order` as o
                 JOIN user as u
-                    ON o.user_id = u.id;";
+                    ON o.user_id = u.id";
         $query = $this->conn->prepare($sql);
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
