@@ -22,4 +22,17 @@ class ProductDAO
         return $query->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getProductsByIdCategory($id)
+    {
+        $sql = /** @lang text */
+            "SELECT * FROM product WHERE id_category = ?";
+        $query = $this->conn->prepare($sql);
+        $query->bindParam(1, $id);
+        $query->execute();
+        if ($query->rowCount() == 0) {
+            return "Productos no encontrados";
+        }
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

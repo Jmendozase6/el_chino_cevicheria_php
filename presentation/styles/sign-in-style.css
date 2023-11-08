@@ -25,7 +25,7 @@ body{
 }
 
 .side-image {
-    background-image: url("../resources/image/bg-test.jpg");
+    background-image: url("../resources/images/bg-test.jpg");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

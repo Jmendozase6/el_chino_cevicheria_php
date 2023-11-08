@@ -139,7 +139,7 @@ class ProductDTO
             ", discount=" . $this->discount .
             ", name='" . $this->name . '\'' .
             ", description='" . $this->description . '\'' .
-            ", image='" . $this->image . '\'' .
+            ", images='" . $this->image . '\'' .
             ", price=" . $this->price .
             ", stock=" . $this->stock .
             ", active=" . $this->active .

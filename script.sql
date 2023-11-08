@@ -50,11 +50,11 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `name`, `created_at`, `img`) VALUES
-                                                               (1, 'Bebidas', '2023-10-31 06:38:34', 'https://res.cloudinary.com/dk3uxckba/image/upload/v1699158083/b7jrjpz6gjskyzchel0u.jpg'),
-                                                               (2, 'Ceviches', '2023-10-31 06:38:51', 'https://res.cloudinary.com/dk3uxckba/image/upload/v1699158083/sljv0o7lbjrumzg7eba1.jpg'),
-                                                               (3, 'Entradas', '2023-11-05 04:11:29', 'https://res.cloudinary.com/dk3uxckba/image/upload/v1699158083/a3idodddn2rvekrqwo3d.jpg'),
-                                                               (4, 'ssdsd', '2023-11-05 04:14:49', 'https://res.cloudinary.com/dk3uxckba/image/upload/v1699158083/odm2wduy1zp4oo8euti0.jpg'),
-                                                               (5, 'sdfsdf', '2023-11-05 04:14:49', 'https://res.cloudinary.com/dk3uxckba/image/upload/v1699158084/mftogjar4lbuswlsb9kz.jpg\n');
+                                                               (1, 'Bebidas', '2023-10-31 06:38:34', 'https://res.cloudinary.com/dk3uxckba/images/upload/v1699158083/b7jrjpz6gjskyzchel0u.jpg'),
+                                                               (2, 'Ceviches', '2023-10-31 06:38:51', 'https://res.cloudinary.com/dk3uxckba/images/upload/v1699158083/sljv0o7lbjrumzg7eba1.jpg'),
+                                                               (3, 'Entradas', '2023-11-05 04:11:29', 'https://res.cloudinary.com/dk3uxckba/images/upload/v1699158083/a3idodddn2rvekrqwo3d.jpg'),
+                                                               (4, 'ssdsd', '2023-11-05 04:14:49', 'https://res.cloudinary.com/dk3uxckba/images/upload/v1699158083/odm2wduy1zp4oo8euti0.jpg'),
+                                                               (5, 'sdfsdf', '2023-11-05 04:14:49', 'https://res.cloudinary.com/dk3uxckba/images/upload/v1699158084/mftogjar4lbuswlsb9kz.jpg\n');
 
 -- --------------------------------------------------------
 

@@ -136,4 +136,16 @@ class UserDTO
         return "id=" . $this->id . ", idRole=" . $this->idRole . ", idAddress=" . $this->idAddress . ", name=" . $this->name . ", lastName=" . $this->lastName . ", img=" . $this->img . ", email=" . $this->email . ", password=" . $this->password . ", active=" . $this->active . ", createdAt=" . $this->createdAt;
     }
 
+    public function getRoleById()
+    {
+        switch ($this->idRole) {
+            case 1:
+                return "Administrador";
+            case 2:
+                return "Cliente";
+            default:
+                return "Sin rol";
+        }
+    }
+
 }

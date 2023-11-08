@@ -90,7 +90,7 @@ if ($_GET) {
       </div>
       <div class="container">
         <div class="row">
-          <div class="col-9">
+          <div class="col-8">
             <div class="p-4 bg-white rounded-4 shadow-sm d-flex flex-column content-menu">
               <h2>Menú</h2>
               <div class="row">
@@ -130,17 +130,44 @@ if ($_GET) {
                     <strong><?= $mostSellProductDTO->getName() ?></strong></p>
                 </div>
                 <div class="text-center">
-                  <span class="badge text-bg-dark p-2 "><?= $responseMostSellProduct['total_quantity'] ?> ventas</span>
+                  <span class="badge text-bg-light p-2 "><?= $responseMostSellProduct['total_quantity'] ?> ventas</span>
                 </div>
               </div>
             </div>
+          </div>
+          <div class="col-2">
+            <div class="d-flex justify-content-center">
+              <strong style="font-size: 2rem; color: #56a2a2">Tus datos</strong>
+            </div>
+            <!--            Center img-->
+            <div class="d-flex justify-content-center">
+              <img src="../../resources/images/<?= $modelUser->getImg() ?>" class="card-img-top rounded-circle w-50"
+                   alt="Logo usuario">
+            </div>
+            <label for="name" class="form-label">
+              <input id="name" type="text" value="<?= $modelUser->getName() ?>" class="form-control"
+                     placeholder="Nombre" readonly>
+            </label>
+            <label for="lastname" class="form-label">
+              <input id="lastname" type="text" value="<?= $modelUser->getLastName() ?>" class="form-control"
+                     placeholder="Apellidos" readonly>
+            </label>
+            <label for="email" class="form-label">
+              <input id="email" type="email" value="<?= $modelUser->getEmail() ?>" class="form-control"
+                     placeholder="Correo" readonly>
+            </label>
+            <label for="role" class="form-label">
+              <input id="role" type="text" value="<?= $modelUser->getRoleById() ?>" class="form-control"
+                     placeholder="Correo" readonly>
+            </label>
+
           </div>
         </div>
         <div class="row">
           <div class="container bg-white col-md-6 row m-2 pb-3 p-4 rounded-4">
             <div class="row">
               <div class="col">
-                <strong style="font-size: 2rem">Historial de pedidos</strong>
+                <strong style="font-size: 2rem; color: #56a2a2">Historial de pedidos</strong>
               </div>
               <div class="col-auto">
                 <p>Últimos ↓</p>
@@ -155,7 +182,7 @@ if ($_GET) {
               <?php foreach ($responseOrders as $order) { ?>
                 <div class="row pt-2">
                   <div class="col-2">
-                    <img src="../../resources/image/<?= $order['img'] ?>" class="card-img-top rounded-2"
+                    <img src="../../resources/images/<?= $order['img'] ?>" class="card-img-top rounded-2"
                          alt="Logo usuario">
                   </div>
                   <div class="col-4">
@@ -171,7 +198,7 @@ if ($_GET) {
 
           <div class="col-md-4">
             <div class="bg-white p-4 rounded-4 m-1">
-              <strong style="font-size: 2rem">Mejores Clientes</strong>
+              <strong style="font-size: 2rem; color: #56a2a2">Mejores Clientes</strong>
               <div class="m-1">
                   <?php foreach ($betterClientsDTO as $bestClient) { ?>
                       <?php $total = $bestClient['total'] ?>
@@ -179,7 +206,8 @@ if ($_GET) {
                     <div class="card mb-3 shadow-sm p-1" style="max-width: 400px;">
                       <div class="row g-0">
                         <div class="col-md-4">
-                          <img src="../../resources/image/<?= $bestClient->getImg() ?>" class="img-fluid rounded-start"
+                          <img src="../../resources/images/<?= $bestClient->getImg() ?>"
+                               class="img-fluid rounded-start"
                                alt="Foto del cliente">
                         </div>
                         <div class="col-md-8">
@@ -200,6 +228,7 @@ if ($_GET) {
       </div>
     </div>
   </div>
+
   <!--<h1>Datos del usuario:</h1>-->
   <!--<p>--><?php //echo $modelUser->__toString() ?><!--</p>-->
   <!--<h2>Si quieres acceder a una propiedad en específico lo haces así:</h2>-->

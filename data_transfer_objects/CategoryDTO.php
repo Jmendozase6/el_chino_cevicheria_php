@@ -62,6 +62,6 @@ class CategoryDTO
 
     public function __toString()
     {
-        return "id=" . $this->id . ", name=" . $this->name . ", image=" . $this->getImg() . ", createdAt=" . $this->createdAt;
+        return "id=" . $this->id . ", name=" . $this->name . ", images=" . $this->getImg() . ", createdAt=" . $this->createdAt;
     }
 }

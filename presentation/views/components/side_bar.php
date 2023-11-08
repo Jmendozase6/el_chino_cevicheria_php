@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="side-menu bg-white vh-100">
-  <img class="mx-auto d-flex justify-content-center" src="../../resources/image/logo.png" alt="logo"/>
+  <img class="mx-auto d-flex justify-content-center" src="../../resources/images/logo.png" alt="logo"/>
   <section class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start">
     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 48 48"
          class="text-lg" height="1em" width="1em"
@@ -74,7 +74,7 @@
         <rect x="14" y="21" width="23" height="6"></rect>
       </g>
     </svg>
-    <a onclick="<?php session_abort(); ?>" href="../sign_in/sign_in_view.php"><p>Cerrar sesión</p></a>
+    <a onclick="<?php session_abort(); ?>" href="../home_client/home_client_view.php"><p>Cerrar sesión</p></a>
   </section>
 </div>
 </body>
