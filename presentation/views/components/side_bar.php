@@ -1,6 +1,4 @@
 <?php
-
-
 ?>
 
 <!doctype html>
@@ -76,7 +74,7 @@
         <rect x="14" y="21" width="23" height="6"></rect>
       </g>
     </svg>
-    <p onclick="<?php session_abort(); ?>" href="../sign_in/sign_in_view.php">Cerrar sesión</p>
+    <a onclick="<?php session_abort(); ?>" href="../sign_in/sign_in_view.php"><p>Cerrar sesión</p></a>
   </section>
 </div>
 </body>
