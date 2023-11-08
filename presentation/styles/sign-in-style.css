@@ -65,9 +65,8 @@ img{
     height: 6px;
     width: 61px;
     background: #09797A;
-    margin: 0 auto;
     border-radius: 9px;
-    margin-bottom: 30px;
+    margin: 0 auto 30px;
 }
 
 .input-field {

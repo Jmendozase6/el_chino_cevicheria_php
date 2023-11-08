@@ -29,7 +29,7 @@
           <form action="sign_in.php" enctype="multipart/form-data" method="post">
 
             <div class="input-field">
-              <input type="text" class="input" name="email" id="email" required autocomplete="off">
+              <input type="email" class="input" name="email" id="email" required autocomplete="off">
               <label for="email" class="">Email Address</label>
             </div>
             <div class="input-field">

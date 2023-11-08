@@ -3,7 +3,7 @@
 }
 
 .side-bar {
-    width: 1024px;
+    width: 70vw;
 }
 
 .side-menu {
@@ -50,6 +50,12 @@
 }
 
 .content-menu h2 {
+    color: #25396F;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.title {
     color: #25396F;
     font-weight: bold;
     font-size: 1.5rem;

@@ -46,6 +46,22 @@ class UserDAO
         }
     }
 
+    public function getBettersCustomers()
+    {
+        try {
+            $sql = /** @lang text */
+                "SELECT user.*, SUM(total) AS total FROM `order` JOIN user ON user.id = `order`.user_id GROUP BY user_id ORDER BY total DESC";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() == 0) {
+                return "Usuarios no encontrados";
+            }
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
+
 }
 //
 //$userDAO = new userDAO();
