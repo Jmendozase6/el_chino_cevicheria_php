@@ -106,7 +106,7 @@ if ($_GET) {
                     <div class="col">
                       <div class="card border-0">
                         <img src="<?= $categoryDTO->getImg() ?>" class="card-img-top rounded-2"
-                             alt="..." height="180">
+                             alt="Categoría" width="30">
                         <div class="card-body">
                           <p class="card-text text-center">
                             <strong><?= $categoryDTO->getName() ?></strong></p>
@@ -117,32 +117,26 @@ if ($_GET) {
               </div>
             </div>
           </div>
-          <div class="col-3">
+          <div class="col-2">
             <div class="bg-white rounded-4 shadow-sm d-flex flex-column content-menu2">
               <h2 class="most-sold">Más vendidos</h2>
               <div class="row">
-                <div class="col">
-                  <p class="year">2023</p>
-                </div>
               </div>
-              <div class="">
-                <div class="col">
-                  <div class="card border-0">
-                    <img src="<?= $mostSellProductDTO->getImage() ?>" class="card-img-top rounded-2"
-                         alt="..." height="170">
-                    <div class="card-body">
-                      <p class="card-text text-center most-sold">
-                        <strong><?= $mostSellProductDTO->getName() ?></strong></p>
-                    </div>
-                  </div>
-                  <span class="badge text-bg-info p-2 "><?= $responseMostSellProduct['total_quantity'] ?> ventas</span>
+              <div class="col">
+                <div class="card border-0">
+                  <img src="<?= $mostSellProductDTO->getImage() ?>" class="card-img-top rounded-2"
+                       alt="Producto más vendido">
+                  <p class="card-text text-center most-sold p-1">
+                    <strong><?= $mostSellProductDTO->getName() ?></strong></p>
+                </div>
+                <div class="text-center">
+                  <span class="badge text-bg-dark p-2 "><?= $responseMostSellProduct['total_quantity'] ?> ventas</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="row">
-          <h4 class="title">Pedidos</h4>
           <div class="container bg-white col-md-6 row m-2 pb-3 p-4 rounded-4">
             <div class="row">
               <div class="col">
@@ -176,28 +170,30 @@ if ($_GET) {
           </div>
 
           <div class="col-md-4">
-            <h3 class="title">Mejores Clientes</h3>
-            <div>
-                <?php foreach ($betterClientsDTO as $bestClient) { ?>
-                    <?php $total = $bestClient['total'] ?>
-                    <?php $bestClient = $bestClient['user'] ?>
-                  <div class="card mb-3" style="max-width: 400px;">
-                    <div class="row g-0">
-                      <div class="col-md-4">
-                        <img src="../../resources/image/cat.jpg" class="img-fluid rounded-start"
-                             alt="Foto del cliente">
-                      </div>
-                      <div class="col-md-8">
-                        <div class="card-body">
-                          <h5 class="card-title"><?= $bestClient->getName() . ' ' . $bestClient->getLastName() ?></h5>
-                          <p><?= $bestClient->getEmail() ?></p>
-                          <p class="card-text"><small class="text-muted">Total:
-                              S/ <?= $total ?></small></p>
+            <div class="bg-white p-4 rounded-4 m-1">
+              <strong style="font-size: 2rem">Mejores Clientes</strong>
+              <div class="m-1">
+                  <?php foreach ($betterClientsDTO as $bestClient) { ?>
+                      <?php $total = $bestClient['total'] ?>
+                      <?php $bestClient = $bestClient['user'] ?>
+                    <div class="card mb-3 shadow-sm p-1" style="max-width: 400px;">
+                      <div class="row g-0">
+                        <div class="col-md-4">
+                          <img src="../../resources/image/<?= $bestClient->getImg() ?>" class="img-fluid rounded-start"
+                               alt="Foto del cliente">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h5 class="card-title"><?= $bestClient->getName() . ' ' . $bestClient->getLastName() ?></h5>
+                            <p><?= $bestClient->getEmail() ?></p>
+                            <p class="card-text"><small class="text-muted">Total:
+                                S/ <?= $total ?></small></p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                <?php } ?>
+                  <?php } ?>
+              </div>
             </div>
           </div>
         </div>
