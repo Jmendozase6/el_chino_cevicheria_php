@@ -9,9 +9,13 @@ require_once '../../../data_transfer_objects/CategoryDTO.php';
 $categoryDAO = new CategoryDAO();
 $responseCategories = $categoryDAO->getCategories();
 $categoriesDTO = [];
-for ($i = 0; $i < sizeof($responseCategories); $i++) {
-    $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
+
+if (isset($responseCategories)) {
+    for ($i = 0; $i < sizeof($responseCategories); $i++) {
+        $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
+    }
 }
+
 ?>
 
 <!doctype html>

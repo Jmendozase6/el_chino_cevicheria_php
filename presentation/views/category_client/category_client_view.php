@@ -1,18 +1,30 @@
 <?php
 
 use data_transfer_objects\CategoryDTO;
+use data_transfer_objects\ProductDTO;
 
 require_once '../../../data_access_objects/CategoryDAO.php';
+require_once '../../../data_access_objects/ProductDAO.php';
 
 require_once '../../../data_transfer_objects/CategoryDTO.php';
+require_once '../../../data_transfer_objects/ProductDTO.php';
 
 if ($_GET) {
     $categoryDAO = new CategoryDAO();
     $categoryId = $_GET['id'];
-    $response = $categoryDAO->getCategoryById($categoryId);
+    $response = $categoryDAO->getCategoriesById($categoryId);
     $categoryDTO = CategoryDTO::createFromResponse($response);
+
+    $productDAO = new ProductDAO();
+    $responseProducts = $productDAO->getProductsByIdCategory($categoryId);
+
+    $productsDTO = [];
+    for ($i = 0; $i < sizeof($responseProducts); $i++) {
+        $productsDTO[$i] = ProductDTO::createFromResponse($responseProducts[$i]);
+    }
 } else {
     $categoryDTO = null;
+    $productsDTO = [];
 }
 ?>
 <!doctype html>
@@ -28,10 +40,33 @@ if ($_GET) {
   <link rel="stylesheet" href="../../styles/side-bar-style.css">
 </head>
 <body>
-<div class="wrapper">
-  <div class="row">
-    <button href="../home_client/home_client_view.php" class="btn btn-primary">Wolver</button>
-  </div>
+<div class="container">
+  <h1><?= $categoryDTO->getName() ?></h1>
 </div>
+<table class="table m-5">
+  <thead>
+  <tr>
+    <th scope="col">ID</th>
+    <th scope="col">Total</th>
+    <th scope="col">Imagen</th>
+    <th scope="col">Descuento</th>
+    <th scope="col">Stock</th>
+    <th scope="col">Precio</th>
+  </tr>
+  </thead>
+  <tbody>
+  <?php foreach ($productsDTO as $product) { ?>
+    <tr>
+      <th scope="row"><?php echo $product->getId() ?></th>
+      <th scope="row"><?php echo $product->getName() ?></th>
+      <th scope="row"><img src="<?php echo $product->getImage() ?>" alt="Img producto" width=50></th>
+      <th scope="row"><?= $product->getDiscount() ?></th>
+      <th scope="row"><?= $product->getStock() ?></th>
+      <th scope="row"><?= $product->getPrice() ?></th>
+    </tr>
+  <?php } ?>
+  </tbody>
+</table>
+
 </body>
 </html>

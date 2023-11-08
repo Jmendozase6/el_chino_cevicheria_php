@@ -19,7 +19,7 @@ class CategoryDAO
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() == 0) {
-                return "Categorías no encontradas";
+                return null;
             }
             return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
@@ -27,7 +27,7 @@ class CategoryDAO
         }
     }
 
-    public function getCategoryById($id)
+    public function getCategoriesById($id)
     {
         $sql = /** @lang text */
             "SELECT * FROM category WHERE id = ?";
