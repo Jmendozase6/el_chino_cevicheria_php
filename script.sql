@@ -298,7 +298,7 @@ INSERT INTO `user` (`id`, `id_role`, `id_address`, `name`, `last_name`, `email`,
                     `img`)
 VALUES (1, 1, NULL, 'Jhair', 'Mendoza', 'jhair@gmail.com', '12345', 1, '2023-10-31 06:10:45', 'cat.jpg'),
        (2, 1, NULL, 'Liz', 'Sosa', 'liz@gmail.com', '12345', 1, '2023-10-31 07:00:28', 'cat2.jpg'),
-       (2, 1, NULL, 'Manuel', 'Antón', 'anton@gmail.com', '1', 1, '2023-10-31 07:00:28', 'cat.jpg');
+       (3, 1, NULL, 'Manuel', 'Antón', 'anton@gmail.com', '1', 1, '2023-10-31 07:00:28', 'cat.jpg');
 
 -- --------------------------------------------------------
 
