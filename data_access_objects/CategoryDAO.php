@@ -11,11 +11,11 @@ class CategoryDAO
         $this->conn = DbConnection::connect();
     }
 
-    public function getCategories()
+    public function getCategories($limit = 4)
     {
         try {
             $sql = /** @lang text */
-                "SELECT * FROM category LIMIT 4";
+                "SELECT * FROM category LIMIT $limit";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() == 0) {

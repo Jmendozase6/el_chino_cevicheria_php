@@ -1,10 +1,12 @@
-*{
+* {
     font-family: 'Poppins', sans-serif;
 }
-body{
+
+body {
     background: white;
 }
-.wrapper{
+
+.wrapper {
     background: white;
     padding: 0 20px 0 20px;
 }
@@ -33,7 +35,7 @@ body{
     border-radius: 10px 0 0 10px;
 }
 
-img{
+img {
     width: 20%;
     position: absolute;
     top: 30px;
@@ -61,7 +63,7 @@ img{
     color: #09797A;
 }
 
-.underline{
+.underline {
     height: 6px;
     width: 61px;
     background: #09797A;
@@ -81,7 +83,7 @@ img{
     width: 100%;
     background: transparent;
     border: none;
-    border-bottom: 1px solid rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     outline: none;
     margin-bottom: 20px;
 }
@@ -105,7 +107,7 @@ img{
     color: #56a2a2;
 }
 
-.input-box .input:focus,  .input-field .input:valid {
+.input-box .input:focus, .input-field .input:valid {
     border-bottom: 1px solid #09797A;
 }
 
@@ -124,11 +126,11 @@ img{
 }
 
 @media only screen and (max-width: 768px) {
-    .side-image{
+    .side-image {
         border-radius: 10px 10px 0 0;
     }
 
-    img{
+    img {
         width: 35%;
         position: absolute;
         top: 15px;
