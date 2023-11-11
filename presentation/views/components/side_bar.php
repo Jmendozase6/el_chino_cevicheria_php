@@ -1,19 +1,6 @@
 <?php
 ?>
 
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>SideBar</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <link rel="stylesheet" href="../../styles/side-bar-style.css">
-</head>
-<body>
 <div class="side-menu bg-white vh-100">
   <img class="mx-auto d-flex justify-content-center" src="../../resources/images/logo.png" alt="logo"/>
   <section class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start">
@@ -74,8 +61,6 @@
         <rect x="14" y="21" width="23" height="6"></rect>
       </g>
     </svg>
-    <a onclick="<?php session_abort(); ?>" href="../home_client/home_client_view.php"><p>Cerrar sesión</p></a>
+    <a onclick="<?php session_destroy(); ?>" href="../home_client/home_client_view.php"><p>Cerrar sesión</p></a>
   </section>
 </div>
-</body>
-</html>

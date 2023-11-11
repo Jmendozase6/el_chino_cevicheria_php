@@ -15,8 +15,12 @@ require_once '../../../data_transfer_objects/CategoryDTO.php';
 require_once '../../../data_transfer_objects/ProductDTO.php';
 require_once '../../../data_transfer_objects/OrderProductDTO.php';
 
+session_start();
+if ($_SESSION['id'] == null) {
+    header('Location: ../sign_in/sign_in_view.php');
+}
+
 if ($_GET) {
-    session_start();
     $id = $_SESSION['id'];
     $userDAO = new UserDAO();
     $responseUser = $userDAO->getUserById($id);
@@ -70,8 +74,7 @@ if ($_GET) {
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../styles/side-bar-style.css">
   <title>Inicio</title>
 

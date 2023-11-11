@@ -26,8 +26,7 @@ if (isset($responseCategories)) {
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>El Chino Cevichería</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../styles/side-bar-style.css">
 </head>
 <body>
@@ -44,9 +43,10 @@ if (isset($responseCategories)) {
       <h3 class="mt-3">A domicilio 🚚</h3>
     </div>
     <div class="col-7 d-flex flex-column mt-5">
-      <button class="btn btn-primary col-6 m-1 p-3">Catálogo</button>
-      <button class="btn btn-success col-6 m-1 p-3">Whatsapp</button>
-      <button class="btn btn-primary col-6 m-1 p-3">Contacto</button>
+      <a class="btn btn-primary col-6 m-1 p-3">Catálogo</a>
+      <a type="button" class="btn btn-success col-6 m-1 p-3" href="https://wa.me/51929953419"
+         target="_blank" rel="noopener noreferrer">Whatsapp</a>
+      <a class="btn btn-primary col-6 m-1 p-3">Facebook</a>
     </div>
   </div>
 </div>
