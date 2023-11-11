@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-11-2023 a las 06:29:14
+-- Tiempo de generación: 11-11-2023 a las 05:40:48
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.0.28
 
@@ -42,7 +42,7 @@ CREATE TABLE `category` (
                             `id` int(11) NOT NULL,
                             `name` varchar(20) NOT NULL,
                             `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-                            `img` varchar(100) DEFAULT NULL
+                            `img` varchar(1000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -50,11 +50,11 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `name`, `created_at`, `img`) VALUES
-                                                               (1, 'Bebidas', '2023-10-31 06:38:34', 'https://res.cloudinary.com/dk3uxckba/images/upload/v1699158083/b7jrjpz6gjskyzchel0u.jpg'),
-                                                               (2, 'Ceviches', '2023-10-31 06:38:51', 'https://res.cloudinary.com/dk3uxckba/images/upload/v1699158083/sljv0o7lbjrumzg7eba1.jpg'),
-                                                               (3, 'Entradas', '2023-11-05 04:11:29', 'https://res.cloudinary.com/dk3uxckba/images/upload/v1699158083/a3idodddn2rvekrqwo3d.jpg'),
-                                                               (4, 'ssdsd', '2023-11-05 04:14:49', 'https://res.cloudinary.com/dk3uxckba/images/upload/v1699158083/odm2wduy1zp4oo8euti0.jpg'),
-                                                               (5, 'sdfsdf', '2023-11-05 04:14:49', 'https://res.cloudinary.com/dk3uxckba/images/upload/v1699158084/mftogjar4lbuswlsb9kz.jpg\n');
+                                                               (1, 'Ceviches', '2023-10-31 06:38:34', 'https://res.cloudinary.com/dgna2mogt/image/upload/v1699430316/El%20Chino%20Cevicher%C3%ADa/jekm5qlbdbgrsgk2qfwu.jpg'),
+                                                               (2, 'Sudados', '2023-10-31 06:38:51', 'https://res.cloudinary.com/dgna2mogt/image/upload/v1699430283/El%20Chino%20Cevicher%C3%ADa/fqkfzttwijkcrqzxrjle.jpg'),
+                                                               (3, 'Parihuelas', '2023-11-05 04:11:29', 'https://res.cloudinary.com/dgna2mogt/image/upload/v1699430282/El%20Chino%20Cevicher%C3%ADa/n8giq5eanky3cs3svt5h.jpg'),
+                                                               (4, 'Arroces', '2023-11-05 04:14:49', 'https://res.cloudinary.com/dgna2mogt/image/upload/v1699430281/El%20Chino%20Cevicher%C3%ADa/b3sd5rrnxjvldnvokrb4.jpg'),
+                                                               (5, 'Acompañantes', '2023-11-05 04:14:49', 'https://res.cloudinary.com/dgna2mogt/image/upload/v1699430182/El%20Chino%20Cevicher%C3%ADa/ecamikqksj0stkpcxfrg.jpg');
 
 -- --------------------------------------------------------
 
@@ -146,8 +146,16 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `id_category`, `name`, `description`, `image`, `price`, `active`, `created_at`, `stock`, `discount`) VALUES
-                                                                                                                                      (1, 1, 'Agua', NULL, 'agua.png', 2, 1, '2023-10-31 07:03:03', 10, 0),
-                                                                                                                                      (2, 2, 'Coca', NULL, 'ceviche.png', 10, 1, '2023-10-31 07:03:03', 10, 0);
+                                                                                                                                      (1, 1, 'Ceviche de conchas negras', '', 'https://th.bing.com/th/id/R.1991a4853425268c841f4601290e56c2?rik=A7lw%2fU5ufiVezQ&pid=ImgRaw&r=0', 20, 1, '2023-10-31 07:03:03', 10, 0),
+                                                                                                                                      (2, 1, 'Ceviche de filete', NULL, 'https://s-media-cache-ak0.pinimg.com/originals/20/5c/01/205c010658835bfe3528861fb73db1bc.jpg', 20, 1, '2023-10-31 07:03:03', 10, 0),
+                                                                                                                                      (3, 2, 'Sudado de merluza', NULL, 'https://comidasperuanas.net/wp-content/uploads/2020/10/Sudado-de-Pescado.jpg', 30, 1, '2023-11-08 16:06:56', NULL, NULL),
+                                                                                                                                      (4, 2, 'Sudado de cabrilla', NULL, 'https://th.bing.com/th/id/R.8173c3cbc5874941065f5fdcd4d0dcf4?rik=Gwm9YA7o0jEyTw&riu=http%3a%2f%2fwww.acomerpescado.gob.pe%2fwp-content%2fuploads%2f2017%2f07%2f35774870440_c568f314dd_k.jpg&ehk=17NQHX%2bCEBRDEIaXgpxy1YdIvgNifyzcRFJ8o69MzDE%3d&risl=&pid=ImgR', 30, 1, '2023-11-08 16:06:56', NULL, NULL),
+                                                                                                                                      (5, 3, 'Parihuela', NULL, 'https://th.bing.com/th/id/R.d90de52d92f6d8b9c9410b83d3286988?rik=lHJU%2bJbiXPEvWw&pid=ImgRaw&r=0', 25, 1, '2023-11-08 16:06:56', NULL, NULL),
+                                                                                                                                      (6, 3, 'Parihuela 2', NULL, 'https://www.recetaspanama.com/base/stock/Recipe/55-image/55-image_web.jpg', 30, 1, '2023-11-08 16:06:56', NULL, NULL),
+                                                                                                                                      (7, 4, 'Arroz con pollo', NULL, 'https://fthmb.tqn.com/d70E5NtVuE0jB5apvk1Lj6Nd6nY=/3865x2576/filters:fill(auto,1)/hispanic-cuisine--arroz-con-pollo-in-pan--horizontal-top-view-602328680-5a9d40e0c5542e00365cdf8a.jpg', 25, 1, '2023-11-08 16:06:56', NULL, NULL),
+                                                                                                                                      (8, 4, 'Arroz simple', NULL, 'https://d1uz88p17r663j.cloudfront.net/original/508e90cc752880608500ad1646fd510e_ARROZ-BASICO-RECEITAS-NESTLE.jpg', 25, 1, '2023-11-08 16:06:56', NULL, NULL),
+                                                                                                                                      (9, 5, 'Yucas', '', 'https://th.bing.com/th/id/R.8626b4d39157a9573a7c67f4b580c8c7?rik=oXHWatsJWjJw1A&pid=ImgRaw&r=0', 5, 1, '2023-11-08 16:06:56', NULL, NULL),
+                                                                                                                                      (10, 5, 'Plátano frito', '', 'https://th.bing.com/th/id/R.af72ed98d60742cfac4210eae405b9ad?rik=E3uONJC3k2LVvA&riu=http%3a%2f%2fcocinaaldia.com%2fwp-content%2fuploads%2f2016%2f06%2fPlatanos-Maduros.jpg&ehk=xN1Zhgfx22PNw7QPKMhDM0xQFjzDCCsOD9crlZyuQIM%3d&risl=&pid=ImgRaw&r=0', 4, 1, '2023-11-08 16:06:56', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -230,8 +238,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `id_role`, `id_address`, `name`, `last_name`, `email`, `password`, `active`, `created_at`, `img`) VALUES
-                                                                                                                                (1, 1, NULL, 'Jhair', 'Mendoza', 'jhair@gmail.com', '12345', 1, '2023-10-31 06:10:45', NULL),
-                                                                                                                                (2, 1, NULL, 'Liz', 'Sosa', 'liz@gmail.com', '12345', 1, '2023-10-31 07:00:28', NULL);
+                                                                                                                                (1, 1, NULL, 'Jhair', 'Mendoza', 'jhair@gmail.com', '12345', 1, '2023-10-31 06:10:45', 'cat.jpg'),
+                                                                                                                                (2, 1, NULL, 'Liz', 'Sosa', 'liz@gmail.com', '12345', 1, '2023-10-31 07:00:28', 'cat2.jpg');
 
 -- --------------------------------------------------------
 
@@ -370,7 +378,7 @@ ALTER TABLE `payment_method`
 -- AUTO_INCREMENT de la tabla `product`
 --
 ALTER TABLE `product`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `review`
