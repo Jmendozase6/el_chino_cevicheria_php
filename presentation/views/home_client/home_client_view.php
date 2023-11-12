@@ -1,21 +1,4 @@
 <?php
-
-use data_transfer_objects\CategoryDTO;
-
-require_once '../../../data_access_objects/CategoryDAO.php';
-
-require_once '../../../data_transfer_objects/CategoryDTO.php';
-
-$categoryDAO = new CategoryDAO();
-$responseCategories = $categoryDAO->getCategories(10);
-$categoriesDTO = [];
-
-if (isset($responseCategories)) {
-    for ($i = 0; $i < sizeof($responseCategories); $i++) {
-        $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
-    }
-}
-
 ?>
 
 <!doctype html>
@@ -60,11 +43,3 @@ if (isset($responseCategories)) {
 <!--    <h2>¿Qué desea ordenar?</h2>-->
 <!--  </div>-->
 <!--</div>-->
-<!--<nav class="navbar navbar-expand-lg">-->
-<!--  <div>-->
-<!--      --><?php //foreach ($categoriesDTO as $categoryDTO): ?>
-<!--        <a href="../category_client/category_client_view.php?id=--><?php //= $categoryDTO->getId() ?><!--"-->
-<!--           class="btn btn-outline-secondary">--><?php //= $categoryDTO->getName() ?><!--</a>-->
-<!--      --><?php //endforeach; ?>
-<!--  </div>-->
-<!--</nav>-->

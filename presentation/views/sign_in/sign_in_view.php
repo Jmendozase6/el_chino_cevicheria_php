@@ -1,4 +1,4 @@
-<?php
+<?php require('sign_in.php');
 ?>
 
 <!doctype html>
@@ -11,6 +11,11 @@
   <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../styles/sign-in-style.css">
   <title>Iniciar sesión</title>
+    <?php if ($GLOBALS['errorMessage'] != null) { ?>
+      <style>.display-on-error {
+              display: block;
+          }</style>    <?php
+    } ?>
 </head>
 <body>
 <div class="wrapper">
@@ -26,7 +31,7 @@
         <div class="input-box">
           <header>Inicio de Sesion</header>
           <div class="underline"></div>
-          <form action="sign_in.php" enctype="multipart/form-data" method="post">
+          <form action="" enctype="multipart/form-data" method="post">
 
             <div class="input-field">
               <input type="email" class="input" name="email" id="email" required autocomplete="off">
@@ -38,9 +43,12 @@
             </div>
 
             <div class="input-field">
-              <button type="submit" class="submit" name="btnSignIn">Sign in</button>
+              <button type="submit" class="submit" name="btn-sign-in" id="btn-sign-in">Iniciar sesión</button>
             </div>
-              <?php include "sign_in.php"; ?>
+
+            <div class="alert alert-danger m-2 display-on-error" role="alert">
+              <strong>Error:</strong> <?= $GLOBALS['errorMessage']; ?>
+            </div>
           </form>
         </div>
       </div>

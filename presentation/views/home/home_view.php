@@ -1,7 +1,6 @@
 <?php
 
 use data_transfer_objects\CategoryDTO;
-use data_transfer_objects\OrderProductDTO;
 use data_transfer_objects\ProductDTO;
 use data_transfer_objects\UserDTO;
 
@@ -20,50 +19,37 @@ if ($_SESSION['id'] == null) {
     header('Location: ../sign_in/sign_in_view.php');
 }
 
-if ($_GET) {
-    $id = $_SESSION['id'];
-    $userDAO = new UserDAO();
-    $responseUser = $userDAO->getUserById($id);
-    $modelUser = UserDTO::createFromResponse($responseUser);
+$id = $_SESSION['id'];
+$userDAO = new UserDAO();
+$responseUser = $userDAO->getUserById($id);
+$modelUser = UserDTO::createFromResponse($responseUser);
 
-    $categoryDAO = new CategoryDAO();
-    $responseCategories = $categoryDAO->getCategories();
-    $categoriesDTO = [];
-    for ($i = 0; $i < sizeof($responseCategories); $i++) {
-        $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
-    }
+$categoryDAO = new CategoryDAO();
+$responseCategories = $categoryDAO->getCategories();
+$categoriesDTO = [];
+for ($i = 0; $i < sizeof($responseCategories); $i++) {
+    $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
+}
 
-    $orderProductDAO = new OrderProductDAO();
-    $productDAO = new ProductDAO();
+$orderProductDAO = new OrderProductDAO();
+$productDAO = new ProductDAO();
 
-    $responseMostSellProduct = $orderProductDAO->getMostSellProduct();
-    $responseProduct = $productDAO->getProductById($responseMostSellProduct['product_id']);
+$responseMostSellProduct = $orderProductDAO->getMostSellProduct();
+$responseProduct = $productDAO->getProductById($responseMostSellProduct['product_id']);
 
-    $mostSellProductDTO = ProductDTO::createFromResponse($responseProduct);
-    $totalSales = $orderProductDAO->getTotalSell();
+$mostSellProductDTO = ProductDTO::createFromResponse($responseProduct);
+$totalSales = $orderProductDAO->getTotalSell();
 
-    $responseOrders = $orderProductDAO->getOrdersWithUsers();
+$responseOrders = $orderProductDAO->getOrdersWithUsers();
 
-    $betterClients = $userDAO->getBettersCustomers();
-    $betterClientsDTO = [];
-    for ($i = 0; $i < sizeof($betterClients); $i++) {
-        $tempUser = UserDTO::createFromResponse($userDAO->getUserById($betterClients[$i]['id']));
-        $betterClientsDTO[$i] = [
-            "user" => $tempUser,
-            "total" => $betterClients[$i]['total']
-        ];
-    }
-
-} else {
-    $modelUser = new UserDTO();
-    $categoriesDTO = [];
-    $responseCategories = [];
-    $responseMostSellProduct = new OrderProductDTO();
-    $mostSellProductDTO = new ProductDTO();
-    $totalSales = null;
-    $responseOrders = [];
-    $betterClients = [];
-    $betterClientsDTO = [];
+$betterClients = $userDAO->getBettersCustomers();
+$betterClientsDTO = [];
+for ($i = 0; $i < sizeof($betterClients); $i++) {
+    $tempUser = UserDTO::createFromResponse($userDAO->getUserById($betterClients[$i]['id']));
+    $betterClientsDTO[$i] = [
+        "user" => $tempUser,
+        "total" => $betterClients[$i]['total']
+    ];
 }
 
 ?>

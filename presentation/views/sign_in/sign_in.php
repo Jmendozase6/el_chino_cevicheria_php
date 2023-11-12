@@ -4,41 +4,29 @@ include '../../../data_access_objects/UserDAO.php';
 
 session_start();
 $userDAO = new UserDAO();
+$email = "";
+$password = "";
+$GLOBALS['errorMessage'] = null;
 
-//if ($_POST) {
-//
-//    $email = $_POST['email'];
-//    $password = $_POST['password'];
-//    $currentUser = $userDAO->signIn($email, $password);
-//
-//    if (isset($currentUser['id'])) {
-//        $_SESSION["id"] = $currentUser['id'];
-//        // SUPONGAMOS QUE ES ADMIN SIEMPRE
-//        echo 'BIENVENIDO ADMIN';
-//        header('Location: ../home/home_view.php');
-//    } else {
-//        echo 'ERROR K NO TE SABES TU CLAVE PAPU?';
-////        header('Location: sign_in_view.php');
-//    }
-//
-//}
+if (isset($_POST['btn-sign-in'])) {
 
-if ($_POST) {
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
 
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    if (empty($_POST['password'])) {
+        $GLOBALS['errorMessage'] = "Por favor ingrese su correo y contraseña.";
+    }
 
     try {
         $currentUser = $userDAO->signIn($email, $password);
         if (isset($currentUser['id'])) {
             $_SESSION["id"] = $currentUser['id'];
-            header('Location: ../home/home_view.php?id=' . $_SESSION["id"]);
+            header('Location: ../home/home_view.php');
+            exit();
         } else {
-            echo 'ERROR K NO TE SABES TU CLAVE PAPU?';
-            header('Location: sign_in_view.php');
+            $errorMessage = "Credenciales Incorrectas";
         }
     } catch (Exception $e) {
-        echo 'ERROR DE LA DB PAPOI';
-        header('Location: sign_in_view.php');
+        $errorMessage = "Error de la base de datos.";
     }
 }

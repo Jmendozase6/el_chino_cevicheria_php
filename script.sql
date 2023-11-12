@@ -152,14 +152,14 @@ CREATE TABLE `product`
 (
     `id`          int(11)        NOT NULL,
     `id_category` int(11)                 DEFAULT NULL,
-    `name`        varchar(30)    NOT NULL,
+    `name`        varchar(200)    NOT NULL,
     `description` varchar(255)            DEFAULT NULL,
     `image`       varchar(255)            DEFAULT NULL,
     `price`       decimal(10, 0) NOT NULL,
     `active`      tinyint(1)              DEFAULT 1,
     `created_at`  timestamp      NOT NULL DEFAULT current_timestamp(),
-    `stock`       decimal(10, 0)          DEFAULT NULL,
-    `discount`    decimal(10, 0)          DEFAULT NULL
+    `stock`       decimal(10, 0)          DEFAULT 1,
+    `discount`    decimal(10, 0)          DEFAULT 0
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
@@ -262,8 +262,8 @@ CREATE TABLE `schedule`
     `id`         int(11)     NOT NULL,
     `day`        varchar(10) NOT NULL,
     `open_time`  timestamp   NOT NULL DEFAULT current_timestamp(),
-    `close_time` timestamp   NOT NULL DEFAULT current_timestamp(),
-    `created_at` timestamp   NOT NULL DEFAULT current_timestamp()
+    `close_time` time        NOT NULL DEFAULT current_timestamp(),
+    `created_at` time        NOT NULL DEFAULT current_timestamp()
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
