@@ -40,9 +40,10 @@ for ($i = 0; $i < sizeof($responseProducts); $i++) {
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Carta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../styles/catalog-client-style.css">
+  <title>Carta</title>
 </head>
 <body>
 <div class="container">
@@ -70,7 +71,8 @@ for ($i = 0; $i < sizeof($responseProducts); $i++) {
           <?php for ($i = 0; $i < sizeof($categoriesDTO); $i++) { ?>
             <div class="row">
               <div class="col my-1">
-                <strong id="<?= $categoriesDTO[$i]->getId() ?>" class="mb-3"><?= $categoriesDTO[$i]->getName() ?></strong>
+                <strong id="<?= $categoriesDTO[$i]->getId() ?>"
+                        class="mb-3"><?= $categoriesDTO[$i]->getName() ?></strong>
               </div>
             </div>
             <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">

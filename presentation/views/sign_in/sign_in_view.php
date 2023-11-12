@@ -31,7 +31,7 @@
         <div class="input-box">
           <header>Inicio de Sesion</header>
           <div class="underline"></div>
-          <form action="" enctype="multipart/form-data" method="post">
+          <form enctype="multipart/form-data" method="post">
 
             <div class="input-field">
               <input type="email" class="input" name="email" id="email" required autocomplete="off">

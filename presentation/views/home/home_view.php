@@ -60,10 +60,10 @@ for ($i = 0; $i < sizeof($betterClients); $i++) {
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../styles/side-bar-style.css">
   <title>Inicio</title>
-
 </head>
 <body>
 <div class="position-fixed vw-100 vh-100 bg-light">

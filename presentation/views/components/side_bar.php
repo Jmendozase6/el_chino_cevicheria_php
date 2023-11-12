@@ -1,6 +1,5 @@
 <?php
 ?>
-
 <div class="side-menu bg-white vh-100">
   <img class="mx-auto d-flex justify-content-center" src="../../resources/images/logo.png" alt="logo"/>
   <section class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start">
@@ -61,6 +60,7 @@
         <rect x="14" y="21" width="23" height="6"></rect>
       </g>
     </svg>
-    <a onclick="<?php session_destroy(); ?>" href="../home_client/home_client_view.php"><p>Cerrar sesión</p></a>
+    <!--    <a onclick="-->
+    <a href="../components/logout.php"><p>Cerrar sesión</p></a>
   </section>
 </div>
