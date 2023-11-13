@@ -1,6 +1,6 @@
 <?php
 
-require_once 'C:\xampp\htdocs\el_chino_cevicheria\datasource\db_connection.php';
+require_once __DIR__ . '/../datasource/db_connection.php';
 
 class UserDAO
 {
@@ -17,7 +17,8 @@ class UserDAO
     public function signIn($email, $password)
     {
         try {
-            $sql = /** @lang text */
+            $sql =
+                /** @lang text */
                 "SELECT * FROM user WHERE email = ? AND password = ?";
             $query = $this->conn->prepare($sql);
             $query->bindParam(1, $email);
@@ -35,7 +36,8 @@ class UserDAO
     public function getUserById($id)
     {
         try {
-            $sql = /** @lang text */
+            $sql =
+                /** @lang text */
                 "SELECT * FROM user WHERE id = ?";
             $query = $this->conn->prepare($sql);
             $query->bindParam(1, $id);
@@ -49,7 +51,8 @@ class UserDAO
     public function getBettersCustomers()
     {
         try {
-            $sql = /** @lang text */
+            $sql =
+                /** @lang text */
                 "SELECT user.*, SUM(total) AS total FROM `order` JOIN user ON user.id = `order`.user_id GROUP BY user_id ORDER BY total DESC";
             $query = $this->conn->prepare($sql);
             $query->execute();
@@ -61,7 +64,6 @@ class UserDAO
             die("Error: " . $e->getMessage());
         }
     }
-
 }
 //
 //$userDAO = new userDAO();

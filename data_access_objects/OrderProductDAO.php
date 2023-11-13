@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../datasource/db_connection.php';
+
 class OrderProductDAO
 {
     private $conn;
@@ -11,7 +13,8 @@ class OrderProductDAO
 
     public function getMostSellProduct()
     {
-        $sql = /** @lang text */
+        $sql =
+            /** @lang text */
             "SELECT product_id, SUM(quantity) AS total_quantity
                 FROM order_product
                 GROUP BY product_id
@@ -24,7 +27,8 @@ class OrderProductDAO
 
     public function getTotalSell()
     {
-        $sql = /** @lang text */
+        $sql =
+            /** @lang text */
             "SELECT SUM(total) as total_sales FROM `order`";
         $query = $this->conn->prepare($sql);
         $query->execute();
@@ -39,7 +43,8 @@ class OrderProductDAO
      */
     public function getOrdersWithUsers()
     {
-        $sql = /** @lang text */
+        $sql =
+            /** @lang text */
             "SELECT o.id, o.total, u.name, u.img
                 FROM `order` as o
                 JOIN user as u

@@ -4,7 +4,7 @@ const DRIVER = 'mysql';
 //const USER = 'root';
 //const PASS = '';
 //const BASE = 'el_chino_cev';
-const PORT = '3306';
+const PORT = 3306;
 
 const HOST = 'sql5.freesqldatabase.com';
 const USER = 'sql5661200';

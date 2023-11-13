@@ -1,7 +1,6 @@
 <?php
 
-require_once 'C:\xampp\htdocs\el_chino_cevicheria\datasource\db_connection.php';
-
+require_once __DIR__ . '/../datasource/db_connection.php';
 class ProductDAO
 {
 
@@ -14,7 +13,8 @@ class ProductDAO
 
     public function getProductById($id)
     {
-        $sql = /** @lang text */
+        $sql =
+            /** @lang text */
             "SELECT * FROM product WHERE id = :id";
         $query = $this->conn->prepare($sql);
         $query->bindParam(':id', $id);
@@ -24,7 +24,8 @@ class ProductDAO
 
     public function getProductsByIdCategory($id)
     {
-        $sql = /** @lang text */
+        $sql =
+            /** @lang text */
             "SELECT * FROM product WHERE id_category = ?";
         $query = $this->conn->prepare($sql);
         $query->bindParam(1, $id);
@@ -34,5 +35,4 @@ class ProductDAO
         }
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
-
 }

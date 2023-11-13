@@ -1,6 +1,6 @@
 <?php
 
-require_once 'C:\xampp\htdocs\el_chino_cevicheria\datasource\db_connection.php';
+require_once __DIR__ . '/../datasource/db_connection.php';
 
 class CategoryDAO
 {
@@ -14,7 +14,8 @@ class CategoryDAO
     public function getCategories($limit = 4)
     {
         try {
-            $sql = /** @lang text */
+            $sql =
+                /** @lang text */
                 "SELECT * FROM category LIMIT $limit";
             $query = $this->conn->prepare($sql);
             $query->execute();
@@ -29,14 +30,14 @@ class CategoryDAO
 
     public function getCategoriesById($id)
     {
-        $sql = /** @lang text */
+        $sql =
+            /** @lang text */
             "SELECT * FROM category WHERE id = ?";
         $query = $this->conn->prepare($sql);
         $query->bindParam(1, $id);
         $query->execute();
         return $query->fetch(PDO::FETCH_ASSOC);
     }
-
 }
 //
 //$categoryDAO = new categoryDAO();
