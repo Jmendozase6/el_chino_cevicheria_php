@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../datasource/db_connection.php';
+
 class ProductDAO
 {
 
