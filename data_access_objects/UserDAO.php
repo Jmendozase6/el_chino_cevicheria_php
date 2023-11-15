@@ -65,12 +65,3 @@ class UserDAO
         }
     }
 }
-//
-//$userDAO = new userDAO();
-//$currentUser = $userDAO->signIn('jhair@gmail.com', '12345');
-//print_r($currentUser);
-//
-//// Si el id no es nulo:
-//if (isset($currentUser['id'])) {
-//    echo "Bienvenido " . $currentUser['name'];
-//}

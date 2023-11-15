@@ -8,6 +8,11 @@ $email = "";
 $password = "";
 $GLOBALS['errorMessage'] = null;
 
+if (isset($_SESSION["id"])) {
+    header('Location: ../home/home_view.php');
+    exit();
+}
+
 if (isset($_POST['btn-sign-in'])) {
 
     $email = trim($_POST['email']);
