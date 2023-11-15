@@ -29,16 +29,15 @@
 
       <div class="col-md-6 right">
         <div class="input-box">
-          <header>Inicio de Sesion</header>
+          <header>Inicio de Sesión</header>
           <div class="underline"></div>
           <form enctype="multipart/form-data" method="post">
-
             <div class="input-field">
-              <input type="email" class="input" name="email" id="email" required autocomplete="off">
+              <input type="email" class="input" name="email" id="email" required autocomplete="off" autofocus>
               <label for="email" class="">Correo electrónico</label>
             </div>
             <div class="input-field">
-              <input type="password" class="input" name="password" id="password" required autocomplete="off">
+              <input type="password" class="input" name="password" id="password" required autocomplete="off" >
               <label for="password" class="password">Contraseña</label>
             </div>
 

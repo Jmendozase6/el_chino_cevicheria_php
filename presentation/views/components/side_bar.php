@@ -17,9 +17,9 @@
       <path fill="#FF8A65"
             d="M27.5,35.5c-0.3,0-0.5,0.2-0.5,0.5v2c0,0.3,0.2,0.5,0.5,0.5S28,38.3,28,38v-2C28,35.7,27.8,35.5,27.5,35.5z"></path>
     </svg>
-    <p>Inicio</p>
+      <a class="text-decoration-none text-black" href="#"><p>Inicio</p></a>
   </section>
-  <section class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start">
+  <section class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start" href="side_bar_current_section.php?section=pedidos">
     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 48 48"
          class="text-lg" height="1em" width="1em"
          xmlns="http://www.w3.org/2000/svg">
@@ -34,7 +34,7 @@
         <rect x="24" y="35" width="20" height="4"></rect>
       </g>
     </svg>
-    <a href="../orders/order_view.php"><p>Pedidos</p></a>
+    <a class="text-decoration-none text-black" href="../orders/order_view.php"><p>Pedidos</p></a>
 
   </section>
   <section class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start">
@@ -61,6 +61,6 @@
       </g>
     </svg>
     <!--    <a onclick="-->
-    <a href="../components/logout.php"><p>Cerrar sesión</p></a>
+    <a class="text-decoration-none text-black" href="../components/logout.php"><p>Cerrar sesión</p></a>
   </section>
 </div>
