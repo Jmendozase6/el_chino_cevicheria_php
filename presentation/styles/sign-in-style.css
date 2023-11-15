@@ -111,6 +111,10 @@ img {
     border-bottom: 1px solid #09797A;
 }
 
+.input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset;
+}
+
 .submit {
     border: none;
     outline: none;

@@ -1,9 +1,14 @@
 
-
 * {
     font-family: 'Poppins', sans-serif;
 }
 
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
 .container-home-client {
     padding: 44px 130px;
@@ -15,6 +20,13 @@
 
 .column-btn {
     margin-top: 5rem;
+}
+
+.btn-modal {
+    background-color: #ffffffd6;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, .24);
+    outline: none;
+    border: none #ffffffd6;
 }
 
 .cevicheria-name {
@@ -29,8 +41,9 @@
 .section-title {
     font-weight: 500;
     font-size: 18px;
-    line-height: 18px;
-    margin-left: 8px
+    line-height: 28px;
+    margin-left: 8px;
+    color: black;
 }
 
 .custom-button {
@@ -43,8 +56,25 @@
     color: #ffffff;
     outline: none;
     border: none;
+    transition: transform 0.7s ease;
+}
+
+.btn-like {
+    display: inline-block;
+}
+
+.btn-like:hover {
+    background-color: #ffece8;
+    border-radius: 8px;
 }
 
 .custom-button:hover {
     background-color: #ecb363;
+    transform: scale(1.05);
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    margin-top: auto;
 }

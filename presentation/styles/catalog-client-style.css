@@ -2,9 +2,14 @@
     font-family: 'Poppins', sans-serif !important;
 }
 
-#header-categories {
+.container-catalog {
+    max-width: 1080px;
+}
+
+.header-categories {
     background-color: white;
-    padding: 10px 0;
+    padding: 12px 0;
     top: 0;
     position: sticky;
+    z-index: 1;
 }
