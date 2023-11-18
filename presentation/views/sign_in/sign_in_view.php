@@ -1,4 +1,5 @@
-<?php require('sign_in.php');
+<?php
+require('sign_in.php');
 ?>
 
 <!doctype html>
@@ -45,14 +46,54 @@
               <button type="submit" class="submit" name="btn-sign-in" id="btn-sign-in">Iniciar sesión</button>
             </div>
 
+            <button type="button" class="btn btn-modal w-10" data-bs-toggle="modal"
+                    data-bs-target="#recover-password-modal">
+              ¿Olvidaste tu contraseña?
+            </button>
+
             <div class="alert alert-danger m-2 display-on-error" role="alert">
               <strong>Error:</strong> <?= $GLOBALS['errorMessage']; ?>
             </div>
           </form>
+
+          <div class="col d-flex flex-column justify-content-end  align-items-end">
+            <div class="modal fade" id="recover-password-modal" tabindex="-1"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Recuperar contraseña</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body mt-1">
+
+                    <span>Escribe tu correo y si tienes una cuenta te enviarémos un código de 6 digitos.</span>
+
+                    <form enctype="multipart/form-data" method="post" action="recover_password.php">
+
+                      <div class="input-group mb-3 pt-2">
+                        <label class="input-group-text" id="basic-addon1">@</label>
+                        <input type="email" class="form-control" placeholder="Correo electrónico" aria-label="Email"
+                               aria-describedby="basic-addon1" id="recover-email" name="recover-email" required>
+                      </div>
+
+                      <div class="input-field">
+                        <input type="submit" class="submit"
+                               id="btn-recover-password" name="btn-recover-password" value="Recuperar contraseña">
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -4,43 +4,36 @@ namespace data_transfer_objects;
 
 class ReviewDTO
 {
-    private $id;
-    private $userId;
-    private $review;
+    private int $id;
+    private int $userId;
+    private string $review;
 
-    public function __construct($id, $userId, $review)
-    {
-        $this->id = $id;
-        $this->userId = $userId;
-        $this->review = $review;
-    }
-
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
-    public function setUserId($userId)
+    public function setUserId($userId): void
     {
         $this->userId = $userId;
     }
 
-    public function setReview($review)
+    public function setReview($review): void
     {
         $this->review = $review;
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
-    public function getReview()
+    public function getReview(): string
     {
         return $this->review;
     }

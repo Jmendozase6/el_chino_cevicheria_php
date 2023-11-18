@@ -5,31 +5,26 @@ namespace data_transfer_objects;
 class RoleDTO
 {
 
-    private $id;
-    private $role;
+    private int $id;
+    private string $role;
 
-    public function __construct($id, $role)
-    {
-        $this->id = $id;
-        $this->role = $role;
-    }
 
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
-    public function setRole($role)
+    public function setRole($role): void
     {
         $this->role = $role;
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getRole()
+    public function getRole(): string
     {
         return $this->role;
     }

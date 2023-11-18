@@ -4,18 +4,18 @@ namespace data_transfer_objects;
 
 class ProductDTO
 {
-    private $id;
-    private $idCategory;
-    private $discount;
-    private $name;
-    private $description;
-    private $image;
-    private $price;
-    private $stock;
-    private $active;
-    private $createdAt;
+    private int $id;
+    private int $idCategory;
+    private float $discount;
+    private string $name;
+    private string $description;
+    private string $image;
+    private float $price;
+    private float $stock;
+    private bool $active;
+    private string $createdAt;
 
-    public static function createFromResponse($response)
+    public static function createFromResponse($response): ProductDTO
     {
         $productDTO = new ProductDTO();
         $productDTO->setId($response['id']);
@@ -31,102 +31,102 @@ class ProductDTO
         return $productDTO;
     }
 
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
-    public function setIdCategory($idCategory)
+    public function setIdCategory($idCategory): void
     {
         $this->idCategory = $idCategory;
     }
 
-    public function setDiscount($discount)
+    public function setDiscount($discount): void
     {
         $this->discount = $discount;
     }
 
-    public function setName($name)
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    public function setDescription($description)
+    public function setDescription($description): void
     {
         $this->description = $description;
     }
 
-    public function setImage($image)
+    public function setImage($image): void
     {
         $this->image = $image;
     }
 
-    public function setPrice($price)
+    public function setPrice($price): void
     {
         $this->price = $price;
     }
 
-    public function setStock($stock)
+    public function setStock($stock): void
     {
         $this->stock = $stock;
     }
 
-    public function setActive($active)
+    public function setActive($active): void
     {
         $this->active = $active;
     }
 
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt($createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getIdCategory()
+    public function getIdCategory(): int
     {
         return $this->idCategory;
     }
 
-    public function getDiscount()
+    public function getDiscount(): float
     {
         return $this->discount;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function getImage()
+    public function getImage(): string
     {
         return $this->image;
     }
 
-    public function getPrice()
+    public function getPrice(): float
     {
         return $this->price;
     }
 
-    public function getStock()
+    public function getStock(): float
     {
         return $this->stock;
     }
 
-    public function getActive()
+    public function getActive(): bool
     {
         return $this->active;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): string
     {
         return $this->createdAt;
     }
@@ -145,6 +145,5 @@ class ProductDTO
             ", active=" . $this->active .
             ", createdAt='" . $this->createdAt;
     }
-
 
 }

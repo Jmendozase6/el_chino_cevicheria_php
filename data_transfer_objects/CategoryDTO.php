@@ -4,12 +4,12 @@ namespace data_transfer_objects;
 
 class CategoryDTO
 {
-    private $id;
-    private $name;
-    private $img;
-    private $createdAt;
+    private int $id;
+    private string $name;
+    private string $img;
+    private string $createdAt;
 
-    public static function createFromResponse($response)
+    public static function createFromResponse($response): CategoryDTO
     {
         $modelCategory = new CategoryDTO();
         $modelCategory->setId($response['id']);
@@ -19,43 +19,43 @@ class CategoryDTO
         return $modelCategory;
     }
 
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
-    public function setName($name)
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    public function setImg($img)
+    public function setImg($img): void
     {
         $this->img = $img;
     }
 
 
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt($createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getImg()
+    public function getImg(): string
     {
         return $this->img;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): string
     {
         return $this->createdAt;
     }

@@ -4,7 +4,7 @@ require_once __DIR__ . '/../datasource/db_connection.php';
 
 class CategoryDAO
 {
-    private $conn;
+    private PDO $conn;
 
     public function __construct()
     {

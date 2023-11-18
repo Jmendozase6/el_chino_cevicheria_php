@@ -4,7 +4,7 @@ require_once __DIR__ . '/../datasource/db_connection.php';
 
 class CartDAO
 {
-    private $conn;
+    private PDO $conn;
 
     public function __construct()
     {
@@ -27,7 +27,7 @@ class CartDAO
         }
     }
 
-    public function addProductToCart($idProduct, $quantity)
+    public function addProductToCart($idProduct, $quantity): void
     {
         try {
             $this->initSession();
@@ -62,7 +62,7 @@ class CartDAO
         }
     }
 
-    public function deleteProductFromCart($idProduct)
+    public function deleteProductFromCart($idProduct): void
     {
         try {
             $this->initSession();
@@ -79,7 +79,7 @@ class CartDAO
         }
     }
 
-    public function updateQuantity($idProduct, $quantity)
+    public function updateQuantity($idProduct, $quantity): void
     {
         try {
             $this->initSession();
@@ -112,7 +112,7 @@ class CartDAO
         }
     }
 
-    public function deleteCart()
+    public function deleteCart(): void
     {
         try {
             $this->initSession();
@@ -126,7 +126,7 @@ class CartDAO
         }
     }
 
-    public function initSession()
+    public function initSession(): void
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();

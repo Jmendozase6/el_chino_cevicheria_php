@@ -4,7 +4,7 @@ require_once __DIR__ . '/../datasource/db_connection.php';
 
 class OrderProductDAO
 {
-    private $conn;
+    private PDO $conn;
 
     public function __construct()
     {
@@ -41,7 +41,7 @@ class OrderProductDAO
      * JOIN user as u
      * ON o.user_id = u.id;
      */
-    public function getOrdersWithUsers()
+    public function getOrdersWithUsers(): false|array
     {
         $sql =
             /** @lang text */

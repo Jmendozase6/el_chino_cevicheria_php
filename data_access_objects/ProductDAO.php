@@ -5,7 +5,7 @@ require_once __DIR__ . '/../datasource/db_connection.php';
 class ProductDAO
 {
 
-    private $conn;
+    private PDO $conn;
 
     public function __construct()
     {
@@ -23,7 +23,7 @@ class ProductDAO
         return $query->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getProductsByIdCategory($id)
+    public function getProductsByIdCategory($id): false|array
     {
         $sql =
             /** @lang text */
@@ -31,9 +31,6 @@ class ProductDAO
         $query = $this->conn->prepare($sql);
         $query->bindParam(1, $id);
         $query->execute();
-        if ($query->rowCount() == 0) {
-            return "Productos no encontrados";
-        }
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 }
