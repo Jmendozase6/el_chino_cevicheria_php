@@ -4,7 +4,6 @@ include_once 'config.php';
 
 class DbConnection
 {
-
     public static function connect()
     {
         try {

@@ -17,9 +17,10 @@
       <path fill="#FF8A65"
             d="M27.5,35.5c-0.3,0-0.5,0.2-0.5,0.5v2c0,0.3,0.2,0.5,0.5,0.5S28,38.3,28,38v-2C28,35.7,27.8,35.5,27.5,35.5z"></path>
     </svg>
-      <a class="text-decoration-none text-black" href="#"><p>Inicio</p></a>
+    <a class="text-decoration-none text-black" href="#"><p>Inicio</p></a>
   </section>
-  <section class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start" href="side_bar_current_section.php?section=pedidos">
+  <section class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start"
+           href="side_bar_current_section.php?section=pedidos">
     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 48 48"
          class="text-lg" height="1em" width="1em"
          xmlns="http://www.w3.org/2000/svg">

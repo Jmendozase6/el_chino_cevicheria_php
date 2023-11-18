@@ -37,7 +37,7 @@
               <label for="email" class="">Correo electrónico</label>
             </div>
             <div class="input-field">
-              <input type="password" class="input" name="password" id="password" required autocomplete="off" >
+              <input type="password" class="input" name="password" id="password" required autocomplete="off">
               <label for="password" class="password">Contraseña</label>
             </div>
 
