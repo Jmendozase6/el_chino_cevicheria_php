@@ -25,7 +25,7 @@
         <div class="col d-flex flex-column justify-content-end  align-items-end">
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-modal w-10" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Aquí va el horario 'gei si lo lees'
+                Aquí va el horario
             </button>
 
             <!-- Modal -->
