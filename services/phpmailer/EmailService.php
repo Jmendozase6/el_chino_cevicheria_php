@@ -3,13 +3,14 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
-require '../../vendor/autoload.php';
+//require '../../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
-enum EmailType
+enum EmailType: string
 {
-    case RecoverPassword;
-    case OrderConfirmation;
-    case SignUp;
+    case RecoverPassword = 'RecoverPassword';
+    case OrderConfirmation = 'OrderConfirmation';
+    case SignUp = 'SignUp';
 }
 
 class EmailService
@@ -19,7 +20,8 @@ class EmailService
     {
         try {
             $mail = new PHPMailer(true);
-
+            $mail->setLanguage('es', '/optional/path/to/language/directory/');
+            $mail->CharSet = 'UTF-8';
             //Server settings
             $mail->SMTPDebug = SMTP::DEBUG_SERVER;                  //Enable verbose debug output
             $mail->isSMTP();                                        //Send using SMTP
@@ -45,9 +47,10 @@ class EmailService
                 case EmailType::RecoverPassword:
                     $mail->Body =
                         '<h1> Recuperación de contraseña </h1>
-                 <p> Hola <?= $name ?>, <br>
-                 tu código de recuperación es: <?= $randomNumber ?>
-                 <strong><?= $code ?></strong></p>';
+                         <p> Hola <br>
+                         Tu código de recuperación es: ' . $randomNumber .
+                        '<strong><?= $code ?></strong></p>
+                    <p> Si no has solicitado un cambio de contraseña, ignora este mensaje.</p >';
                     $mail->AltBody = 'Correo electrónico de recuperación de contraseña';
                     break;
 
@@ -67,9 +70,6 @@ class EmailService
                     $mail->AltBody = 'Correo electrónico de confirmación de registro';
                     break;
             }
-
-//To load the French version
-            $mail->setLanguage('es', '/optional/path/to/language/directory/');
 
             return $mail->send();
         } catch

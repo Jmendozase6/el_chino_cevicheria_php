@@ -22,8 +22,10 @@ if ($_POST) {
         $existsEmail = $userDAO->existsEmail($email);
         if ($existsEmail) {
             $responseEmail = $emailService->sendEmail('jhairmendoza2003@gmail.com', 'Recuperación de Contraseña', EmailType::RecoverPassword, $randomNumber);
+            header('Location: recover_password_view.php');
         }
     } catch (Exception $e) {
         echo "Error al enviar el correo electrónico.";
+        header('Location:javascript://history.go(-1)');
     }
 }

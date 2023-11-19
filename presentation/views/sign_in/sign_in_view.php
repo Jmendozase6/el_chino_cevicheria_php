@@ -35,11 +35,11 @@ require('sign_in.php');
           <form enctype="multipart/form-data" method="post">
             <div class="input-field">
               <input type="email" class="input" name="email" id="email" required autocomplete="off" autofocus>
-              <label for="email" class="">Correo electrónico</label>
+              <label for="email">Correo electrónico</label>
             </div>
             <div class="input-field">
               <input type="password" class="input" name="password" id="password" required autocomplete="off">
-              <label for="password" class="password">Contraseña</label>
+              <label for="password">Contraseña</label>
             </div>
 
             <div class="input-field">
@@ -70,7 +70,7 @@ require('sign_in.php');
 
                     <span>Escribe tu correo y si tienes una cuenta te enviarémos un código de 6 digitos.</span>
 
-                    <form enctype="multipart/form-data" method="post" action="recover_password.php">
+                    <form enctype="multipart/form-data" method="post" action="../recover_password/recover_password.php">
 
                       <div class="input-group mb-3 pt-2">
                         <label class="input-group-text" id="basic-addon1">@</label>

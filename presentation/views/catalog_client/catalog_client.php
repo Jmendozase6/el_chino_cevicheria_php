@@ -13,4 +13,3 @@ if (isset($_GET['productId']) && $_GET['productId'] != "") {
 
     header("Location:javascript://history.go(-1)");
 }
-?>
