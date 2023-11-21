@@ -73,4 +73,28 @@ class UserDAO
         }
     }
 
+    public function setNewPassword($password): bool
+    {
+        try {
+            $this->startSession();
+            $email = $_SESSION['recover-email'];
+            $sql = /** @lang text */
+                "UPDATE user SET password = ? WHERE email = ?";
+            $query = $this->conn->prepare($sql);
+            $query->bindParam(1, $password);
+            $query->bindParam(2, $email);
+            $query->execute();
+            return $query->rowCount() > 0;
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
+
+    public function startSession(): void
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
+
 }

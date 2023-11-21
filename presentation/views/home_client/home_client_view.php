@@ -99,11 +99,7 @@
     </div>
   </div>
 </div>
-<footer class="d-flex justify-content-center align-items-center">
-  <div class="container container-footer">
-    <p>© 2023 El Chino Cevichería - Calle 2 de Febrero #140, Tamarindo - Querecotillo</p>
-  </div>
-</footer>
+<?php include '../components/custom_footer.php' ?>
 
 <script src="../../resources/bootstrap/js/bootstrap.min.js"></script>
 </body>

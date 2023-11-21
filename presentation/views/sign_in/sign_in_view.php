@@ -1,5 +1,6 @@
 <?php
 require('sign_in.php');
+require('../recover_password/recover_password.php');
 ?>
 
 <!doctype html>
@@ -15,7 +16,12 @@ require('sign_in.php');
     <?php if ($GLOBALS['errorMessage'] != null) { ?>
       <style>.display-on-error {
               display: block;
-          }</style>    <?php
+          }</style><?php
+    } ?>
+    <?php if ($GLOBALS['nonExistentEmailMessage'] != null) { ?>
+      <style>.display-on-non-existent-email {
+              display: block;
+          }</style><?php
     } ?>
 </head>
 <body>
@@ -33,12 +39,15 @@ require('sign_in.php');
           <header>Inicio de Sesión</header>
           <div class="underline"></div>
           <form enctype="multipart/form-data" method="post">
+
             <div class="input-field">
               <input type="email" class="input" name="email" id="email" required autocomplete="off" autofocus>
               <label for="email">Correo electrónico</label>
             </div>
+
             <div class="input-field">
-              <input type="password" class="input" name="password" id="password" required autocomplete="off">
+              <input type="password" class="input" name="password" id="password" required autocomplete="off"
+                     minlength="6">
               <label for="password">Contraseña</label>
             </div>
 
@@ -52,8 +61,9 @@ require('sign_in.php');
             </button>
 
             <div class="alert alert-danger m-2 display-on-error" role="alert">
-              <strong>Error:</strong> <?= $GLOBALS['errorMessage']; ?>
+              <strong>Error: </strong> <?= $GLOBALS['errorMessage']; ?>
             </div>
+
           </form>
 
           <div class="col d-flex flex-column justify-content-end  align-items-end">
@@ -67,11 +77,8 @@ require('sign_in.php');
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body mt-1">
-
                     <span>Escribe tu correo y si tienes una cuenta te enviarémos un código de 6 digitos.</span>
-
-                    <form enctype="multipart/form-data" method="post" action="../recover_password/recover_password.php">
-
+                    <form enctype="multipart/form-data" method="post">
                       <div class="input-group mb-3 pt-2">
                         <label class="input-group-text" id="basic-addon1">@</label>
                         <input type="email" class="form-control" placeholder="Correo electrónico" aria-label="Email"
@@ -79,11 +86,14 @@ require('sign_in.php');
                       </div>
 
                       <div class="input-field">
-                        <input type="submit" class="submit"
-                               id="btn-recover-password" name="btn-recover-password" value="Recuperar contraseña">
+                        <button type="submit" class="submit"
+                                id="btn-recover-password" name="btn-recover-password">
+                          Recuperar contraseña
                       </div>
-
                     </form>
+                    <div class="alert alert-danger m-2 display-on-non-existent-email" role="alert">
+                      <strong>Error:</strong> <?= $GLOBALS['nonExistentEmailMessage']; ?>
+                    </div>
                   </div>
                 </div>
               </div>

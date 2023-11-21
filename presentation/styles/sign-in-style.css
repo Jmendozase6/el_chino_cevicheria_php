@@ -133,6 +133,10 @@ img {
     display: none;
 }
 
+.display-on-non-existent-email {
+    display: none;
+}
+
 @media only screen and (max-width: 768px) {
     .side-image {
         border-radius: 10px 10px 0 0;

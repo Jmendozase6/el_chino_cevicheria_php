@@ -23,7 +23,7 @@ class EmailService
             $mail->setLanguage('es', '/optional/path/to/language/directory/');
             $mail->CharSet = 'UTF-8';
             //Server settings
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                  //Enable verbose debug output
+            $mail->SMTPDebug = SMTP::DEBUG_OFF;                  //Enable verbose debug output
             $mail->isSMTP();                                        //Send using SMTP
             $mail->Host = 'smtp.gmail.com';                         //Set the SMTP server to send through
             $mail->SMTPAuth = true;                                 //Enable SMTP authentication
@@ -33,8 +33,8 @@ class EmailService
             $mail->Port = 465;                                      //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
             //Recipients
-            $mail->setFrom('support@codecrafters.dev', 'Soporte de El Chino Cevichería');
-            $mail->addAddress($email, 'Cliente de El Chino Cevichería');     //Add a recipient
+            $mail->setFrom('jhairm064@gmail.com', 'El Chino Cevichería');
+            $mail->addAddress($email, 'El Chino Cevichería');     //Add a recipient
             $mail->addReplyTo('noreply@example.com', 'NoReply');
 
             //Content
@@ -43,33 +43,28 @@ class EmailService
             //    Add email-template-php in the body
 //            $mail->Body = file_get_contents('email-template.php');
 
-            switch ($emailType) {
-                case EmailType::RecoverPassword:
-                    $mail->Body =
-                        '<h1> Recuperación de contraseña </h1>
+            match ($emailType) {
+                EmailType::RecoverPassword => $mail->Body =
+                    '<h1> Recuperación de contraseña </h1>
                          <p> Hola <br>
-                         Tu código de recuperación es: ' . $randomNumber .
-                        '<strong><?= $code ?></strong></p>
-                    <p> Si no has solicitado un cambio de contraseña, ignora este mensaje.</p >';
-                    $mail->AltBody = 'Correo electrónico de recuperación de contraseña';
-                    break;
-
-                case EmailType::OrderConfirmation:
-                    $mail->Body =
-                        '<h1> Bienvenido a El Chino Cevichería </h1>
+                         Tu código de recuperación es: 
+                        <strong>' . $randomNumber . '</strong></p>
+                    <p> Si no has solicitado un cambio de contraseña, ignora este mensaje.</p >',
+                EmailType::OrderConfirmation => $mail->Body =
+                    '<h1> Bienvenido a El Chino Cevichería </h1>
+                 <p> Hola' . $randomNumber . '<br>
+                 Su pedido se ha realizado correctamente</p>',
+                EmailType::SignUp => $mail->Body =
+                    '<h1> Bienvenido a El Chino Cevichería </h1>
                  <p> Hola <?= $name ?>, <br>
-                 Su pedido se ha realizado correctamente</p>';
-                    $mail->AltBody = 'Correo electrónico de confirmación de pedido';
-                    break;
+                 tu cuenta ha sido creada exitosamente.</p>'
+            };
 
-                case EmailType::SignUp:
-                    $mail->Body =
-                        '<h1> Bienvenido a El Chino Cevichería </h1>
-                 <p> Hola <?= $name ?>, <br>
-                 tu cuenta ha sido creada exitosamente.</p>';
-                    $mail->AltBody = 'Correo electrónico de confirmación de registro';
-                    break;
-            }
+            match ($emailType) {
+                EmailType::RecoverPassword => $mail->AltBody = 'Correo electrónico de recuperación de contraseña',
+                EmailType::OrderConfirmation => $mail->AltBody = 'Correo electrónico de confirmación de pedido',
+                EmailType::SignUp => $mail->AltBody = 'Correo electrónico de confirmación de registro'
+            };
 
             return $mail->send();
         } catch
@@ -77,5 +72,4 @@ class EmailService
             return false;
         }
     }
-
 }
