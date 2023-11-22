@@ -17,10 +17,5 @@ if (isset($_GET['productId']) && $_GET['productId'] != "") {
     if (!$isInCart) {
         $cartDAO->addProductToCart($productId, 1);
     }
-//    echo '<script>
-//          setTimeout(function(){
-//              history.go(-1);
-//          }, 0);
-//      </script>';
     header("Location: " . $_SERVER['HTTP_REFERER']);
 }

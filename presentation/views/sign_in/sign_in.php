@@ -1,5 +1,4 @@
 <?php
-ob_start();
 include '../../../data_access_objects/UserDAO.php';
 
 if (session_status() == PHP_SESSION_NONE) {
@@ -11,7 +10,6 @@ $GLOBALS['errorMessageModal'] = null;
 
 if (isset($_SESSION["id"])) {
     header('Location: ../home/home_view.php');
-    ob_end_flush();
     exit();
 }
 
@@ -38,19 +36,16 @@ if (isset($_POST['btn-sign-in']) || isset($_POST['btn-sign-in-modal'])) {
 //          Si el login viene desde el modal, se queda en la página actual
             if ($from == 'modal') {
                 header("Location: ../cart_client/cart_client_view.php");
-                ob_end_flush();
                 exit();
             }
 
 //          Si es administrador, se manda al dashboard
             if ($rolId == 1) {
                 header('Location: ../home/home_view.php');
-                ob_end_flush();
                 exit();
             } else if ($rolId == 2) {
 //          Si es cliente, se manda al catálogo de productos
                 header('Location: ../catalog_client/catalog_client_view.php');
-                ob_end_flush();
                 exit();
             }
         } else {
