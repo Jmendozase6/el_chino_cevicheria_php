@@ -6,7 +6,9 @@ $GLOBALS['errorCode'] = null;
 
 if (isset($_POST['btn-verify'])) {
 
-    session_start();
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
     $recoverCodeInput = $_POST['recover-code'];
     $recoverCodeEmail = $_SESSION['recover-code-email'];
 

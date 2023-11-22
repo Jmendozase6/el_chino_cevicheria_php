@@ -14,7 +14,10 @@ require_once '../../../data_transfer_objects/CategoryDTO.php';
 require_once '../../../data_transfer_objects/ProductDTO.php';
 require_once '../../../data_transfer_objects/OrderProductDTO.php';
 
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 if ($_SESSION['id'] == null) {
     header('Location: ../sign_in/sign_in_view.php');
 } else {

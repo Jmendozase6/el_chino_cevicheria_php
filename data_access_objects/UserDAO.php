@@ -1,5 +1,7 @@
 <?php
-
+if (!isset($_SESSION)) {
+    session_start();
+}
 require_once __DIR__ . '/../datasource/db_connection.php';
 
 class UserDAO
@@ -76,7 +78,7 @@ class UserDAO
     public function setNewPassword($password): bool
     {
         try {
-            $this->startSession();
+//            $this->startSession();
             $email = $_SESSION['recover-email'];
             $sql = /** @lang text */
                 "UPDATE user SET password = ? WHERE email = ?";
@@ -90,11 +92,11 @@ class UserDAO
         }
     }
 
-    public function startSession(): void
-    {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-    }
+//    public function startSession(): void
+//    {
+//        if (session_status() == PHP_SESSION_NONE) {
+//            session_start();
+//        }
+//    }
 
 }

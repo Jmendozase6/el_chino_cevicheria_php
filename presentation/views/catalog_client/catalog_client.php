@@ -9,7 +9,18 @@ if (isset($_GET['productId']) && $_GET['productId'] != "") {
     $cartDAO = new CartDAO();
 
     $productId = $_GET['productId'];
-    $cartDAO->addProductToCart($productId, 1);
 
-    header("Location:javascript://history.go(-1)");
+    $idsInCart = $cartDAO->getProductsIdFromCart();
+    $isInCart = in_array($productId, array_column($idsInCart, 'id_product'));
+
+//    Si no está en el carrito se agrega
+    if (!$isInCart) {
+        $cartDAO->addProductToCart($productId, 1);
+    }
+//    echo '<script>
+//          setTimeout(function(){
+//              history.go(-1);
+//          }, 0);
+//      </script>';
+    header("Location: " . $_SERVER['HTTP_REFERER']);
 }

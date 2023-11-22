@@ -1,5 +1,7 @@
 <?php
-
+if (!isset($_SESSION)) {
+    session_start();
+}
 require_once __DIR__ . '/../datasource/db_connection.php';
 
 class CartDAO
@@ -14,7 +16,6 @@ class CartDAO
     public function getProductsFromCart()
     {
         try {
-            $this->initSession();
             $idSession = session_id();
             $sql = /** @lang text */
                 "SELECT product.id, product.name, product.description, product.image, product.price, cart.quantity FROM cart INNER JOIN product ON cart.id_product = product.id WHERE cart.id_session = ?";
@@ -30,7 +31,6 @@ class CartDAO
     public function addProductToCart($idProduct, $quantity): void
     {
         try {
-            $this->initSession();
             $idSession = session_id();
             $sql =
                 /** @lang text */
@@ -48,7 +48,6 @@ class CartDAO
     public function getProductsIdFromCart()
     {
         try {
-            $this->initSession();
             $idSession = session_id();
             $sql =
                 /** @lang text */
@@ -65,7 +64,6 @@ class CartDAO
     public function deleteProductFromCart($idProduct): void
     {
         try {
-            $this->initSession();
             $idSession = session_id();
             $sql =
                 /** @lang text */
@@ -79,10 +77,9 @@ class CartDAO
         }
     }
 
-    public function updateQuantity($idProduct, $quantity): void
+    public function changeQuantity($idProduct, $quantity): void
     {
         try {
-            $this->initSession();
             $idSession = session_id();
             $sql =
                 /** @lang text */
@@ -97,25 +94,28 @@ class CartDAO
         }
     }
 
-    public function productAlreadyInCart($idProduct)
+    public function productAlreadyInCart($productId, $products): bool
     {
         try {
             $ids = $this->getProductsIdFromCart();
             foreach ($ids as $id) {
-                if ($id == $idProduct) {
-                    return true;
+                foreach ($products as $productArray) {
+                    foreach ($productArray as $product) {
+                        if ($id['id_product'] == $productId) {
+                            return true;
+                        }
+                    }
                 }
             }
             return false;
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return false;
         }
     }
 
     public function deleteCart(): void
     {
         try {
-            $this->initSession();
             $sql = /** @lang text */
                 "DELETE * FROM cart WHERE id_session = ?";
             $query = $this->conn->prepare($sql);
@@ -123,13 +123,6 @@ class CartDAO
             $query->execute();
         } catch (Exception $e) {
             die("Error: " . $e->getMessage());
-        }
-    }
-
-    public function initSession(): void
-    {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
         }
     }
 
