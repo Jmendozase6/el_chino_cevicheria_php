@@ -20,6 +20,8 @@ if (session_status() == PHP_SESSION_NONE) {
 
 if ($_SESSION['id'] == null) {
   header('Location: ../sign_in/sign_in_view.php');
+} elseif ($_SESSION['id_role'] != 1){
+  header('Location: ../catalog_client/catalog_client_view.php');
 } else {
   $id = $_SESSION['id'];
   $userDAO = new UserDAO();

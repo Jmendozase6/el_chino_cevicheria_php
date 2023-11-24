@@ -21,7 +21,7 @@ class UserDTO
         $modelUser = new UserDTO();
         $modelUser->setId($response['id']);
         $modelUser->setIdRole($response['id_role']);
-        $modelUser->setAddress($response['id_address']);
+        $modelUser->setAddress($response['address']);
         $modelUser->setName($response['name']);
         $modelUser->setLastName($response['last_name']);
         $modelUser->setImg($response['img']);
@@ -43,7 +43,7 @@ class UserDTO
         $this->idRole = $idRole;
     }
 
-    public function setAddress($address = 0): void
+    public function setAddress($address): void
     {
         $this->address = $address;
     }

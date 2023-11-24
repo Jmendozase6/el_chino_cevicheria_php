@@ -31,6 +31,7 @@ if (isset($_POST['btn-sign-in']) || isset($_POST['btn-sign-in-modal'])) {
         if (isset($currentUser['id'])) {
             $rolId = $currentUser['id_role'];
             $_SESSION["id"] = $currentUser['id'];
+            $_SESSION["id_role"] = $currentUser['id_role'];
             $errorMessage = null;
 
 //          Si el login viene desde el modal, se queda en la página actual
