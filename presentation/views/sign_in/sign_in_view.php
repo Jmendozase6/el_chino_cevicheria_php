@@ -26,13 +26,13 @@ require('../recover_password/recover_password.php');
 </head>
 <body>
 <div class="wrapper">
-    <div class="container main">
-        <div class="row">
-            <div class="col-md-6 side-image">
-                <img src="../../resources/images/logo.png" alt="Logo chino cevicheria" class="img_logo">
-                <div class="text">
-                </div>
-            </div>
+  <div class="container main">
+    <div class="row">
+      <div class="col-md-6 side-image">
+        <img src="../../resources/images/logo.png" alt="Logo chino cevicheria" class="img_logo">
+        <div class="text">
+        </div>
+      </div>
 
             <div class="col-md-6 right">
                 <div class="input-box">

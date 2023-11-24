@@ -38,7 +38,7 @@ if (isset($_POST['btn-recover-password'])) {
 }
 function isSessionStarted(): void
 {
-    if (session_status() === PHP_SESSION_NONE) {
+    if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
 }

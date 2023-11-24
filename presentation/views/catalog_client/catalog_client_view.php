@@ -5,32 +5,30 @@ use data_transfer_objects\ProductDTO;
 
 require_once '../../../data_access_objects/CategoryDAO.php';
 require_once '../../../data_access_objects/ProductDAO.php';
+require_once '../../../data_access_objects/CartDAO.php';
 
 require_once '../../../data_transfer_objects/CategoryDTO.php';
 require_once '../../../data_transfer_objects/ProductDTO.php';
 
 $categoryDAO = new CategoryDAO();
+$cartDAO = new CartDAO();
+$productDAO = new ProductDAO();
+
 $responseCategories = $categoryDAO->getCategories(20);
 $categoriesDTO = [];
+$responseProducts = [];
 
 for ($i = 0; $i < sizeof($responseCategories); $i++) {
     $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
-}
-
-$responseProducts = [];
-$productDAO = new ProductDAO();
-for ($i = 0; $i < sizeof($categoriesDTO); $i++) {
     $responseProducts[$i] = $productDAO->getProductsByIdCategory($categoriesDTO[$i]->getId());
 }
 
 $productsDTO = [];
-
 for ($i = 0; $i < sizeof($responseProducts); $i++) {
     for ($j = 0; $j < sizeof($responseProducts[$i]); $j++) {
         $productsDTO[$i][$j] = ProductDTO::createFromResponse($responseProducts[$i][$j]);
     }
 }
-
 ?>
 
 <!doctype html>
@@ -50,8 +48,9 @@ for ($i = 0; $i < sizeof($responseProducts); $i++) {
 <div class="container d-flex justify-content-center align-items-center container-catalog">
   <div class="row">
     <div class="col">
-
-      <img src="https://placehold.co/1080x300" alt="Logo">
+      <img
+          src="https://res.cloudinary.com/dgna2mogt/image/upload/v1700630622/El%20Chino%20Cevicher%C3%ADa/yamm5r7l9uvnrrjvwhst.jpg"
+          alt="Logo" width="1080">
       <div class="row">
         <h1 class="pt-3"><strong>El Chino Cevichería</strong></h1>
         <div class="text-end">
@@ -59,7 +58,6 @@ for ($i = 0; $i < sizeof($responseProducts); $i++) {
                 class="bi bi-bag"></i></a>
         </div>
       </div>
-
 
       <!--    Lista de categorías del menú   -->
       <header class="header-categories">
@@ -76,7 +74,9 @@ for ($i = 0; $i < sizeof($responseProducts); $i++) {
 
       <!--    Secciones de Categorías del Menú    -->
       <div class="container my-2">
-          <?php for ($i = 0; $i < sizeof($categoriesDTO); $i++) { ?>
+          <?php for ($i = 0;
+                     $i < sizeof($categoriesDTO);
+                     $i++) { ?>
             <div class="row">
               <div class="col my-1">
                 <strong id="category-<?= $categoriesDTO[$i]->getId() ?>"
@@ -84,7 +84,10 @@ for ($i = 0; $i < sizeof($responseProducts); $i++) {
               </div>
             </div>
             <div class="row row-cols-1 row-cols-md-3 g-4">
-                <?php for ($j = 0; $j < sizeof($responseProducts[$i]); $j++) { ?>
+                <?php for ($j = 0;
+                           $j < sizeof($responseProducts[$i]);
+                           $j++) {
+                    $exists = $cartDAO->productAlreadyInCart($productsDTO[$i][$j]->getId(), $productsDTO) ?>
                   <div class="col mb-3">
                     <div class="card">
                       <img src="<?= $productsDTO[$i][$j]->getImage() ?>" class="card-img-top" alt="..." height="150">
@@ -92,13 +95,18 @@ for ($i = 0; $i < sizeof($responseProducts); $i++) {
                         <h5 class="card-title"><?= $productsDTO[$i][$j]->getName() ?></h5>
                         <p class="card-text">Precio: S/<?= $productsDTO[$i][$j]->getPrice() ?></p>
                         <div class="text-end">
-                          <a id="add" class="btn btn-success"
-                             href="catalog_client.php?productId=<?= $productsDTO[$i][$j]->getId() ?>">
-                            <i class="bi bi-plus-lg"></i>
-                          </a>
+                            <?php if (!$exists) { ?>
+                              <a id="add" class="btn btn-success"
+                                 href="catalog_client.php?productId=<?= $productsDTO[$i][$j]->getId() ?>">
+                                <i class="bi bi-plus-lg"></i>
+                              </a>
+                            <?php } else { ?>
+                              <a href="../cart_client/delete_product.php?id=<?= $productsDTO[$i][$j]->getId() ?>"
+                                 class="btn btn-danger">
+                                <i class="bi bi-trash3-fill"></i></a>
+                            <?php } ?>
                         </div>
                       </div>
-
                     </div>
                   </div>
                 <?php } ?>

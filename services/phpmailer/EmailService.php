@@ -3,8 +3,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
-//require '../../vendor/autoload.php';
-require_once __DIR__ . '/../../vendor/autoload.php';
+include_once __DIR__ . '/../../datasource/constants.php';
 
 enum EmailType: string
 {
@@ -28,7 +27,7 @@ class EmailService
             $mail->Host = 'smtp.gmail.com';                         //Set the SMTP server to send through
             $mail->SMTPAuth = true;                                 //Enable SMTP authentication
             $mail->Username = 'jhairm064@gmail.com';                //SMTP username
-            $mail->Password = 'xcqq tvzw lkfy ddoy';                //SMTP password
+            $mail->Password = EMAIL_CRED;                //SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;        //Enable implicit TLS encryption
             $mail->Port = 465;                                      //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-11-2023 a las 06:33:28
+-- Tiempo de generación: 24-11-2023 a las 07:56:22
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -34,15 +34,6 @@ CREATE TABLE `cart` (
                         `quantity` int(11) NOT NULL DEFAULT 1,
                         `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `cart`
---
-
-INSERT INTO `cart` (`id`, `id_session`, `id_product`, `quantity`, `created_at`) VALUES
-                                                                                    (12, '6mvdbjsu0ocrcrmpkv5n9tdavl', 1, 1, '2023-11-19 02:10:16'),
-                                                                                    (13, '6mvdbjsu0ocrcrmpkv5n9tdavl', 2, 1, '2023-11-19 02:10:22'),
-                                                                                    (14, '6mvdbjsu0ocrcrmpkv5n9tdavl', 29, 1, '2023-11-19 02:10:25');
 
 -- --------------------------------------------------------
 
@@ -81,17 +72,18 @@ CREATE TABLE `order` (
                          `user_id` int(11) DEFAULT NULL,
                          `payment_id` int(11) DEFAULT NULL,
                          `total` decimal(10,0) DEFAULT NULL,
-                         `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+                         `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                         `order_status` varchar(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `order`
 --
 
-INSERT INTO `order` (`id`, `user_id`, `payment_id`, `total`, `created_at`) VALUES
-                                                                               (1, 1, 1, 100, '2023-10-31 06:59:58'),
-                                                                               (2, 2, 2, 100, '2023-10-31 07:01:22'),
-                                                                               (3, 1, 3, 300, '2023-10-31 07:01:22');
+INSERT INTO `order` (`id`, `user_id`, `payment_id`, `total`, `created_at`, `order_status`) VALUES
+                                                                                               (1, 1, 1, 100, '2023-10-31 06:59:58', NULL),
+                                                                                               (2, 2, 2, 100, '2023-10-31 07:01:22', NULL),
+                                                                                               (3, 1, 3, 300, '2023-10-31 07:01:22', NULL);
 
 -- --------------------------------------------------------
 
@@ -118,23 +110,23 @@ INSERT INTO `order_product` (`id`, `order_id`, `product_id`, `quantity`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `payment_method`
+-- Estructura de tabla para la tabla `payment`
 --
 
-CREATE TABLE `payment_method` (
-                                  `id` int(11) NOT NULL,
-                                  `name` varchar(255) NOT NULL,
-                                  `receipt` text NOT NULL
+CREATE TABLE `payment` (
+                           `id` int(11) NOT NULL,
+                           `name` varchar(255) NOT NULL,
+                           `receipt` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `payment_method`
+-- Volcado de datos para la tabla `payment`
 --
 
-INSERT INTO `payment_method` (`id`, `name`, `receipt`) VALUES
-                                                           (1, 'Yape', 'yape-receipt.png'),
-                                                           (2, 'Plin', 'plin-receipt.png'),
-                                                           (3, 'Yape', 'yape-receipt.png');
+INSERT INTO `payment` (`id`, `name`, `receipt`) VALUES
+                                                    (1, 'Yape', 'yape-receipt.png'),
+                                                    (2, 'Plin', 'plin-receipt.png'),
+                                                    (3, 'Yape', 'yape-receipt.png');
 
 -- --------------------------------------------------------
 
@@ -222,7 +214,8 @@ INSERT INTO `product` (`id`, `id_category`, `name`, `description`, `image`, `pri
 CREATE TABLE `review` (
                           `id` int(11) NOT NULL,
                           `user_id` int(11) DEFAULT NULL,
-                          `review` varchar(200) NOT NULL
+                          `commet` varchar(200) NOT NULL,
+                          `rating` decimal(10,0) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -291,38 +284,26 @@ INSERT INTO `schedule` (`id`, `day`, `open_time`, `close_time`, `created_at`) VA
 
 CREATE TABLE `user` (
                         `id` int(11) NOT NULL,
-                        `id_role` int(11) DEFAULT NULL,
-                        `id_address` int(11) DEFAULT NULL,
+                        `id_role` int(11) DEFAULT 2,
+                        `address` varchar(255) DEFAULT NULL,
                         `name` varchar(50) DEFAULT NULL,
                         `last_name` varchar(50) DEFAULT NULL,
                         `email` varchar(100) DEFAULT NULL,
                         `password` varchar(255) DEFAULT NULL,
                         `active` tinyint(1) DEFAULT 1,
                         `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-                        `img` varchar(1000) DEFAULT NULL
+                        `phone` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `user`
 --
 
-INSERT INTO `user` (`id`, `id_role`, `id_address`, `name`, `last_name`, `email`, `password`, `active`, `created_at`, `img`) VALUES
-                                                                                                                                (1, 1, NULL, 'Jhair', 'Mendoza', 'jhairmendoza2003@gmail.com', 'abc123', 1, '2023-10-31 06:10:45', 'cat.jpg'),
-                                                                                                                                (2, 1, NULL, 'Liz', 'Sosa', 'liz@gmail.com', '12345', 1, '2023-10-31 07:00:28', 'cat2.jpg'),
-                                                                                                                                (3, 1, NULL, 'Manuel', 'Antón', 'anton@gmail.com', '1', 1, '2023-11-14 01:50:45', 'cat.jpg'),
-                                                                                                                                (4, 1, NULL, 'Jhair', 'Mendoza', 'jhair@gmail.com', '12345', 1, '2023-10-31 06:10:45', 'cat.jpg');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `user_address`
---
-
-CREATE TABLE `user_address` (
-                                `id` int(11) NOT NULL,
-                                `user_id` int(11) NOT NULL,
-                                `address` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `user` (`id`, `id_role`, `address`, `name`, `last_name`, `email`, `password`, `active`, `created_at`, `phone`) VALUES
+                                                                                                                               (1, 1, 'Piura', 'Jhair', 'Mendoza', 'jhairmendoza2003@gmail.com', '123456', 1, '2023-10-31 06:10:45', NULL),
+                                                                                                                               (2, 1, 'Piura', 'Liz', 'Sosa', 'liz@gmail.com', '12345', 1, '2023-10-31 07:00:28', NULL),
+                                                                                                                               (3, 1, 'Piura', 'Manuel', 'Antón', 'anton@gmail.com', '1', 1, '2023-11-14 01:50:45', NULL),
+                                                                                                                               (4, 2, 'Piura', 'Jhair', 'Mendoza', 'jhair@gmail.com', '123456', 1, '2023-10-31 06:10:45', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -358,9 +339,9 @@ ALTER TABLE `order_product`
     ADD KEY `product_id` (`product_id`);
 
 --
--- Indices de la tabla `payment_method`
+-- Indices de la tabla `payment`
 --
-ALTER TABLE `payment_method`
+ALTER TABLE `payment`
     ADD PRIMARY KEY (`id`);
 
 --
@@ -403,13 +384,7 @@ ALTER TABLE `user`
     ADD PRIMARY KEY (`id`),
     ADD UNIQUE KEY `user_pk` (`email`),
     ADD KEY `id_role` (`id_role`),
-    ADD KEY `id_address` (`id_address`);
-
---
--- Indices de la tabla `user_address`
---
-ALTER TABLE `user_address`
-    ADD PRIMARY KEY (`id`);
+    ADD KEY `id_address` (`address`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -419,7 +394,7 @@ ALTER TABLE `user_address`
 -- AUTO_INCREMENT de la tabla `cart`
 --
 ALTER TABLE `cart`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT de la tabla `category`
@@ -440,9 +415,9 @@ ALTER TABLE `order_product`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `payment_method`
+-- AUTO_INCREMENT de la tabla `payment`
 --
-ALTER TABLE `payment_method`
+ALTER TABLE `payment`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
@@ -482,12 +457,6 @@ ALTER TABLE `user`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de la tabla `user_address`
---
-ALTER TABLE `user_address`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- Restricciones para tablas volcadas
 --
 
@@ -502,7 +471,7 @@ ALTER TABLE `cart`
 --
 ALTER TABLE `order`
     ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-    ADD CONSTRAINT `order_ibfk_2` FOREIGN KEY (`payment_id`) REFERENCES `payment_method` (`id`);
+    ADD CONSTRAINT `order_ibfk_2` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`);
 
 --
 -- Filtros para la tabla `order_product`
@@ -533,8 +502,7 @@ ALTER TABLE `sale`
 -- Filtros para la tabla `user`
 --
 ALTER TABLE `user`
-    ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id_role`) REFERENCES `role` (`id`),
-    ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`id_address`) REFERENCES `user_address` (`id`);
+    ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id_role`) REFERENCES `role` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

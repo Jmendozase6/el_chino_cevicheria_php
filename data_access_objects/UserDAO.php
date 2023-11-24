@@ -1,5 +1,7 @@
 <?php
-
+if (!isset($_SESSION)) {
+    session_start();
+}
 require_once __DIR__ . '/../datasource/db_connection.php';
 
 class UserDAO
@@ -11,9 +13,6 @@ class UserDAO
         $this->conn = DbConnection::connect();
     }
 
-    /**
-     * @throws Exception
-     */
     public function signIn($email, $password)
     {
         try {
@@ -24,6 +23,25 @@ class UserDAO
             $query->bindParam(2, $password);
             $query->execute();
             return $query->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
+
+    public function signUp($email, $password, $name, $phone, $address = "", $lastName = "")
+    {
+        try {
+            $sql = /** @lang text */
+                "INSERT INTO user (name, last_name, email, password, address, phone) VALUES (?,?,?,?,?,?)";
+            $query = $this->conn->prepare($sql);
+            $query->bindParam(1, $name);
+            $query->bindParam(2, $lastName);
+            $query->bindParam(3, $email);
+            $query->bindParam(4, $password);
+            $query->bindParam(5, $address);
+            $query->bindParam(6, $phone);
+            $query->execute();
+            return $query->rowCount() > 0;
         } catch (Exception $e) {
             die("Error: " . $e->getMessage());
         }
@@ -73,11 +91,9 @@ class UserDAO
         }
     }
 
-    public function setNewPassword($password): bool
+    public function setNewPassword($email, $password): bool
     {
         try {
-            $this->startSession();
-            $email = $_SESSION['recover-email'];
             $sql = /** @lang text */
                 "UPDATE user SET password = ? WHERE email = ?";
             $query = $this->conn->prepare($sql);
@@ -90,10 +106,48 @@ class UserDAO
         }
     }
 
-    public function startSession(): void
+    public function getClients()
     {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
+        try {
+            $sql = /** @lang text */
+                "SELECT * FROM user WHERE id_role = 2";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
+
+    public function getAdmins()
+    {
+        try {
+            $sql = /** @lang text */
+                "SELECT * FROM user WHERE id != 1 AND id_role = 1";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
+
+    public function updateProfile($id, $name, $lastName, $address, $phone, $email): bool
+    {
+        try {
+            $sql = /** @lang text */
+                "UPDATE user SET name = ?, last_name = ?, address = ?, phone = ?, email = ? WHERE id = ?";
+            $query = $this->conn->prepare($sql);
+            $query->bindParam(1, $name);
+            $query->bindParam(2, $lastName);
+            $query->bindParam(3, $address);
+            $query->bindParam(4, $phone);
+            $query->bindParam(5, $email);
+            $query->bindParam(6, $id);
+            $query->execute();
+            return $query->rowCount() > 0;
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
         }
     }
 
