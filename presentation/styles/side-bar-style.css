@@ -29,6 +29,17 @@
     font-size: 0.875rem; /* 14px */
     line-height: 1.25rem; /* 20px */
 }
+.color-text {
+    color: #79869F;
+}
+.active {
+    background: #e1f1f3;
+}
+
+.active-text {
+    color: #09797A;
+    font-weight: bold;
+}
 
 .btn-start:hover {
     background: #e1f1f3;
@@ -89,6 +100,7 @@
     font-weight: bold;
     font-size: 1rem;
 }
+
 .content-menu2 {
     display: flex;
     flex-direction: column;
@@ -109,17 +121,18 @@
     color: #B0B6C3;
 }
 
-.data-user{
+.data-user {
     padding-top: 3rem;
     padding-right: .3rem;
     padding-left: .3rem;
 }
 
-.card-img-user{
+.card-img-user {
     display: block;
     margin: 0 auto;
 }
-.user-data-form{
+
+.user-data-form {
     margin: 0 auto;
     width: 90%;
 }
