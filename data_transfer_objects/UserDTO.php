@@ -6,12 +6,13 @@ class UserDTO
 {
     private int $id;
     private int $idRole;
-    private ?int $idAddress;
+    private string $address;
     private string $name;
     private string $lastName;
     private string $img;
     private string $email;
     private string $password;
+    private string $phone;
     private bool $active;
     private string $createdAt;
 
@@ -20,12 +21,13 @@ class UserDTO
         $modelUser = new UserDTO();
         $modelUser->setId($response['id']);
         $modelUser->setIdRole($response['id_role']);
-        $modelUser->setIdAddress($response['id_address']);
+        $modelUser->setAddress($response['id_address']);
         $modelUser->setName($response['name']);
         $modelUser->setLastName($response['last_name']);
         $modelUser->setImg($response['img']);
         $modelUser->setEmail($response['email']);
         $modelUser->setPassword($response['password']);
+        $modelUser->setPhone($response['phone']);
         $modelUser->setActive($response['active']);
         $modelUser->setCreatedAt($response['created_at']);
         return $modelUser;
@@ -41,9 +43,9 @@ class UserDTO
         $this->idRole = $idRole;
     }
 
-    public function setIdAddress($idAddress = 0): void
+    public function setAddress($address = 0): void
     {
-        $this->idAddress = $idAddress;
+        $this->address = $address;
     }
 
     public function setName($name): void
@@ -71,6 +73,11 @@ class UserDTO
         $this->password = $password;
     }
 
+    public function setPhone($phone): void
+    {
+        $this->phone = $phone;
+    }
+
     public function setActive($active): void
     {
         $this->active = $active;
@@ -91,9 +98,9 @@ class UserDTO
         return $this->idRole;
     }
 
-    public function getIDAddress(): int
+    public function getAddress(): int
     {
-        return $this->idAddress;
+        return $this->address;
     }
 
     public function getName(): string
@@ -121,6 +128,11 @@ class UserDTO
         return $this->password;
     }
 
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
     public function getActive(): bool
     {
         return $this->active;
@@ -131,10 +143,6 @@ class UserDTO
         return $this->createdAt;
     }
 
-    public function __toString()
-    {
-        return "id=" . $this->id . ", idRole=" . $this->idRole . ", idAddress=" . $this->idAddress . ", name=" . $this->name . ", lastName=" . $this->lastName . ", img=" . $this->img . ", email=" . $this->email . ", password=" . $this->password . ", active=" . $this->active . ", createdAt=" . $this->createdAt;
-    }
 
     public function getRoleById(): string
     {

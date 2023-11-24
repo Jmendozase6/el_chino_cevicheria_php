@@ -13,7 +13,7 @@ class CartDAO
         $this->conn = DbConnection::connect();
     }
 
-    public function getProductsFromCart()
+    public function getProductsFromCart(): array
     {
         try {
             $idSession = session_id();
@@ -45,7 +45,7 @@ class CartDAO
         }
     }
 
-    public function getProductsIdFromCart()
+    public function getProductsIdFromCart(): array
     {
         try {
             $idSession = session_id();
@@ -113,7 +113,7 @@ class CartDAO
         }
     }
 
-    public function deleteCart(): void
+    public function deleteCart($idSession): void
     {
         try {
             $sql = /** @lang text */

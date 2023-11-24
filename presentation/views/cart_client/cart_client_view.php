@@ -9,6 +9,7 @@ use MercadoPago\Preference;
 
 require_once '../../../data_access_objects/CartDAO.php';
 require_once '../../../data_access_objects/ProductDAO.php';
+
 require_once '../../../data_transfer_objects/ProductDTO.php';
 
 $cartDAO = new CartDAO();

@@ -35,12 +35,6 @@ class OrderProductDAO
         return $query->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * SELECT o.id, o.total, u.name
-     * FROM `order` as o
-     * JOIN user as u
-     * ON o.user_id = u.id;
-     */
     public function getOrdersWithUsers(): false|array
     {
         $sql =

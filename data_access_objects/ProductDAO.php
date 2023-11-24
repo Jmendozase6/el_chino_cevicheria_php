@@ -23,7 +23,18 @@ class ProductDAO
         return $query->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getProductsByIdCategory($id): false|array
+    public function getProductByName($name)
+    {
+        $sql =
+            /** @lang text */
+            "SELECT * FROM product WHERE name LIKE '%?%'";
+        $query = $this->conn->prepare($sql);
+        $query->bindParam(1, $name);
+        $query->execute();
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getProductsByIdCategory($id): array
     {
         $sql =
             /** @lang text */
@@ -33,4 +44,5 @@ class ProductDAO
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+
 }
