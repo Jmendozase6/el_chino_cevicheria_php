@@ -10,7 +10,6 @@ $cartDao = new CartDAO();
 $cartTotal = $cartDao->getTotalFromCart(session_id());
 function displayBaseWeb($content): void
 {
-
     global $cartTotal;
     echo '<!doctype html>
 <html lang="es">
@@ -111,6 +110,3 @@ function displayBaseWeb($content): void
 </body>
 </html>';
 }
-
-
-?>
