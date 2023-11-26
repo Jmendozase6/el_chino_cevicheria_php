@@ -1,7 +1,18 @@
 <?php
+
+require_once '../../../data_access_objects/CartDAO.php';
+
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+$cartDao = new CartDAO();
+$cartTotal = $cartDao->getTotalFromCart(session_id());
 function displayBaseWeb($content): void
 {
-  echo '<!doctype html>
+
+    global $cartTotal;
+    echo '<!doctype html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -71,7 +82,7 @@ function displayBaseWeb($content): void
                     <a class="text-decoration-none" href=""> <img src="../../resources/icons/cart.svg" alt="Carrito"></a>
                     <div class="d-flex flex-column justify-content-center">
                         <p>Carrito:</p>
-                        <p class="text-black">S/.0</p>
+                        <p class="text-black">S/.' . $cartTotal . '</p>
                     </div>
                 </div>
             </div>

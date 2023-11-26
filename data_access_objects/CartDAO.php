@@ -126,4 +126,18 @@ class CartDAO
         }
     }
 
+    public function getTotalFromCart($idSession): float
+    {
+        try {
+            $sql = /** @lang text */
+                "SELECT SUM(product.price * cart.quantity) AS total FROM cart INNER JOIN product ON cart.id_product = product.id WHERE cart.id_session = '?'";
+            $query = $this->conn->prepare($sql);
+            $query->bindParam(1, $idSession);
+            $query->execute();
+            return $query->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (Exception $e) {
+            return 0;
+        }
+    }
+
 }
