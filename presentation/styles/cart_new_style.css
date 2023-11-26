@@ -94,6 +94,12 @@ body {
     }
 }
 
+@media screen and (max-width: 991px) {
+    .wrapper-cart-desktop, .wrapper-payment-card-desktop {
+        display: none;
+    }
+}
+
 @media screen and (min-width: 992px) {
     .wrapper-cart, .wrapper-payment-card {
         display: none;

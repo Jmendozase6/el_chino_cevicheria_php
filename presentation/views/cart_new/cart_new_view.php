@@ -28,37 +28,10 @@ function displayProducts($products): string
   $content = '';
   foreach ($products as $product) {
     $content .= '
-     <div class="col-4 d-flex justify-content-center align-content-center ">
-                <img class="mb-2 rounded-1 img-product" src="' . $product['image'] . '" alt="Producto">
-     </div>
-            <div class="col-4 d-flex flex-column justify-content-start p-0">
-               <h6 class="name-product">' . $product['name'] . '</h6>
-                <h6 class="name-type">' . $product['description'] . '</h6>
-                <h6 class="name-price">S/.' . $product['price'] . '</h6>
-            </div>
-            <div class="col-4 p-0 d-flex align-items-center">
-                <div class="content-btn d-flex">
-                    <button class="btn text-black btn-sm p-1">-</button>
-                    <p class="m-0 p-2">1</p>
-                    <button class="btn text-black btn-sm p-1">+</button>
-                </div>
-            </div>
-            <hr>
-    ';
-  }
-  return $content;
-}
-
-//desktop
-function displayProductsD($products): string
-{
-  $content = '';
-  foreach ($products as $product) {
-    $content .= '
      <div class="col-4 d-flex justify-content-center align-content-center">
                 <img class="mb-2 rounded-1 img-product" src="' . $product['image'] . '" alt="Producto">
      </div>
-            <div class="col-4 d-flex flex-column justify-content-start gap-1 p-0">
+            <div class="col-4 d-flex flex-column justify-content-start gap-2 p-0">
                <h6 class="name-product">' . $product['name'] . '</h6>
                 <h6 class="name-type">' . $product['description'] . '</h6>
                 <h6 class="name-price">S/.' . $product['price'] . '</h6>
@@ -112,7 +85,7 @@ $content = '
         <div class="row">
             <div class="col-lg-7">
                 <div class="row">
-                    ' . displayProductsD($products) . '
+                    ' . displayProducts($products) . '
                 </div>
             </div>
             <div class="col-lg-5">
