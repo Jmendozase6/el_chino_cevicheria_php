@@ -5,70 +5,124 @@ use PHPMailer\PHPMailer\SMTP;
 
 include_once __DIR__ . '/../../datasource/constants.php';
 
-enum EmailType: string
-{
-    case RecoverPassword = 'RecoverPassword';
-    case OrderConfirmation = 'OrderConfirmation';
-    case SignUp = 'SignUp';
-}
-
 class EmailService
 {
 
-    public function sendEmail($email, $subject, EmailType $emailType, $randomNumber = 0): bool
-    {
-        try {
-            $mail = new PHPMailer(true);
-            $mail->setLanguage('es', '/optional/path/to/language/directory/');
-            $mail->CharSet = 'UTF-8';
-            //Server settings
-            $mail->SMTPDebug = SMTP::DEBUG_OFF;                  //Enable verbose debug output
-            $mail->isSMTP();                                        //Send using SMTP
-            $mail->Host = 'smtp.gmail.com';                         //Set the SMTP server to send through
-            $mail->SMTPAuth = true;                                 //Enable SMTP authentication
-            $mail->Username = 'jhairm064@gmail.com';                //SMTP username
-            $mail->Password = EMAIL_CRED;                //SMTP password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;        //Enable implicit TLS encryption
-            $mail->Port = 465;                                      //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+  public function getMailConfigBase(): PHPMailer
+  {
+    $mail = new PHPMailer(true);
+    try {
 
-            //Recipients
-            $mail->setFrom('jhairm064@gmail.com', 'El Chino Cevichería');
-            $mail->addAddress($email, 'El Chino Cevichería');     //Add a recipient
-            $mail->addReplyTo('noreply@example.com', 'NoReply');
+      $mail->setLanguage('es', '/optional/path/to/language/directory/');
+      $mail->CharSet = 'UTF-8';
 
-            //Content
-            $mail->isHTML();                                  //Set email format to HTML
-            $mail->Subject = $subject;
-            //    Add email-template-php in the body
-//            $mail->Body = file_get_contents('email-template.php');
+      //Server settings
+      $mail->SMTPDebug = SMTP::DEBUG_OFF;                  //Enable verbose debug output
+      $mail->isSMTP();                                        //Send using SMTP
+      $mail->Host = 'smtp.gmail.com';                         //Set the SMTP server to send through
+      $mail->SMTPAuth = true;                                 //Enable SMTP authentication
+      $mail->Username = 'jhairm064@gmail.com';                //SMTP username
+      $mail->Password = EMAIL_CRED;                //SMTP password
+      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;        //Enable implicit TLS encryption
+      $mail->Port = 465;
 
-            match ($emailType) {
-                EmailType::RecoverPassword => $mail->Body =
-                    '<h1> Recuperación de contraseña </h1>
-                         <p> Hola <br>
-                         Tu código de recuperación es: 
-                        <strong>' . $randomNumber . '</strong></p>
-                    <p> Si no has solicitado un cambio de contraseña, ignora este mensaje.</p >',
-                EmailType::OrderConfirmation => $mail->Body =
-                    '<h1> Bienvenido a El Chino Cevichería </h1>
-                 <p> Hola' . $randomNumber . '<br>
-                 Su pedido se ha realizado correctamente</p>',
-                EmailType::SignUp => $mail->Body =
-                    '<h1> Bienvenido a El Chino Cevichería </h1>
-                 <p> Hola <?= $name ?>, <br>
-                 tu cuenta ha sido creada exitosamente.</p>'
-            };
-
-            match ($emailType) {
-                EmailType::RecoverPassword => $mail->AltBody = 'Correo electrónico de recuperación de contraseña',
-                EmailType::OrderConfirmation => $mail->AltBody = 'Correo electrónico de confirmación de pedido',
-                EmailType::SignUp => $mail->AltBody = 'Correo electrónico de confirmación de registro'
-            };
-
-            return $mail->send();
-        } catch
-        (Exception $e) {
-            return false;
-        }
+      $mail->setFrom('jhairm064@gmail.com', 'El Chino Cevichería');
+      $mail->addReplyTo('noreply@example.com', 'NoReply');
+      $mail->isHTML();
+      return $mail;
+    } catch (Exception $e) {
+      return $mail;
     }
+  }
+
+  public function sendRecoverPasswordEmail($email, $subject, $randomNumber = 0): bool
+  {
+    try {
+      $mail = $this->getMailConfigBase();
+
+      //Recipients
+      $mail->addAddress($email, 'El Chino Cevichería');
+
+      //Content
+      $mail->Subject = $subject;
+      $mail->Body =
+        '<h1> Recuperación de contraseña </h1>
+                <p> Hola <br>
+                Tu código de recuperación es: 
+                <strong>' . $randomNumber . '</strong></p>
+                <p> Si no has solicitado un cambio de contraseña, ignora este mensaje.</p >';
+      $mail->AltBody = 'Correo electrónico de recuperación de contraseña';
+      return $mail->send();
+    } catch (Exception $e) {
+      return false;
+    }
+  }
+
+  public function sendContactUsEmail($name, $emailFrom, $subject, $content): bool
+  {
+    try {
+      $mail = $this->getMailConfigBase();
+
+      //Recipients
+      $mail->addAddress('jhairm064@gmail.com', 'El Chino Cevichería');
+
+      //Content
+      $mail->Subject = $subject;
+      $mail->Body =
+        '<h1> Contacto </h1>
+                <p> Hola <br>
+                El usuario <strong>' . $name . '</strong> con correo electrónico <strong>' . $emailFrom . '</strong> </p>
+                <p> Ha enviado el siguiente mensaje: </p>
+                <p> <strong>' . $content . '</strong></p>';
+      $mail->AltBody = 'Correo electrónico de contacto';
+      return $mail->send();
+    } catch (Exception $e) {
+      return false;
+    }
+  }
+
+  public function sendOrderEmail($email, $subject, $order): bool
+  {
+    try {
+      $mail = $this->getMailConfigBase();
+
+      //Recipients
+      $mail->addAddress($email, 'El Chino Cevichería');
+
+      //Content
+      $mail->Subject = $subject;
+      $mail->Body =
+        '<h1> Orden de compra </h1>
+                <p> Hola, acabas de realizar una compra en nuestro sitio web. <br>
+                Tu orden entrará en proceso de envío una vez que se confirme el pago. <br> 
+                <strong>' . $order . '</strong></p>
+                <p> Si no has solicitado una orden de compra, ignora este mensaje.</p >';
+      $mail->AltBody = 'Correo electrónico de orden de compra';
+      return $mail->send();
+    } catch (Exception $e) {
+      return false;
+    }
+  }
+
+  public function sendSignUpEmail($email, $subject, $randomNumber = 0): bool
+  {
+    try {
+      $mail = $this->getMailConfigBase();
+
+      //Recipients
+      $mail->addAddress($email, 'El Chino Cevichería');
+
+      //Content
+      $mail->Subject = $subject;
+      $mail->Body =
+        '<h1> Registro </h1>
+                <p> Hola, gracias por registrarte en nuestro sitio web. <br>
+                <strong>' . $randomNumber . '</strong></p>
+                <p> Si no te has registrado, ignora este mensaje.</p >';
+      $mail->AltBody = 'Correo electrónico de registro';
+      return $mail->send();
+    } catch (Exception $e) {
+      return false;
+    }
+  }
 }

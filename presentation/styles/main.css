@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+:root {
+    --soft-primary: #84D187;
+    --primary: #00B207;
+    --hard-primary: #2C742F;
+    --warning: #FF8A00;
+    --danger: #EA4B48;
+    --gray-9: #1A1A1A;
+    --gray-8: #333333;
+    --gray-7: #4D4D4D;
+    --gray-6: #666666;
+    --gray-5: #808080;
+    --gray-4: #999999;
+    --gray-3: #B3B3B3;
+    --gray-2: #CCCCCC;
+    --gray-1: #E6E6E6;
+    --gray-05: #F2F2F2;
+
+    --green-gray-9: #002603;
+    --green-gray-8: #173B1A;
+    --green-gray-7: #2B572E;
+    --green-gray-6: #406B42;
+    --green-gray-5: #618062;
+    --green-gray-4: #7A997C;
+    --green-gray-3: #96B297;
+    --green-gray-2: #B4CCB4;
+    --green-gray-1: #DAE5DA;
+    --green-gray-05: #EDF2EE;
+    --main-font: 'Poppins', sans-serif;
+    --text-decoration: none;
+}
+
+* {
+    font-family: var(--main-font);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6, p, a, span, li, ul, ol, button, input, textarea, select, .row, .col .container, .container-fluid {
+    margin: 0;
+    padding: 0;
+}

@@ -1,0 +1,104 @@
+.wrapper-about-us {
+    padding: 2rem 1rem;
+}
+
+.img-about-us {
+    max-width: 100%;
+    box-shadow: 2px 2px 8px var(--gray-3);
+}
+
+.wrapper-about-us h1 {
+    color: var(--gray-9, #1A1A1A);
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 130%;
+    margin-bottom: .5rem;
+}
+
+.wrapper-about-us p {
+    color: var(--gray-6, #666);
+    font-size: .65rem;
+    font-weight: 400;
+    line-height: 150%;
+    text-align: justify;
+    margin-bottom: .5rem;
+}
+
+.row-about-us-02 img {
+    width: 40px;
+    height: 40px;
+}
+
+.row-about-us-02 h6 {
+    color: var(--gray-9, #1A1A1A);
+    font-size: .75rem;
+    font-weight: 500;
+    line-height: 200%;
+}
+
+.row-about-us-01 {
+    display: none;
+}
+
+.secure-payment-column {
+    padding: 0;
+    padding-left: 1rem;
+}
+
+.btn {
+    border-radius: 43px;
+    background: #00B207;
+    color: #FFF;
+    font-size: .6rem;;
+    font-weight: 600;
+    line-height: 120%;
+    width: 40%;
+}
+
+.btn img {
+    width: 13px;
+    height: 10px;
+}
+
+@media screen and (min-width: 992px) {
+    .column-text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .wrapper-about-us {
+        padding-left: 5rem;
+        padding-right: 5rem;
+    }
+
+    .img-about-us {
+        margin: 0 auto;
+        display: flex;
+    }
+
+    .column-text-right {
+        padding-right: 2rem;
+    }
+
+    .column-text-left {
+        padding-left: 2rem;
+    }
+
+    .row-about-us {
+        display: none;
+    }
+
+    .row-about-us-01 {
+        display: flex;
+    }
+
+    .btn {
+        width: 40%;
+    }
+
+    .btn-content {
+        display: flex;
+        justify-content: start;
+    }
+}
