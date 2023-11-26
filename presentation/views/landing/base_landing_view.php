@@ -3,15 +3,15 @@
 require_once '../../../data_access_objects/CartDAO.php';
 
 if (!isset($_SESSION)) {
-    session_start();
+  session_start();
 }
 
 $cartDao = new CartDAO();
 $cartTotal = $cartDao->getTotalFromCart(session_id());
 function displayBaseWeb($content): void
 {
-    global $cartTotal;
-    echo '<!doctype html>
+  global $cartTotal;
+  echo '<!doctype html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -23,6 +23,7 @@ function displayBaseWeb($content): void
     <link rel="stylesheet" href="../../styles/base_lading_style.css">
     <link rel="stylesheet" href="../../styles/about_us_style.css">
     <link rel="stylesheet" href="../../styles/contact_us_style.css">
+    <link rel="stylesheet" href="../../styles/cart_new_style.css">
 </head>
 <body>
 <header>

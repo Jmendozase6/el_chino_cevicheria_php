@@ -1,0 +1,134 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.wrapper-cart {
+    padding: 1.5rem 1rem;
+}
+
+.img-product {
+    width: 6rem;
+    height: 6rem;
+}
+
+.name-product {
+    color: var(--gray-8, #333);
+    font-size: .8rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.name-type {
+    color: #FF8A00;
+    font-size: .8rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.name-price {
+    color: #00B207;
+    font-size: .8rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.content-btn {
+    border-radius: 170px;
+    border: 1px solid var(--gray-1, #E6E6E6);
+    background: #FFF;
+}
+
+.btn-sm {
+    width: 34px;
+    height: 34px;
+    border-radius: 170px;
+    background: var(--gray-05, #F2F2F2);
+}
+
+.wrapper-payment-card {
+    padding: 1.5rem 1rem;
+}
+
+.text-card {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 130%;
+}
+
+.text-card-t {
+    font-size: 1.2rem;
+    line-height: 120%;
+}
+
+.text-card-t-modified {
+    font-weight: 600;
+}
+
+.payment-card {
+    border-radius: 8px;
+    border: 1px solid var(--gray-1, #E6E6E6);
+    background: #FFF;
+    margin-top: auto;
+}
+
+.payment-card .btn {
+    font-size: 1rem;
+    font-weight: 600;
+    width: 80%;
+    height: 3rem;
+}
+
+@media screen and (max-width: 370px) {
+    .cart-title {
+        font-size: 1.5rem;
+    }
+
+    .img-product {
+        width: 5rem;
+        height: 5rem;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .wrapper-cart, .wrapper-payment-card {
+        display: none;
+    }
+
+    .wrapper-cart-desktop {
+        padding: 1.5rem 1rem;
+    }
+
+    .wrapper-payment-card-desktop {
+        padding: 1.5rem 1rem;
+    }
+
+    .name-product {
+        font-size: 1rem;
+    }
+
+    .name-type {
+        font-size: 1rem;
+    }
+
+    .name-price {
+        font-size: 1rem;
+    }
+
+    .payment-card {
+        width: 82%;
+    }
+
+    .text-card-t-modified {
+        font-weight: 600;
+    }
+
+    .payment-card .btn {
+        font-size: .93rem;
+    }
+
+}
