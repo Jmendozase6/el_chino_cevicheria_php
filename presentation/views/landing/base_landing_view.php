@@ -3,15 +3,15 @@
 require_once '../../../data_access_objects/CartDAO.php';
 
 if (!isset($_SESSION)) {
-  session_start();
+    session_start();
 }
 
-$cartDao = new CartDAO();
-$cartTotal = $cartDao->getTotalFromCart(session_id());
+$cartDAO = new CartDAO();
+$cartTotal = $cartDAO->getTotalFromCart(session_id());
 function displayBaseWeb($content): void
 {
-  global $cartTotal;
-  echo '<!doctype html>
+    global $cartTotal;
+    echo '<!doctype html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -24,6 +24,7 @@ function displayBaseWeb($content): void
     <link rel="stylesheet" href="../../styles/about_us_style.css">
     <link rel="stylesheet" href="../../styles/contact_us_style.css">
     <link rel="stylesheet" href="../../styles/cart_new_style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
 <header>
@@ -79,7 +80,7 @@ function displayBaseWeb($content): void
                     </div>
                 </nav>
                 <div class="d-flex align-items-center gap-2 cart">
-                    <a class="text-decoration-none" href=""> <img src="../../resources/icons/cart.svg" alt="Carrito"></a>
+                    <a class="text-decoration-none" href="../cart_new/cart_new_view.php"> <img src="../../resources/icons/cart.svg" alt="Carrito"></a>
                     <div class="d-flex flex-column justify-content-center">
                         <p>Carrito:</p>
                         <p class="text-black">S/.' . $cartTotal . '</p>
