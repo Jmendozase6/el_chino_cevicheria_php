@@ -19,41 +19,41 @@ require('sign_in.php');
     } ?>
 </head>
 <body>
-<div class="col d-flex flex-column justify-content-end  align-items-end">
-  <div class="modal fade" id="sign-in-modal" tabindex="-1"
-       aria-labelledby="exampleModalLabel"
-       aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Iniciar Sesión</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <span>Ingresa tus datos para poder realizar el pago</span>
-          <form enctype="multipart/form-data" method="post">
+<div class="modal fade" id="sign-in-modal" tabindex="-1"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Iniciar Sesión</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <span class="mb-2">Ingresa tus datos para poder realizar el pago</span>
+        <form enctype="multipart/form-data" method="post">
 
-            <div class="input-field">
-              <label for="email" class="form-label"></label>
+          <div class="input-field">
+            <label for="email" class="form-label">
               <input type="email" class="form-control" id="email" name="email" placeholder="Correo electrónico"
                      required>
-            </div>
+            </label>
+          </div>
 
-            <div class="input-field">
-              <label for="password" class="form-label"></label>
+          <div class="input-field">
+            <label for="password" class="form-label">
               <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña"
                      minlength="6" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary my-3 col-12" name="btn-sign-in-modal" id="btn-sign-in-modal"
-                    value="sign-in-modal">
-              Ingresar
-            </button>
-
-          </form>
-          <div class="alert alert-danger display-on-error" role="alert">
-            <strong>Error:</strong> <?= $GLOBALS['errorMessageModal']; ?>
+            </label>
           </div>
+
+          <button type="submit" class="btn btn-primary my-2 col-12" name="btn-sign-in-modal" id="btn-sign-in-modal"
+                  value="sign-in-modal">
+            Ingresar
+          </button>
+
+        </form>
+        <div class="alert alert-danger display-on-error" role="alert">
+          <strong>Error:</strong> <?= $GLOBALS['errorMessageModal']; ?>
         </div>
       </div>
     </div>

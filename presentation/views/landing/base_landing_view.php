@@ -3,22 +3,22 @@
 require_once '../../../data_access_objects/CartDAO.php';
 
 if (!isset($_SESSION)) {
-  session_start();
+    session_start();
 }
 
 $cartDAO = new CartDAO();
 $cartTotal = $cartDAO->getTotalFromCart(session_id());
 function displayBaseWeb($content): void
 {
-  global $cartTotal;
-  echo '<!doctype html>
+    global $cartTotal;
+    echo '<!doctype html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>El Chino Cevichería</title>
     <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../styles/base_lading_style.css">
     <link rel="stylesheet" href="../../styles/about_us_style.css">
@@ -27,6 +27,7 @@ function displayBaseWeb($content): void
     <link rel="stylesheet" href="../../styles/check_information_style.css">
     <link rel="stylesheet" href="../../styles/initial_client_style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
 </head>
 <body>
 <header>

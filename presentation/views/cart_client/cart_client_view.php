@@ -173,21 +173,21 @@ if (sizeof($productsFromCartDTO) > 0) {
             <?php include_once '../sign_in/sign_in_view_modal.php'; ?>
         <?php } ?>
 
-      <script>
-          const mp = new MercadoPago("TEST-ac3fb947-48d2-4b8f-9ad8-ea130a6d8ba3", {
-              locale: "es-PE"
-          });
-          // bg color: #F6F6F6
-          mp.checkout({
-              preference: {
-                  id: '<?= $preference->id; ?>'
-              },
-              render: {
-                  container: ".checkout-btn",
-                  label: "Pagar con MP"
-              }
-          })
-      </script>
+      <!--      <script>-->
+      <!--          const mp = new MercadoPago("TEST-ac3fb947-48d2-4b8f-9ad8-ea130a6d8ba3", {-->
+      <!--              locale: "es-PE"-->
+      <!--          });-->
+      <!--          // bg color: #F6F6F6-->
+      <!--          mp.checkout({-->
+      <!--              preference: {-->
+      <!--                  id: '--><?php //= $preference->id; ?>//'
+      // },
+      // render: {
+      // container: ".checkout-btn",
+      // label: "Pagar con MP"
+      // }
+      // })
+      //      </script>
 
     </div>
   </div>
