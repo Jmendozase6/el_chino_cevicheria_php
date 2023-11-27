@@ -64,7 +64,7 @@ function displayBaseWeb($content): void
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link ps-0 active" aria-current="page" href="../home_client/home_client_view.php">Inicio</a>
+                                    <a class="nav-link ps-0 active" aria-current="page" href="../initial_client/initial_client_view.php">Inicio</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="../catalog_client/catalog_client_view.php">Carta</a>
