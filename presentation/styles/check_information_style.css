@@ -1,0 +1,109 @@
+.wrapper-check-information {
+    padding: 1.5rem 1rem;
+}
+
+.container-user-data {
+    max-width: 100%;
+}
+
+.text-check-information {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 120%;
+}
+
+.label-content {
+    color: var(--gray-9, #1A1A1A);
+    font-size: .9rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    padding-top: .6rem;
+}
+
+.txt-user-data {
+    color: var(--gray-4, #999);
+    font-size: .8rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    height: 2rem;
+}
+
+.text-titles {
+    color: var(--gray-9, #1A1A1A);
+    font-size: 1.3rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    padding-top: .4rem;
+    padding-bottom: .4rem;
+}
+
+.form-check-label {
+    color: var(--gray-7, #4D4D4D);
+    font-size: .8rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 21px */
+}
+
+.label-content-comment {
+    color: var(--gray-9, #1A1A1A);
+    font-size: .8rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    padding-top: .6rem;
+}
+
+.textarea {
+    padding-top: .5rem;
+    resize: none;
+    height: 7rem;
+}
+
+.text-card {
+    font-size: .9rem;
+    font-weight: 400;
+    line-height: 130%;
+}
+
+.text-card-t {
+    font-size: 1.1rem;
+    line-height: 120%;
+}
+
+.text-card-t-modified {
+    font-weight: 600;
+}
+
+.payment-card-check {
+    border-radius: 8px;
+    border: 1px solid var(--gray-1, #E6E6E6);
+    background: #FFF;
+    height: 14rem;
+}
+
+.payment-card-check .btn {
+    font-size: .8rem;
+    font-weight: 600;
+    width: 80%;
+    height: 3rem;
+    margin-top: 2rem;
+}
+
+@media screen and (min-width: 992px) {
+    .name-user {
+        display: flex;
+
+    }
+
+    .label-name, .label-district {
+        margin-right: .8rem;
+    }
+
+    .info-text {
+        display: flex;
+    }
+}

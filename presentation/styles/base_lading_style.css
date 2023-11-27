@@ -11,7 +11,6 @@ header {
     box-shadow: 0 1px 0 0 #E5E5E5;
 }
 
-
 .wrapper-header {
     padding: 1.1rem .7rem;
 }
@@ -28,12 +27,25 @@ header {
     width: 0.938rem;
 }
 
+.nav-collapse {
+    position: fixed;
+    z-index: 1000;
+    background-color: #333;
+    top: 3rem;
+    left: 0;
+    padding: 5px 10px;
+}
+
 .text-decoration {
     text-decoration: var(--text-decoration);
 }
 
 .wrapper-nav {
     padding: 0;
+}
+
+.nav-link {
+    color: white;
 }
 
 .img-logo {
@@ -71,6 +83,17 @@ footer {
         padding-right: 10rem;
     }
 
+    .nav-collapse {
+        position: static;
+        background-color: transparent;
+        padding: 0;
+
+    }
+
+    .nav-link {
+        color: black;
+    }
+
     .cart {
         padding: 0;
 
@@ -86,6 +109,4 @@ footer {
         padding-right: 10rem;
         text-align: start;
     }
-
-
 }
