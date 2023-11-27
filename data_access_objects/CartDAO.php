@@ -94,21 +94,23 @@ class CartDAO
         }
     }
 
-    public function productAlreadyInCart($productId): bool
+    public function productAlreadyInCart($productId, $products): bool
     {
         try {
             $ids = $this->getProductsIdFromCart();
             foreach ($ids as $id) {
-//                foreach ($products as $product) {
-                if ($id['id_product'] == $productId) {
-                    return true;
+                foreach ($products as $productArray) {
+                    foreach ($productArray as $product) {
+                        if ($id['id_product'] == $productId) {
+                            return true;
+                        }
+                    }
                 }
-//                }
             }
+            return false;
         } catch (Exception $e) {
             return false;
         }
-        return false;
     }
 
     public function deleteCart($idSession): void

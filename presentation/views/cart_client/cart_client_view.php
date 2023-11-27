@@ -174,8 +174,8 @@ if (sizeof($productsFromCartDTO) > 0) {
         <?php } ?>
 
       <script>
-          const mp = new MercadoPago("TEST-ac3fb947-48d2-4b8f-9ad8-ea130a6d8ba3", {
-              locale: "es-PE"
+          const mp = new MercadoPago('TEST-ac3fb947-48d2-4b8f-9ad8-ea130a6d8ba3', {
+              locale: 'es-PE'
           });
           // bg color: #F6F6F6
           mp.checkout({
@@ -183,8 +183,8 @@ if (sizeof($productsFromCartDTO) > 0) {
                   id: '<?= $preference->id; ?>'
               },
               render: {
-                  container: ".checkout-btn",
-                  label: "Pagar con MP"
+                  container: '.checkout-btn',
+                  label: 'Pagar con MP'
               }
           })
       </script>
