@@ -3,15 +3,15 @@
 require_once '../../../data_access_objects/CartDAO.php';
 
 if (!isset($_SESSION)) {
-    session_start();
+  session_start();
 }
 
 $cartDAO = new CartDAO();
 $cartTotal = $cartDAO->getTotalFromCart(session_id());
 function displayBaseWeb($content): void
 {
-    global $cartTotal;
-    echo '<!doctype html>
+  global $cartTotal;
+  echo '<!doctype html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -24,6 +24,8 @@ function displayBaseWeb($content): void
     <link rel="stylesheet" href="../../styles/about_us_style.css">
     <link rel="stylesheet" href="../../styles/contact_us_style.css">
     <link rel="stylesheet" href="../../styles/cart_new_style.css">
+    <link rel="stylesheet" href="../../styles/check_information_style.css">
+    <link rel="stylesheet" href="../../styles/initial_client_style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
@@ -54,31 +56,30 @@ function displayBaseWeb($content): void
     <div class="container-fluid m-0">
         <div class="row m-0">
             <div class="col-12 d-flex justify-content-between">
-                <nav class="navbar navbar-expand-lg">
-                    <div class="container-fluid m-0 p-0">
-                        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#navbarNav"
-                                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <img src="../../resources/icons/burger.svg" alt="">
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link ps-0 active" aria-current="page" href="../home_client/home_client_view.php">Inicio</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="../catalog_client/catalog_client_view.php">Carta</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="../about_us/about_us_view.php">Nosotros</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="../contact_us/contact_us_view.php">Contacto</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
+                 <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid m-0 p-0">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <img src="../../resources/icons/burger.svg" alt="">
+            </button>
+            <div class="nav-collapse collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="../initial_client/initial_client_view.php">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../catalog_client/catalog_client_view.php">Carta</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../about_us/about_us_view.php">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../contact_us/contact_us_view.php">Contacto</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
                 <div class="d-flex align-items-center gap-2 cart">
                     <a class="text-decoration-none" href="../cart_new/cart_new_view.php"> <img src="../../resources/icons/cart.svg" alt="Carrito"></a>
                     <div class="d-flex flex-column justify-content-center">
@@ -108,7 +109,9 @@ function displayBaseWeb($content): void
         </div>
     </div>
 </footer>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="../../resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../resources/script/navbarInteractionsScript.js"></script>
 </body>
 </html>';
 }
