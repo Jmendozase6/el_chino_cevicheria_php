@@ -26,6 +26,8 @@ function displayBaseWeb($content): void
     <link rel="stylesheet" href="../../styles/cart_new_style.css">
     <link rel="stylesheet" href="../../styles/check_information_style.css">
     <link rel="stylesheet" href="../../styles/initial_client_style.css">
+    <link rel="stylesheet" href="../../styles/complaints_book_style.css">
+    <link rel="stylesheet" href="../../styles/error_style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script src="https://sdk.mercadopago.com/js/v2"></script>
 </head>
@@ -76,6 +78,9 @@ function displayBaseWeb($content): void
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../contact_us/contact_us_view.php">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary nav-link-modified" href="../complaints_book/complaints_book_view.php">Reclamos</a>
                     </li>
                 </ul>
             </div>

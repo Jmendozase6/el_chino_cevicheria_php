@@ -1,20 +1,115 @@
-.card-img-top-initial {
-    border-radius: 50px;
-    padding: 20px;
-    width: 100%;
-    height: 15rem;
-    object-fit: cover;
+.wrapper-initial {
+    padding: 2rem 1rem;
+}
 
+.container-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-img-top-initial {
+    border-radius: 30px;
+    object-fit: cover;
+    max-width: 100%;
+    height: 170px;
+    padding: 1rem;
+    display: flex;
+    margin: 0 auto;
+}
+
+.title-initial, .name-category-initial {
+    color: #EA4B48;
 }
 
 .card-initial {
     border-radius: 30px;
     box-shadow: rgba(0, 0, 0, 0.1) 0 1px 2px 0;
+    width: 100%;
+    height: 100%;
 }
 
 .card-body-initial {
     padding: 25px;
-    margin-top: -15px;
+    margin-top: -10px;
+}
+
+
+.container-initial {
+    border-radius: 8px;
+    background: #FFF;
+    box-shadow: 0 8px 40px 0 rgba(0, 38, 3, 0.08);
+    padding: 2rem;
+}
+
+
+.container-featured {
+    padding-top: 1.25rem;
+    padding-left: 0;
+}
+
+.container-featured-modified {
+    padding-top: 0;
+}
+
+.container-featured-display {
+    display: flex;
+}
+
+.container-featured-display-book {
+    display: flex;
+}
+
+.title-category a {
+    text-decoration: none;
+    color: #00B207;
+    font-size: .95rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+}
+
+.title-category img {
+    width: 12px;
+    height: 12px;
+}
+
+@media screen and (min-width: 450px) {
+    .container-featured {
+        padding-left: 3rem;
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767px) {
+    .container-featured {
+        flex-direction: row;
+    }
+
+    .container-featured-display-book, .container-featured-display {
+        display: none;
+    }
+
+    .container-featured {
+        padding: 0;
+    }
+
+    .title-initial {
+        font-size: 1.83rem;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .container-featured-display-book {
+        display: flex;
+    }
+
+    .container-featured {
+        padding: 0;
+    }
+
+    .container-featured-display {
+        display: none;
+    }
 }
 
 @media screen and (min-width: 992px) {
@@ -22,4 +117,11 @@
         color: black;
     }
 
+    .container-featured {
+        padding: 0;
+    }
+
+    .container-featured-display {
+        display: flex;
+    }
 }

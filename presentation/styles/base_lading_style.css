@@ -64,6 +64,11 @@ header {
     padding: 0;
 }
 
+.nav-link-modified {
+    font-size: 15px;
+    margin-top: .1rem;
+}
+
 footer {
     background: var(--gray-9, #1A1A1A);
     margin-top: auto;
