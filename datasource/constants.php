@@ -25,3 +25,9 @@ define("P_BASE", $_ENV['P_BASE']);
 define("D_USER", $_ENV['D_USER']);
 define("D_PASS", $_ENV['D_PASS']);
 define("D_BASE", $_ENV['D_BASE']);
+
+// Cloudinary
+define("CLOUDINARY_CLOUD_NAME", $_ENV['CLOUDINARY_CLOUD_NAME']);
+define("CLOUDINARY_API_KEY", $_ENV['CLOUDINARY_API_KEY']);
+define("CLOUDINARY_API_SECRET", $_ENV['CLOUDINARY_API_SECRET']);
+define("CLOUDINARY_URL", $_ENV['CLOUDINARY_URL']);

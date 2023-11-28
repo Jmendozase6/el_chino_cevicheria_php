@@ -1,7 +1,5 @@
 <?php
 
-use data_transfer_objects\CategoryDTO;
-
 require_once __DIR__ . '/../datasource/db_connection.php';
 
 class CategoryDAO
@@ -13,15 +11,15 @@ class CategoryDAO
         $this->conn = DbConnection::connect();
     }
 
-    public function createCategory(CategoryDTO $categoryDTO): bool
+    public function createCategory(string $name, string $img): bool
     {
         try {
             $sql =
                 /** @lang text */
                 "INSERT INTO category (name, img) VALUES (?, ?)";
             $query = $this->conn->prepare($sql);
-            $query->bindValue(1, $categoryDTO->getName());
-            $query->bindValue(2, $categoryDTO->getImg());
+            $query->bindParam(1, $name);
+            $query->bindParam(2, $img);
             $query->execute();
             return $query->rowCount() > 0;
         } catch (Exception $e) {
@@ -29,23 +27,32 @@ class CategoryDAO
         }
     }
 
-    public function updateCategory(CategoryDTO $categoryDTO)
+    public function updateCategory(string $name, string $img, string $id): bool
     {
         try {
-            $sql = /** @lang text */
-                "UPDATE category SET name = ?, img = ? WHERE id = ?";
-            $query = $this->conn->prepare($sql);
-            $query->bindValue(1, $categoryDTO->getName());
-            $query->bindValue(2, $categoryDTO->getImg());
-            $query->bindValue(3, $categoryDTO->getId());
+            if (empty($img)) {
+                $sql = /** @lang text */
+                    "UPDATE category SET name = ? WHERE id = ?";
+                $query = $this->conn->prepare($sql);
+                $query->bindParam(1, $name);
+                $query->bindParam(2, $id);
+            } else {
+                $sql = /** @lang text */
+                    "UPDATE category SET name = ?, img = ? WHERE id = ?";
+                $query = $this->conn->prepare($sql);
+                $query->bindParam(1, $name);
+                $query->bindParam(2, $img);
+                $query->bindParam(3, $id);
+            }
             $query->execute();
             return $query->rowCount() > 0;
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return false;
         }
     }
 
-    public function deleteCategory($idCategory): bool
+    public
+    function deleteCategory($idCategory): bool
     {
         try {
             $sql = /** @lang text */
@@ -59,7 +66,8 @@ class CategoryDAO
         }
     }
 
-    public function getCategories($limit = 4)
+    public
+    function getCategories($limit = 6)
     {
         try {
             $sql =
@@ -76,7 +84,7 @@ class CategoryDAO
         }
     }
 
-    public function getCategoriesById($id)
+    public function getCategoryById($id)
     {
         $sql =
             /** @lang text */
@@ -86,10 +94,15 @@ class CategoryDAO
         $query->execute();
         return $query->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function quantityProductsByCategory($id)
+    {
+        $sql =
+            /** @lang text */
+            "SELECT COUNT(*) AS quantity FROM product WHERE id_category = ?";
+        $query = $this->conn->prepare($sql);
+        $query->bindParam(1, $id);
+        $query->execute();
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
 }
-//
-//$categoryDAO = new categoryDAO();
-//$categories_client = $categoryDAO->getCategories();
-//$category = $categoryDAO->getCategoryById(1);
-//print_r($categories_client);
-//print_r($category);

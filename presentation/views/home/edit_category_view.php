@@ -7,9 +7,8 @@ require_once '../../../data_transfer_objects/CategoryDTO.php';
 
 $id = $_GET['id'];
 $categoryDAO = new CategoryDAO();
-$categoryResponse = $categoryDAO->getCategoriesById($id);
-$categoryDTO = CategoryDTO::createFromResponse($categoryDAO->getCategoriesById($id));
-
+$categoryResponse = $categoryDAO->getCategoryById($id);
+$categoryDTO = CategoryDTO::createFromResponse($categoryDAO->getCategoryById($id));
 ?>
 
 <!doctype html>
@@ -24,32 +23,48 @@ $categoryDTO = CategoryDTO::createFromResponse($categoryDAO->getCategoriesById($
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
-<!--Formulario para editar una categoría-->
-<form action="" method="post" enctype="multipart/form-data">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <h1 class="py-2">Editar Categoría</h1>
+<main class="p-2">
+  <form
+      action="edit_category.php?name=<?= $categoryDTO->getName() ?>&image=<?= $categoryDTO->getImg() ?>&id=<?= $categoryDTO->getId() ?>"
+      method="post" enctype="multipart/form-data">
+
+    <div class="container">
+
+      <div class="row">
+        <div class="col-auto p-0 my-2">
+          <a href="categories_view.php" class="btn btn-outline-success"><i
+                class="bi-arrow-left"></i></a>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <label for="name" class="form-label">Nombre</label>
-        <input type="text" class="form-control" id="name" name="name" value="<?= $categoryDTO->getName() ?>" required>
+
+      <div class="row">
+        <p class="fw-bold fs-3 p-0">Editar</p>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <label for="image" class="form-label">Imagen</label>
-        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+
+      <div class="row">
+        <div class="col-12 p-0">
+          <label for="name" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="name" name="name"
+                 value="<?= $categoryDTO->getName() ?>" required>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="input-field">
-        <button type="submit" class="btn btn-primary my-2" name="btn-sign-in" id="btn-sign-in">Guardar
-        </button>
+
+      <div class="row pb-2">
+        <div class="col-12 p-0">
+          <label for="image" class="form-label">Imagen</label>
+          <input type="file" class="form-control" id="image" name="image" accept="image/*"
+                 value="<?= $categoryDTO->getImg() ?>">
+        </div>
       </div>
+
+      <div class="row">
+        <div class="input-field p-0">
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+
     </div>
-  </div>
+  </form>
+</main>
 </body>
 </html>

@@ -1,3 +1,3 @@
 <?php
-header('Location: presentation/views/home_client/home_client_view.php');
+header('Location: presentation/views/initial_client/initial_client_view.php');
 exit();

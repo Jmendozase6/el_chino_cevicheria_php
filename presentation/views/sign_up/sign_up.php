@@ -1,11 +1,13 @@
 <?php
 include '../../../data_access_objects/UserDAO.php';
+require_once '../../../services/phpmailer/EmailService.php';
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
 $GLOBALS['errorMessageSignUp'] = null;
+$emailService = new EmailService();
 
 if (isset($_SESSION["id"])) {
     header('Location: ../home/home_view.php');
@@ -37,6 +39,7 @@ if (isset($_POST['btn-sign-up'])) {
                     $_SESSION["id_role"] = $currentUser['id_role'];
                     $errorMessageSignUp = null;
                     if ($rolId == 2) {
+                        $emailService->sendSignUpEmail($email);
 //          Si es cliente, se manda al catálogo de productos
                         header('Location: ../initial_client/initial_client_view.php');
                         exit();

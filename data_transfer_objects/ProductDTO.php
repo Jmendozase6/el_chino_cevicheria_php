@@ -11,7 +11,6 @@ class ProductDTO
     private string $description;
     private string $image;
     private float $price;
-    private float $stock;
     private bool $active;
     private string $createdAt;
 
@@ -25,7 +24,6 @@ class ProductDTO
         $productDTO->setDescription($response['description']);
         $productDTO->setImage($response['image']);
         $productDTO->setPrice($response['price']);
-        $productDTO->setStock($response['stock']);
         $productDTO->setActive($response['active']);
         $productDTO->setCreatedAt($response['created_at']);
         return $productDTO;
@@ -64,11 +62,6 @@ class ProductDTO
     public function setPrice($price): void
     {
         $this->price = $price;
-    }
-
-    public function setStock($stock): void
-    {
-        $this->stock = $stock;
     }
 
     public function setActive($active): void
@@ -116,11 +109,6 @@ class ProductDTO
         return $this->price;
     }
 
-    public function getStock(): float
-    {
-        return $this->stock;
-    }
-
     public function getActive(): bool
     {
         return $this->active;
@@ -141,7 +129,6 @@ class ProductDTO
             ", description='" . $this->description . '\'' .
             ", images='" . $this->image . '\'' .
             ", price=" . $this->price .
-            ", stock=" . $this->stock .
             ", active=" . $this->active .
             ", createdAt='" . $this->createdAt;
     }

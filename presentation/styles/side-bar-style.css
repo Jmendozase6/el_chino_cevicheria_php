@@ -136,3 +136,18 @@
     width: 90%;
 }
 
+.side-menu-mobile {
+    display: none;
+    width: 5%;
+    min-width: 5%;
+}
+
+@media screen and (max-width: 1024px) {
+    .side-menu {
+        display: none;
+    }
+
+    .side-menu-mobile {
+        display: block;
+    }
+}

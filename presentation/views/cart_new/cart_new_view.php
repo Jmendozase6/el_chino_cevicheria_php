@@ -123,16 +123,15 @@ function displayIcon($quantity): string
     return $quantity == 1 ? '<i class="bi bi-trash text-danger"></i > ' : '<i class="bi bi-dash"></i>';
 }
 
-function displayIfAuthenticated($id): string
+function displayIfAuthenticated(): string
 {
     global $isAuthenticated, $preference;
     if ($isAuthenticated) {
         $javascriptCode = '
         <script type="text/javascript">
-            console.log("SI ENTRA");
-            const $id = new MercadoPago("TEST-ac3fb947-48d2-4b8f-9ad8-ea130a6d8ba3", {
+            const $id = new MercadoPago("' . MERCADO_PAGO_TEST_PUBLIC_KEY . '", {
                 locale: "es-PE"
-            });
+            })
             // bg color: #F6F6F6
             $id.checkout({
                 preference: {

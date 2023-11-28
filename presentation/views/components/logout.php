@@ -4,6 +4,6 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 session_destroy();
 
-header("Location: ../home_client/home_client_view.php");
+header("Location: ../initial_client/initial_client_view.php");
 exit();
 

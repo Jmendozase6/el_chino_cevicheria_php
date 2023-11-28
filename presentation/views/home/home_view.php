@@ -38,13 +38,16 @@ if ($_SESSION['id'] == null) {
     $orderProductDAO = new OrderProductDAO();
     $productDAO = new ProductDAO();
 
+    $currentDate = (new DateTime('now'))->format('Y-m-d');
+    $previousMonthDate = (new DateTime())->modify('-1 month')->format('Y-m-d');
+
     $responseMostSellProduct = $orderProductDAO->getMostSellProduct();
     $responseProduct = $productDAO->getProductById($responseMostSellProduct['product_id']);
 
     $mostSellProductDTO = ProductDTO::createFromResponse($responseProduct);
-    $totalSales = $orderProductDAO->getTotalSell();
+    $totalSales = $orderProductDAO->getTotalSell($previousMonthDate, $currentDate);
 
-    $responseOrders = $orderProductDAO->getOrdersWithUsers();
+    $responseOrders = $orderProductDAO->getOrdersWithUsers($previousMonthDate, $currentDate);
 
     $betterClients = $userDAO->getBettersCustomers();
     $betterClientsDTO = [];
@@ -55,6 +58,7 @@ if ($_SESSION['id'] == null) {
             "total" => $betterClients[$i]['total']
         ];
     }
+
 }
 ?>
 <!doctype html>
@@ -67,159 +71,110 @@ if ($_SESSION['id'] == null) {
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../styles/side-bar-style.css">
+  <link rel="stylesheet" href="../../styles/home-view-style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <title>Inicio</title>
 </head>
 <body>
-<div class="position-fixed vw-100 vh-100 bg-light">
-  <div class="vh-100 bg-default mx-auto d-flex side-bar">
-      <?php include '../components/side_bar.php' ?>
-    <div class="d-flex flex-column header-content">
-      <div class="d-flex justify-content-between align-items-center p-4 mt-4">
-        <h1 class="fs-1 header-text">Gestiona Tu Comercio</h1>
-        <div class="d-flex flex-column content-search">
-          <input class="form-control me-2 border-0 shadow-sm" type="search" placeholder="Buscar producto"
-                 aria-label="Search">
-        </div>
-      </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-8 d-flex flex-column">
-            <div class="p-4 bg-white rounded-4 shadow-sm content-menu">
-              <h2>Menú</h2>
-              <div class="row">
-                <div class="col">
-                  <p>Selecciona tu comida favorita</p>
-                </div>
-                <div class="col-auto">
-                  <a href="add_category_view.php">Editar</a>
-                </div>
-              </div>
-              <div class="row row-cols-4 g-2">
-                  <?php foreach ($categoriesDTO as $categoryDTO) { ?>
-                    <div class="col">
-                      <div class="card border-0">
-                        <img src="<?= $categoryDTO->getImg() ?>" class="card-img-top rounded-2"
-                             alt="Categoría" width="30">
-                        <div class="card-body">
-                          <p class="card-text text-center">
-                            <strong><?= $categoryDTO->getName() ?></strong></p>
-                        </div>
-                      </div>
-                    </div>
-                  <?php } ?>
-              </div>
-            </div>
-          </div>
-          <div class="col-4 d-flex flex-column">
-            <div class="bg-white p-4 rounded-4 shadow-sm content-menu2">
-              <h2 class="most-sold pb-2">Más vendidos</h2>
-              <div class="card border-0 img-card-most-sold ">
-                <img src="<?= $mostSellProductDTO->getImage() ?>"
-                     class="card-img-top rounded-2"
-                     alt=" Producto más vendido ">
-              </div>
-              <p class="card-text text-center most-sold pt-3 pb-1 ">
-                <strong><?= $mostSellProductDTO->getName() ?></strong></p>
-              <div class="text-center">
-                <span class="badge text-bg-light pb-2"><?= $responseMostSellProduct['total_quantity'] ?> ventas</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="container bg-white col-md-6 row m-2 pb-3 p-4 rounded-4">
-          <div class="row">
-            <div class="col">
-              <strong style="font-size: 2rem; color: #56a2a2">Historial de pedidos</strong>
-            </div>
-            <div class="col-auto">
-              <p>Últimos ↓</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <strong>S/<?= $totalSales['total_sales'] ?> ↓ </strong> | <strong> Este mes</strong>
-            </div>
-            <div class="table-group-divider m-3"></div>
-          </div>
-            <?php foreach ($responseOrders as $order) { ?>
-              <div class="row pt-2">
-                <div class="col-2">
-                  <img src="../../resources/images/<?= $order['img'] ?>"
-                       class="card-img-top rounded-2"
-                       alt="Logo usuario">
-                </div>
-                <div class="col-4">
-                  <p><strong><?= $order['name'] ?></strong></p>
-                  <p>Pedido #<?= $order['id'] ?></p>
-                </div>
-                <div class="col-auto">
-                  <p>S/ <?= $order['total'] ?> </p>
-                </div>
-              </div>
-            <?php } ?>
-        </div>
 
-        <div class="col-md-4">
-          <div class="bg-white p-4 rounded-4 m-1">
-            <strong style="font-size: 2rem; color: #56a2a2">Mejores Clientes</strong>
-            <div class="m-1">
-                <?php foreach ($betterClientsDTO as $bestClient) { ?>
-                    <?php $total = $bestClient['total'] ?>
-                    <?php $bestClient = $bestClient['user'] ?>
-                  <div class="card mb-3 shadow-sm p-1" style="max-width: 400px;">
-                    <div class="row g-0">
-                      <div class="col-md-4">
-                        <img src="../../resources/images/<?= $bestClient->getImg() ?>"
-                             class="img-fluid rounded-start"
-                             alt="Foto del cliente">
-                      </div>
-                      <div class="col-md-8">
-                        <div class="card-body">
-                          <h5 class="card-title"><?= $bestClient->getName() . ' ' . $bestClient->getLastName() ?></h5>
-                          <p><?= $bestClient->getEmail() ?></p>
-                          <p class="card-text"><small class="text-muted">Total:
-                              S/ <?= $total ?></small></p>
-                        </div>
+<div class="bg-default mx-auto d-flex side-bar">
+    <?php include '../components/side_bar.php' ?>
+  <div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center p-2">
+      <div class="row">
+          <?php include '../components/side-menu-mobile.php' ?>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 d-flex flex-column">
+          <div class="p-4 bg-white rounded-4 shadow-sm content-menu">
+            <h2>Menú</h2>
+            <div class="row">
+              <div class="col">
+                <p>Selecciona tu comida favorita</p>
+              </div>
+              <div class="col-auto">
+                <a href="categories_view.php">Editar</a>
+              </div>
+            </div>
+            <div class="row">
+                <?php foreach ($categoriesDTO as $categoryDTO) { ?>
+                  <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="card border-0">
+                      <img src="<?= $categoryDTO->getImg() ?>" class="card-img-top rounded-2"
+                           alt="Categoría" width="30">
+                      <div class="card-body">
+                        <p class="card-text text-center fw-bold category-title">
+                            <?= $categoryDTO->getName() ?></p>
                       </div>
                     </div>
                   </div>
                 <?php } ?>
             </div>
           </div>
-        </div>
+        </div
       </div>
     </div>
-    <div class="side-menu bg-white vh-100">
-      <div class="d-flex justify-content-center data-user">
-        <strong style="font-size: 2rem; color: #56a2a2">Tus datos</strong>
+    <div class="row">
+      <div class="col-sm-12 col-md-6 mb-2 bg-white shadow-sm rounded-4 p-4">
+        <div class="row align-content-between">
+          <div class="col">
+            <p class="fw-bold fs-6">Historial de pedidos</p>
+          </div>
+          <div class="col-auto">
+            <p class="fw-bold">
+              S/. <?= $totalSales['total_sales'] ?> ↓
+              Este mes
+            </p>
+          </div>
+        </div>
+        <hr>
+          <?php foreach ($responseOrders as $order) { ?>
+            <div class="row">
+              <div class="col-sm-3 mb-1">
+                <img src="../../resources/images/<?= $order['img'] ?>"
+                     class="card-img-top rounded-2 object-fit-cover display-on-desktop"
+                     style="width: 90px; height: 100px;"
+                     alt="Logo usuario">
+              </div>
+              <div class="col-sm-6 px-4">
+                <p class="fw-bold"><?= $order['name'] ?></p>
+                <p>Pedido #<?= $order['id'] ?></p>
+                <p>  <?= (new DateTime($order['created_at']))->format('d-m-Y') ?></p>
+              </div>
+              <div class="col-sm-3 text-end">
+                <p>S/ <strong><?= $order['total'] ?></strong></p>
+                <!--              <p>S/ --><?php //= (new DateTime('now'))->format('Y-m-d') ?><!-- </p>-->
+              </div>
+            </div>
+          <?php } ?>
       </div>
-      <div class="d-flex justify-content-center pt-2 pb-3">
-        <img src="../../resources/images/<?= $modelUser->getImg() ?>"
-             class="card-img-top rounded-circle w-50 card-img-user"
-             alt="Logo usuario">
-      </div>
-
-      <div class="d-flex flex-column user-data-form">
-        <label for="name" class="form-label  pt-3"> Nombre</label>
-        <input id="name" type="text" value="<?= $modelUser->getName() ?>" class="form-control"
-               placeholder="Nombre" readonly>
-
-
-        <label for="lastname" class="form-label pt-3"> Apellidos </label>
-        <input id="lastname" type="text" value="<?= $modelUser->getLastName() ?>"
-               class="form-control"
-               placeholder="Apellidos" readonly>
-
-
-        <label for="email" class="form-label  pt-3"> Correo</label>
-        <input id="email" type="email" value="<?= $modelUser->getEmail() ?>" class="form-control"
-               placeholder="Correo" readonly>
-
-        <label for="role" class="form-label  pt-3"> Rol</label>
-        <input id="role" type="text" value="<?= $modelUser->getRoleById() ?>" class="form-control"
-               placeholder="Rol" readonly>
+      <div class="col-sm-12 col-md-6 mb-2 bg-white shadow-sm rounded-4 p-4">
+        <div class="row align-content-between">
+          <div class="col">
+            <p class="fw-bold fs-6">Mejores Clientes</p>
+          </div>
+        </div>
+        <hr>
+          <?php foreach ($betterClientsDTO as $bestClient) {
+              $bestClientUser = $bestClient['user']; ?>
+            <div class="row">
+              <div class="col-sm-3 mb-1">
+                <img src="../../resources/images/<?= $bestClientUser->getImg() ?>"
+                     class="card-img-top rounded-2 object-fit-cover display-on-desktop"
+                     style="width: 90px; height: 100px;"
+                     alt=" Logo usuario">
+              </div>
+              <div class="col-sm-6 px-4">
+                <p class="fw-bold"><?= $bestClientUser->getName() . ' ' . $bestClientUser->getLastName() ?></p>
+                <p><?= $bestClientUser->getLastName() ?></p>
+              </div>
+              <div class="col-sm-3 text-end">
+                <p>S/ <strong><?= $bestClient['total'] ?></strong></p>
+              </div>
+            </div>
+          <?php } ?>
       </div>
     </div>
   </div>

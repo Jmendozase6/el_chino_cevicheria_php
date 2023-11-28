@@ -25,25 +25,33 @@ class OrderProductDAO
         return $query->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getTotalSell()
+    public function getTotalSell($fromDate, $toDate)
     {
-        $sql =
-            /** @lang text */
-            "SELECT SUM(total) as total_sales FROM `order`";
-        $query = $this->conn->prepare($sql);
-        $query->execute();
-        return $query->fetch(PDO::FETCH_ASSOC);
+        {
+            $sql =
+                /** @lang text */
+                "SELECT SUM(total) as total_sales FROM `order` WHERE created_at BETWEEN ? AND ?";
+            $query = $this->conn->prepare($sql);
+            $query->bindParam(1, $fromDate);
+            $query->bindParam(2, $toDate);
+            $query->execute();
+            return $query->fetch(PDO::FETCH_ASSOC);
+        }
     }
 
-    public function getOrdersWithUsers(): false|array
+    public
+    function getOrdersWithUsers($fromDate, $toDate, $limit = 3): false|array
     {
         $sql =
             /** @lang text */
-            "SELECT o.id, o.total, u.name, u.img
-                FROM `order` as o
-                JOIN user as u
-                    ON o.user_id = u.id";
+            "SELECT o.id, o.total, u.name, u.img, o.created_at
+            FROM `order` as o
+                     JOIN user as u ON o.user_id = u.id
+            WHERE o.created_at BETWEEN ? AND ?
+                LIMIT $limit";
         $query = $this->conn->prepare($sql);
+        $query->bindParam(1, $fromDate);
+        $query->bindParam(2, $toDate);
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
