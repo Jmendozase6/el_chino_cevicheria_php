@@ -1,0 +1,12 @@
+.table-category-img {
+    border-radius: 10px;
+    width: 150px;
+    height: 100px;
+}
+
+@media screen and (max-width: 520px) {
+    .table-category-img {
+        width: 100px;
+        height: 70px;
+    }
+}

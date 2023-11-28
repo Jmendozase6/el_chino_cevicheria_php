@@ -21,27 +21,27 @@ $categoriesDTO = [];
 $responseProducts = [];
 
 for ($i = 0; $i < sizeof($responseCategories); $i++) {
-  $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
-  $responseProducts[$i] = $productDAO->getProductsByIdCategory($categoriesDTO[$i]->getId());
+    $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
+    $responseProducts[$i] = $productDAO->getProductsByIdCategory($categoriesDTO[$i]->getId());
 }
 
 $productsDTO = [];
 for ($i = 0; $i < sizeof($responseProducts); $i++) {
-  for ($j = 0; $j < sizeof($responseProducts[$i]); $j++) {
-    $productsDTO[$i][$j] = ProductDTO::createFromResponse($responseProducts[$i][$j]);
-  }
+    for ($j = 0; $j < sizeof($responseProducts[$i]); $j++) {
+        $productsDTO[$i][$j] = ProductDTO::createFromResponse($responseProducts[$i][$j]);
+    }
 }
 
 function displayCategoryCards()
 {
-  global $categoriesDTO;
-  $content = '';
+    global $categoriesDTO;
+    $content = '';
 
-  for ($i = 0; $i < sizeof($categoriesDTO); $i++) {
-    $content .= '
+    for ($i = 0; $i < sizeof($categoriesDTO); $i++) {
+        $content .= '
       <div class="col">
                 <div class="card-initial">
-                <a href="../categories/categories_client_view.php?categoryId=' . $categoriesDTO[$i]->getId() . '"> 
+                <a href="../categories_client/categories_client_view.php?categoryId=' . $categoriesDTO[$i]->getId() . '"> 
                  <img src="' . $categoriesDTO[$i]->getImg() . '" class="card-img-top-initial" alt="...">
                 </a>
                     <div class="card-body-initial">
@@ -51,8 +51,8 @@ function displayCategoryCards()
                 </div>
             </div>
     ';
-  }
-  return $content;
+    }
+    return $content;
 }
 
 $content = '

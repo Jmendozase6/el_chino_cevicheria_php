@@ -145,7 +145,7 @@ function displayIfAuthenticated($id): string
             });
         </script>
     ';
-        $content = '<div class="col-auto checkout-btn btn-success"></div>' . $javascriptCode;
+        $content = '<div class="col-auto checkout-btn"></div>' . $javascriptCode;
     } else {
         $content = '
          <button type="button" class="btn btn-success" data-bs-toggle="modal"

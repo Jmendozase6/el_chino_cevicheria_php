@@ -2,9 +2,6 @@
     font-family: 'Poppins', sans-serif;
 }
 
-.side-bar {
-    width: 75vw;
-}
 
 .header-content {
     width: 60%;
@@ -29,9 +26,11 @@
     font-size: 0.875rem; /* 14px */
     line-height: 1.25rem; /* 20px */
 }
+
 .color-text {
     color: #79869F;
 }
+
 .active {
     background: #e1f1f3;
 }

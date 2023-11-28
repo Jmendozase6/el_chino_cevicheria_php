@@ -91,7 +91,7 @@ if ($_SESSION['id'] == null) {
                   <p>Selecciona tu comida favorita</p>
                 </div>
                 <div class="col-auto">
-                  <a href="#">Editar</a>
+                  <a href="add_category_view.php">Editar</a>
                 </div>
               </div>
               <div class="row row-cols-4 g-2">

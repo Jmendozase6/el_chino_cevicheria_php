@@ -89,7 +89,7 @@ class CategoryDAO
 }
 //
 //$categoryDAO = new categoryDAO();
-//$categories = $categoryDAO->getCategories();
+//$categories_client = $categoryDAO->getCategories();
 //$category = $categoryDAO->getCategoryById(1);
-//print_r($categories);
+//print_r($categories_client);
 //print_r($category);
