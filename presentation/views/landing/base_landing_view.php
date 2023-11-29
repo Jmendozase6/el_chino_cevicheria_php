@@ -6,8 +6,23 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
+$isAuthenticated = isset($_SESSION["id"]);
+
 $cartDAO = new CartDAO();
 $cartTotal = $cartDAO->getTotalFromCart(session_id());
+
+function displayAuthButton()
+{
+    global $isAuthenticated;
+    if ($isAuthenticated) {
+        return '<a class="text-decoration-none" href="../components/logout.php">Cerrar sesión</a>';
+    } else {
+        return '<a class="text-decoration" href="../sign_in/sign_in_view.php">Ingresar</a>
+                <p class="m-0">/</p>
+                <a class="text-decoration" href="../sign_up/sign_up_view.php">Registro</a>';
+    }
+}
+
 function displayBaseWeb($content): void
 {
     global $cartTotal;
@@ -28,6 +43,7 @@ function displayBaseWeb($content): void
     <link rel="stylesheet" href="../../styles/initial_client_style.css">
     <link rel="stylesheet" href="../../styles/complaints_book_style.css">
     <link rel="stylesheet" href="../../styles/error_style.css">
+    <link rel="stylesheet" href="../../styles/profile_client_style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script src="https://sdk.mercadopago.com/js/v2"></script>
 </head>
@@ -44,11 +60,9 @@ function displayBaseWeb($content): void
                                 alt="Icono de la ubicación">
                         <p class="m-0 p-0">Calle 2
                             de febrero 140, Querecotillo</p></a>
-
+                    
                     <div class="d-flex align-items-center gap-1">
-                        <a class="text-decoration" href="../sign_in/sign_in_view.php">Ingresar</a>
-                        <p class="m-0">/</p>
-                        <a class="text-decoration" href="../sign_up/sign_up_view.php">Registro</a>
+                        ' . displayAuthButton() . '
                     </div>
                 </div>
             </div>
@@ -71,7 +85,7 @@ function displayBaseWeb($content): void
                         <a class="nav-link" aria-current="page" href="../initial_client/initial_client_view.php">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../catalog_client/catalog_client_view.php">Carta</a>
+                        <a class="nav-link" href="../categories_client/categories_view.php">Carta</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../about_us/about_us_view.php">Nosotros</a>
@@ -80,8 +94,11 @@ function displayBaseWeb($content): void
                         <a class="nav-link" href="../contact_us/contact_us_view.php">Contacto</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-secondary nav-link-modified" href="../complaints_book/complaints_book_view.php">Reclamos</a>
+                        <a class="nav-link" href="../profile_client/profile_client_view.php">Perfil</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary nav-link-modified" href="../complaints_book/complaints_book_view.php">Reclamos</a>
+                    </li>                    
                 </ul>
             </div>
         </div>

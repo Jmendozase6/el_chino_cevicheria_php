@@ -18,7 +18,6 @@ $cartDAO = new CartDAO();
 $responseProductsFromCart = $cartDAO->getProductsFromCart();
 $cartTotal = $cartDAO->getTotalFromCart(session_id());
 $productsFromCartDTO = [];
-$isAuthenticated = false;
 
 foreach ($responseProductsFromCart as $productFromCart) {
     $productDAO = new ProductDAO();
@@ -27,9 +26,7 @@ foreach ($responseProductsFromCart as $productFromCart) {
     $productsFromCartDTO[] = $productDTO;
 }
 
-if (isset($_SESSION["id"])) {
-    $isAuthenticated = true;
-}
+$isAuthenticated = isset($_SESSION["id"]);
 
 if (sizeof($productsFromCartDTO) > 0) {
     require_once __DIR__ . '/../../../vendor/autoload.php';
@@ -123,40 +120,6 @@ function displayIcon($quantity): string
     return $quantity == 1 ? '<i class="bi bi-trash text-danger"></i > ' : '<i class="bi bi-dash"></i>';
 }
 
-function displayIfAuthenticated(): string
-{
-    global $isAuthenticated, $preference;
-    if ($isAuthenticated) {
-        $javascriptCode = '
-        <script type="text/javascript">
-            const $id = new MercadoPago("' . MERCADO_PAGO_TEST_PUBLIC_KEY . '", {
-                locale: "es-PE"
-            })
-            // bg color: #F6F6F6
-            $id.checkout({
-                preference: {
-                    id: "' . $preference->id . '"
-                },
-                render: {
-                    container: ".checkout-btn",
-                    label: "Pagar con MercadoPago"
-                }
-            });
-        </script>
-    ';
-        $content = '<div class="col-auto checkout-btn"></div>' . $javascriptCode;
-    } else {
-        $content = '
-         <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                  data-bs-target="#sign-in-modal">
-            Para poder pagar, inicia sesión
-          </button> ';
-        include_once '../sign_in/sign_in_view_modal.php';
-    }
-
-    return $content;
-}
-
 
 $content = '
 <!--mobile-->
@@ -197,6 +160,11 @@ $content = '
                 <h5 class="text-card-t text-card-t-modified"> S / ' . $cartTotal . '</h5>
             </div>
         </div>
+              <div class=" pb-4 d-flex justify-content-center" >
+                  <div class="pb-2 d-flex justify-content-center">
+                    <a class="btn" type="button" href="check_information_view.php">Proceder con el pago</a>
+                  </div>
+          </div >
     </div>
 </div>
 
@@ -238,7 +206,9 @@ $content = '
             </div >
           </div >
           <div class=" pb-4 d-flex justify-content-center" >
-            ' . displayIfAuthenticated("mpBtnDesktop") . '
+              <div class="pb-2 d-flex justify-content-center">
+                    <a class="btn" type="button" href="check_information_view.php">Proceder con el pago</a>
+              </div>
           </div >
         </div >
       </div >

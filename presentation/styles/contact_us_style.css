@@ -63,6 +63,10 @@ body {
     font-size: .75rem;
 }
 
+.display-on-error {
+    display: none;
+}
+
 .border-content {
     border-radius: 6px;
     border: 1px solid var(--gray-1, #E6E6E6);

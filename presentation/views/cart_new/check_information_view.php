@@ -1,5 +1,40 @@
 <?php
 global $cartTotal;
+
+function displayIfAuthenticated(): string
+{
+    global $isAuthenticated, $preference;
+    if ($isAuthenticated) {
+        $javascriptCode = '
+        <script type="text/javascript">
+            const $id = new MercadoPago("' . MERCADO_PAGO_TEST_PUBLIC_KEY . '", {
+                locale: "es-PE"
+            })
+            // bg color: #F6F6F6
+            $id.checkout({
+                preference: {
+                    id: "' . $preference->id . '"
+                },
+                render: {
+                    container: ".checkout-btn",
+                    label: "Pagar con MercadoPago"
+                }
+            });
+        </script>
+    ';
+        $content = '<div class="col-auto checkout-btn"></div>' . $javascriptCode;
+    } else {
+        $content = '
+         <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                  data-bs-target="#sign-in-modal">
+            Para poder pagar, inicia sesión
+          </button> ';
+        include_once '../sign_in/sign_in_view_modal.php';
+    }
+
+    return $content;
+}
+
 include '../landing/base_landing_view.php';
 $content = '
 <div class="container wrapper-check-information">
@@ -68,7 +103,7 @@ $content = '
                             </div>
                         </div>
                         <h2 class="text-titles">Comentarios</h2>
-                        <label for="txt-message" class="label-content-comment p-0 pb-1">(Optional)</label>
+                        <label for="txt-message" class="label-content-comment p-0 pb-1">(Opcional)</label>
                         <textarea name="txt-message" id="txt-message" class="textarea border-content txt-user-data"
                                   placeholder="Puedes colocar una referencia, te llamaremos de igual forma."
                                   required></textarea>
@@ -89,9 +124,7 @@ $content = '
                             <h5 class="text-card-t"> Total</h5>
                             <h5 class="text-card-t text-card-t-modified"> S / ' . $cartTotal . '</h5>
                         </div>
-                        <div class="pb-2 d-flex justify-content-center">
-                            <button class="btn"> Proceder con el pago</button>
-                        </div>
+                        ' . displayIfAuthenticated() . '
                     </div>
                 </div>
             </div>

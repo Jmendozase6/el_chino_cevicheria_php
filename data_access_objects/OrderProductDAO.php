@@ -11,18 +11,22 @@ class OrderProductDAO
         $this->conn = DbConnection::connect();
     }
 
-    public function getMostSellProduct()
+    public function getMostSellProducts()
     {
-        $sql =
-            /** @lang text */
-            "SELECT product_id, SUM(quantity) AS total_quantity
+        try {
+            $sql =
+                /** @lang text */
+                "SELECT product_id, SUM(quantity) AS total_quantity
                 FROM order_product
                 GROUP BY product_id
                 ORDER BY total_quantity DESC
-                LIMIT 1";
-        $query = $this->conn->prepare($sql);
-        $query->execute();
-        return $query->fetch(PDO::FETCH_ASSOC);
+                LIMIT 2";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return [];
+        }
     }
 
     public function getTotalSell($fromDate, $toDate)

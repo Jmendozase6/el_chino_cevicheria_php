@@ -10,7 +10,7 @@ $content = '
             <h1 class="text-center text-black py-3 fw-bold">Oops! Página no encontrada</h1>
             <p class="text-center  m-3">Reintentalo mas tarde</p>
             <button class="btn btn-primary btn-submit  m-3">Volver al inicio</button>
-</div>
+        </div>
     </div>
 </div>
 ';

@@ -84,18 +84,18 @@ if ($_SESSION['id'] == null) {
           <div>
               <?php foreach ($responseOrders as $order) { ?>
                 <div class="row">
-                  <div class="col-sm-3 col-md-4 mb-1">
+                  <div class="col-3 col-md-4 mb-1">
                     <img src="../../resources/images/<?= $order['img'] ?>"
                          class="card-img-top rounded-2 object-fit-cover display-on-desktop"
                          style="width: 90px; height: 100px;"
                          alt="Logo usuario">
                   </div>
-                  <div class="col-sm-6 col-md-6 px-4">
+                  <div class="col-6 px-md-5">
                     <p class="fw-bold"><?= $order['name'] ?></p>
                     <p>Pedido #<?= $order['id'] ?></p>
                     <p>  <?= (new DateTime($order['created_at']))->format('d-m-Y') ?></p>
                   </div>
-                  <div class="col-sm-3 col-md-2 text-end">
+                  <div class="col-3 col-md-2 text-end">
                     <p class="fw-bold">S/ <?= $order['total'] ?></p>
                   </div>
                 </div>

@@ -26,7 +26,6 @@ if ($_SESSION['id'] == null) {
     $id = $_SESSION['id'];
     $userDAO = new UserDAO();
     $responseUser = $userDAO->getUserById($id);
-    $modelUser = UserDTO::createFromResponse($responseUser);
 
     $categoryDAO = new CategoryDAO();
     $responseCategories = $categoryDAO->getCategories();
@@ -41,10 +40,12 @@ if ($_SESSION['id'] == null) {
     $currentDate = (new DateTime('now'))->format('Y-m-d');
     $previousMonthDate = (new DateTime())->modify('-1 month')->format('Y-m-d');
 
-    $responseMostSellProduct = $orderProductDAO->getMostSellProduct();
-    $responseProduct = $productDAO->getProductById($responseMostSellProduct['product_id']);
+    $responseMostSellProducts = $orderProductDAO->getMostSellProducts();
+    $mostSellProductsDTO = [];
+    for ($i = 0; $i < sizeof($responseMostSellProducts); $i++) {
+        $mostSellProductsDTO[$i] = ProductDTO::createFromResponse($productDAO->getProductById($responseMostSellProducts[$i]['product_id']));
+    }
 
-    $mostSellProductDTO = ProductDTO::createFromResponse($responseProduct);
     $totalSales = $orderProductDAO->getTotalSell($previousMonthDate, $currentDate);
 
     $responseOrders = $orderProductDAO->getOrdersWithUsers($previousMonthDate, $currentDate);
@@ -116,8 +117,8 @@ if ($_SESSION['id'] == null) {
         </div
       </div>
     </div>
-    <div class="row">
-      <div class="col-sm-12 col-md-6 mb-2 bg-white shadow-sm rounded-4 p-4">
+    <div class="row mb-5">
+      <div class="col-sm-12 col-md-6 col-lg-4 mb-2 bg-white shadow-sm rounded-4 p-4">
         <div class="row align-content-between">
           <div class="col">
             <p class="fw-bold fs-6">Historial de pedidos</p>
@@ -130,27 +131,28 @@ if ($_SESSION['id'] == null) {
           </div>
         </div>
         <hr>
-          <?php foreach ($responseOrders as $order) { ?>
-            <div class="row">
-              <div class="col-sm-3 mb-1">
-                <img src="../../resources/images/<?= $order['img'] ?>"
-                     class="card-img-top rounded-2 object-fit-cover display-on-desktop"
-                     style="width: 90px; height: 100px;"
-                     alt="Logo usuario">
+        <div class="container">
+            <?php foreach ($responseOrders as $order) { ?>
+              <div class="row">
+                <div class="col-3 mb-1">
+                  <img src="<?= $order['img'] ?>"
+                       class="rounded-2 display-on-desktop"
+                       style="width: 90px; height: 100px;"
+                       alt="Logo usuario">
+                </div>
+                <div class="col-6 px-md-5">
+                  <p class="fw-bold"><?= $order['name'] ?></p>
+                  <p>Pedido #<?= $order['id'] ?></p>
+                  <p>  <?= (new DateTime($order['created_at']))->format('d-m-Y') ?></p>
+                </div>
+                <div class="col-3 text-end">
+                  <p>S/ <strong><?= $order['total'] ?></strong></p>
+                </div>
               </div>
-              <div class="col-sm-6 px-4">
-                <p class="fw-bold"><?= $order['name'] ?></p>
-                <p>Pedido #<?= $order['id'] ?></p>
-                <p>  <?= (new DateTime($order['created_at']))->format('d-m-Y') ?></p>
-              </div>
-              <div class="col-sm-3 text-end">
-                <p>S/ <strong><?= $order['total'] ?></strong></p>
-                <!--              <p>S/ --><?php //= (new DateTime('now'))->format('Y-m-d') ?><!-- </p>-->
-              </div>
-            </div>
-          <?php } ?>
+            <?php } ?>
+        </div>
       </div>
-      <div class="col-sm-12 col-md-6 mb-2 bg-white shadow-sm rounded-4 p-4">
+      <div class="col-sm-12 col-md-6 col-lg-4 mb-2 bg-white shadow-sm rounded-4 p-4">
         <div class="row align-content-between">
           <div class="col">
             <p class="fw-bold fs-6">Mejores Clientes</p>
@@ -160,18 +162,45 @@ if ($_SESSION['id'] == null) {
           <?php foreach ($betterClientsDTO as $bestClient) {
               $bestClientUser = $bestClient['user']; ?>
             <div class="row">
-              <div class="col-sm-3 mb-1">
-                <img src="../../resources/images/<?= $bestClientUser->getImg() ?>"
-                     class="card-img-top rounded-2 object-fit-cover display-on-desktop"
+              <div class="col-3 mb-1">
+                <img src="<?= $order['img'] ?>"
+                     class="rounded-2 display-on-desktop"
                      style="width: 90px; height: 100px;"
-                     alt=" Logo usuario">
+                     alt="Logo usuario">
               </div>
-              <div class="col-sm-6 px-4">
+              <div class="col-6 px-md-5">
                 <p class="fw-bold"><?= $bestClientUser->getName() . ' ' . $bestClientUser->getLastName() ?></p>
-                <p><?= $bestClientUser->getLastName() ?></p>
+                <p><?= $bestClientUser->getEmail() ?></p>
               </div>
-              <div class="col-sm-3 text-end">
+              <div class="col-3 text-end">
                 <p>S/ <strong><?= $bestClient['total'] ?></strong></p>
+              </div>
+            </div>
+          <?php } ?>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-4 mb-2 bg-white shadow-sm rounded-4 p-4">
+        <div class="row align-content-between">
+          <div class="col">
+            <p class="fw-bold fs-6">Más vendidos</p>
+          </div>
+        </div>
+        <hr>
+          <?php for ($i = 0; $i < sizeof($mostSellProductsDTO); $i++) {
+              $product = $mostSellProductsDTO[$i]; ?>
+            <div class="row">
+              <div class="col-3 mb-1">
+                <img src="<?= $product->getImage() ?>"
+                     class="rounded-2 display-on-desktop"
+                     style="width: 90px; height: 100px;"
+                     alt="Logo usuario">
+              </div>
+              <div class="col-6 px-md-5">
+                <p class=""><?= $product->getName() . ' - S./ ' . $product->getPrice() ?></p>
+                <p><?= $product->getDescription() ?></p>
+              </div>
+              <div class="col-3 text-end">
+                <span
+                    class="badge text-bg-light pb-2"><?= $responseMostSellProducts[$i]['total_quantity'] ?> ventas</span>
               </div>
             </div>
           <?php } ?>

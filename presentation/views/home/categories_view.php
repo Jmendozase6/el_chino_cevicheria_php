@@ -60,7 +60,7 @@ if ($_SESSION['id'] == null) {
     </thead>
     <tbody id="content" name="content">
     <?php foreach ($categoriesDTO as $category) { ?>
-      <tr class="">
+      <tr>
         <th class="align-middle" scope="row"><?= $category->getId() ?></th>
         <td class="text-truncate align-middle">
             <span class="d-inline-block text-truncate" style="max-width: 150px;">

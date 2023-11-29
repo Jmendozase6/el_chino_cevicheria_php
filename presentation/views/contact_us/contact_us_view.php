@@ -1,53 +1,76 @@
 <?php
 include '../landing/base_landing_view.php';
 require('contact_us.php');
+
+if ($GLOBALS['errorMessageContactUs'] != null) { ?>
+  <style>.display-on-error {
+          display: block;
+      }</style><?php
+}
 $content = '
 <div class="container-fluid wrapper-contact-us">
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-3 d-flex justify-content-center background-contact p-4">
-            <div class="d-flex align-items-center flex-column content-contact">
-                <img src="../../resources/icons/map_pin_02.svg" alt="Icono ubicación">
-                <p class="text-content text-center">Calle 2 de Febrero #140, Tamarindo - Querecotillo</p>
-            </div>
-            <div class="d-flex align-items-center flex-column content-contact content-contact-border">
-                <img src="../../resources/icons/email.svg" alt="Icono Email">
-                <p class="text-content text-center">Proxy@gmail.com </p>
-            </div>
-            <div class="d-flex align-items-center flex-column content-contact">
-                <img src="../../resources/icons/phonecall.svg" alt="Icono Telefono">
-                <p class="text-content text-center">+51 957881758</p>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-12 col-lg-9 d-flex flex-column justify-content-center align-items-center p-0 col-contact">
-        <di class="p-4 container-contact">
-            <div class="align-content">
-                <h1 class="contact-text">Contáctanos!</h1>
-                <p class="pb-4 description-contact">Si tienes alguna pregunta o consulta, no dudes en enviarnos un mensaje a través del siguiente formulario, nos encargaremos de ponernos en contacto contigo rápidamente.</p>
-                <form enctype="multipart/form-data" method="post">
-                
-                <div class="input-field">
-                    <input type="text" name="txt-name" id="txt-name" class="border-content"  placeholder="Nombre" required>
-                    <input type="email" name="txt-email" id="txt-email"  class="border-content email-content"  placeholder="Email" required>
-                </div>
-               
-               <div class="input-field-2">
-                    <input type="text" name="txt-subject" id="txt-subject"  class="border-content" placeholder="Asunto" required>
-                    <textarea name="txt-message" id="txt-message"  class="border-content" placeholder="Mensaje"
-                              required></textarea>
-               <div class="input-field">
-           
-                    <button type="submit" class="submit btn" name="btn-contact-us" id="btn-contact-us">Contactar
-                    </button>
-                </form>
-            </di>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-3 d-flex justify-content-center background-contact p-4">
+      <div class="d-flex align-items-center flex-column content-contact">
+        <img src="../../resources/icons/map_pin_02.svg" alt="Icono ubicación">
+        <p class="text-content text-center">Calle 2 de Febrero #140, Tamarindo - Querecotillo</p>
+      </div>
+      <div class="d-flex align-items-center flex-column content-contact content-contact-border">
+        <img src="../../resources/icons/email.svg" alt="Icono Email">
+        <p class="text-content text-center">Proxy@gmail.com </p>
+      </div>
+      <div class="d-flex align-items-center flex-column content-contact">
+        <img src="../../resources/icons/phonecall.svg" alt="Icono Telefono">
+        <p class="text-content text-center">+51 957881758</p>
+      </div>
     </div>
-</div> 
-</div> 
-</div> 
+    <div
+        class="col-sm-12 col-md-12 col-lg-9 d-flex flex-column justify-content-center align-items-center p-0 col-contact">
+      <div class="p-4 container-contact">
+        <div class="align-content">
+          <h1 class="contact-text">Contáctanos!</h1>
+          <p class="pb-4 description-contact">Si tienes alguna pregunta o consulta, no dudes en enviarnos un mensaje a
+            través del siguiente formulario, nos encargaremos de ponernos en contacto contigo rápidamente.</p>
+          <form enctype="multipart/form-data" method="post">
+
+            <div class="input-field">
+              <label for="name"></label>
+              <input type="text" name="name" id="name" class="border-content"
+                     placeholder="Nombre" required>
+              <label for="email"></label>
+              <input type="email" name="email" id="email"
+                     class="border-content email-content" placeholder="Email"
+                     required>
+            </div>
+
+            <div class="input-field-2">
+              <label for="subject"></label>
+              <input type="text" name="subject" id="subject" class="border-content"
+                     placeholder="Asunto" required>
+              <label for="content"></label>
+              <textarea name="content" id="content" class="border-content"
+                        placeholder="Mensaje"
+                        required></textarea>
+              <div class="input-field">
+                <button type="submit" class="submit btn" name="btn-contact-us" id="btn-contact-us">Contactar
+                </button>
+              </div>
+
+              <div class="alert alert-danger m-2 display-on-error" role="alert">
+                <strong>Error: </strong> ' . $GLOBALS['errorMessageContactUs'] . '
+              </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="container-fluid container-map">
-<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7951.20408931064!2d-80.6579306!3d-4.8381912!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9035fb3ecb8b8e45%3A0xb44c124e72aac4e2!2zw4lMIENISU5PIFNBWsOTTiBZIEZVU0nDk04!5e0!3m2!1ses-419!2spe!4v1700970860889!5m2!1ses-419!2spe" height="200" style=" width:100%;  border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  <iframe
+      src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7951.20408931064!2d-80.6579306!3d-4.8381912!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9035fb3ecb8b8e45%3A0xb44c124e72aac4e2!2zw4lMIENISU5PIFNBWsOTTiBZIEZVU0nDk04!5e0!3m2!1ses-419!2spe!4v1700970860889!5m2!1ses-419!2spe"
+      height="200" style=" width:100%;  border:0;" allowfullscreen="" loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
 </div>
 ';
 displayBaseWeb($content);

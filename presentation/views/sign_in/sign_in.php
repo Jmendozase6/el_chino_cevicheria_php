@@ -44,7 +44,7 @@ if (isset($_POST['btn-sign-in']) || isset($_POST['btn-sign-in-modal'])) {
                     exit();
                 } else if ($rolId == 2) {
 //          Si es cliente, se manda al catálogo de productos
-                    header('Location: ../cart_new/cart_new_view.php');
+                    header('Location: ../initial_client/initial_client_view.php');
                     exit();
                 }
             } else {

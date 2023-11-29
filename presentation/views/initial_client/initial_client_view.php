@@ -34,20 +34,20 @@ for ($i = 0; $i < sizeof($responseProducts); $i++) {
 
 function displayCategoryCards()
 {
-  global $categoriesDTO, $categoryDAO;
-  $content = '';
+    global $categoriesDTO, $categoryDAO;
+    $content = '';
 
-  for ($i = 0; $i < 4; $i++) {
-    $quantity = $categoryDAO->quantityProductsByCategory($categoriesDTO[$i]->getId());
-    $content .= '
+    for ($i = 0; $i < 4; $i++) {
+        $quantity = $categoryDAO->quantityProductsByCategory($categoriesDTO[$i]->getId());
+        $content .= '
       <div class="col-12 col-sm-6 col-md-3 col-lg-3 container-card">
     <div class="card card-initial">
-        <a href="../categories_client/categories_client_view.php?categoryId=' . $categoriesDTO[$i]->getId() . '">
+        <a href="../categories_client/categories_products_view.php?categoryId=' . $categoriesDTO[$i]->getId() . '">
             <img src="' . $categoriesDTO[$i]->getImg() . '" class="card-img-top card-img-top-initial" alt="...">
         </a>
         <div class="card-body card-body-initial">
             <h5 class="card-title name-category-initial fw-bold">' . $categoriesDTO[$i]->getName() . '</h5>
-            <p class="card-text card-text-initial">Cantidad de platos: ' . $quantity["quantity"] . '</p>
+            <p class="card-text card-text-initial fw-bolder">Cantidad de platos: ' . $quantity["quantity"] . '</p>
         </div>
     </div>
 </div>
@@ -94,10 +94,10 @@ $content = '
 <div class="container py-5">
     <di class="d-flex justify-content-between title-category">
      <h4 class="fw-bold">Categorias</h4>
-       <a href="" class="d-flex align-items-center">Ver todo <img class="ms-2"
+       <a href="../categories_client/categories_view.php" class="d-flex align-items-center">Ver todo <img class="ms-2"
             src="../../resources/icons/arrow_02.svg" alt="Flecha"></a>
     </di>
-    <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
+    <div class="row row-cols-1 row-cols-md-3 g-2 pb-3">
         ' . displayCategoryCards() . '
     </div>
     
@@ -106,7 +106,7 @@ $content = '
        <a href="" class="d-flex align-items-center">Ver todo <img class="ms-2"
             src="../../resources/icons/arrow_02.svg" alt="Flecha"></a>
     </di>
-    <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
+    <div class="row row-cols-1 row-cols-md-3 g-2 pb-3">
         ' . displayCategoryCards() . '
     </div>
 </div>

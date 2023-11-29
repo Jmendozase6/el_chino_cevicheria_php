@@ -26,7 +26,6 @@ class UserDTO
         $modelUser->setLastName($response['last_name']);
         $modelUser->setImg($response['img']);
         $modelUser->setEmail($response['email']);
-        $modelUser->setPassword($response['password']);
         $modelUser->setPhone($response['phone']);
         $modelUser->setActive($response['active']);
         $modelUser->setCreatedAt($response['created_at']);
@@ -98,7 +97,7 @@ class UserDTO
         return $this->idRole;
     }
 
-    public function getAddress(): int
+    public function getAddress(): string
     {
         return $this->address;
     }
