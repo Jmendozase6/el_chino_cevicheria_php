@@ -22,10 +22,11 @@ require('sign_up.php');
 </head>
 <body>
 <div class="wrapper">
-    <div class="container main">
+    <div class="container pt-3 main">
         <div class="row">
             <div class="col-md-6 side-image">
-                <img src="../../resources/images/logo.png" alt="Logo chino cevicheria" class="img_logo">
+                <img src="../../resources/images/logo.png" alt="Logo chino cevicheria"
+                     class="img_logo img-logo-display">
                 <div class="text">
                 </div>
             </div>

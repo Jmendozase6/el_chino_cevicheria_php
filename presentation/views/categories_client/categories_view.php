@@ -37,7 +37,7 @@ function displayCategoryCards()
   global $categoriesDTO, $categoryDAO;
   $content = '';
 
-  for ($i = 0; $i < 4; $i++) {
+  for ($i = 0; $i < sizeof($categoriesDTO); $i++) {
     $quantity = $categoryDAO->quantityProductsByCategory($categoriesDTO[$i]->getId());
     $content .= '
       <div class="col-12 col-sm-6 col-md-3 col-lg-3 container-card">
@@ -58,7 +58,6 @@ function displayCategoryCards()
 
 $content = '
 <div class="wrapper-initial">
-  <h1 class="text-center title-initial mb-4 fw-bold">Bienvenido a El Chino Cevichería</h1>
 <div class="container container-initial">
     <div class="row row-about-us-02 row-initial">
         <div class="col-sm-6 col-md-4 col-lg-3 d-flex flex-row align-items-center container-featured container-featured-modified">
@@ -94,19 +93,9 @@ $content = '
 <div class="container py-5">
     <di class="d-flex justify-content-between title-category">
      <h4 class="fw-bold">Categorias</h4>
-       <a href="" class="d-flex align-items-center">Ver todo <img class="ms-2"
-            src="../../resources/icons/arrow_02.svg" alt="Flecha"></a>
     </di>
     <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
-        ' . displayCategoryCards() . '
-    </div>
-    
-    <di class="d-flex justify-content-between title-category">
-     <h4 class="fw-bold">Productos</h4>
-       <a href="" class="d-flex align-items-center">Ver todo <img class="ms-2"
-            src="../../resources/icons/arrow_02.svg" alt="Flecha"></a>
-    </di>
-    <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
+
         ' . displayCategoryCards() . '
     </div>
 </div>

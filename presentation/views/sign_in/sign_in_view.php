@@ -26,13 +26,13 @@ require('../recover_password/recover_password.php');
 </head>
 <body>
 <div class="wrapper">
-  <div class="container main">
-    <div class="row">
-      <div class="col-md-6 side-image">
-        <img src="../../resources/images/logo.png" alt="Logo chino cevicheria" class="img_logo">
-        <div class="text">
-        </div>
-      </div>
+    <div class="container pt-3 main">
+        <div class="row">
+            <div class="col-md-6 side-image">
+                <img src="../../resources/images/logo.png" alt="Logo chino cevicheria" class="img_logo">
+                <div class="text">
+                </div>
+            </div>
 
             <div class="col-md-6 right">
                 <div class="input-box">
@@ -58,7 +58,7 @@ require('../recover_password/recover_password.php');
                             </button>
                         </div>
 
-                        <button type="button" class="btn btn-modal w-10 border-0 " data-bs-toggle="modal"
+                        <button type="button" class="btn btn-modal w-10 border-0 mt-1 mb-3" data-bs-toggle="modal"
                                 data-bs-target="#recover-password-modal">
                             ¿Olvidaste tu contraseña?
                         </button>
@@ -68,7 +68,12 @@ require('../recover_password/recover_password.php');
                         </div>
 
                     </form>
-
+                    <div class="input-field">
+                        <a class="submit text-black text-decoration-none d-flex justify-content-center align-items-center"
+                           id="btn-sign-up"
+                           href="../sign_up/sign_up_view.php">Registrarse
+                        </a>
+                    </div>
                     <div class="col d-flex flex-column justify-content-end  align-items-end">
                         <div class="modal fade" id="recover-password-modal" tabindex="-1"
                              aria-labelledby="exampleModalLabel"

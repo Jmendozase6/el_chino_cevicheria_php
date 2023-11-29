@@ -15,17 +15,16 @@ $productsFromCartDTO = [];
 $isAuthenticated = false;
 
 foreach ($responseProductsFromCart as $productFromCart) {
-    $productDAO = new ProductDAO();
-    $product = $productDAO->getProductById($productFromCart['id']);
-    $productDTO = ProductDTO::createFromResponse($product);
-    $productsFromCartDTO[] = $productDTO;
+  $productDAO = new ProductDAO();
+  $product = $productDAO->getProductById($productFromCart['id']);
+  $productDTO = ProductDTO::createFromResponse($product);
+  $productsFromCartDTO[] = $productDTO;
 }
 
 if (sizeof($productsFromCartDTO) > 0) {
-    header('Location: ../cart_new/cart_new_view.php');
-    exit();
+  header('Location: ../cart_new/cart_new_view.php');
+  exit();
 }
-print_r(session_id());
 
 $content = '
     <div class="container mt-5">

@@ -19,7 +19,7 @@ body {
 }
 
 .row {
-    width: 1000px;
+    width: 90%;
     height: 650px;
     border-radius: 10px;
     background: #fff;
@@ -135,6 +135,12 @@ img {
 
 .display-on-non-existent-email {
     display: none;
+}
+
+@media only screen and (max-width: 768px) {
+    .img-logo-display {
+        display: none;
+    }
 }
 
 @media only screen and (max-width: 768px) {
