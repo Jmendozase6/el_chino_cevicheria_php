@@ -21,15 +21,15 @@ $categoriesDTO = [];
 $responseProducts = [];
 
 for ($i = 0; $i < sizeof($responseCategories); $i++) {
-  $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
-  $responseProducts[$i] = $productDAO->getProductsByIdCategory($categoriesDTO[$i]->getId());
+    $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
+    $responseProducts[$i] = $productDAO->getProductsByIdCategory($categoriesDTO[$i]->getId());
 }
 
 $productsDTO = [];
 for ($i = 0; $i < sizeof($responseProducts); $i++) {
-  for ($j = 0; $j < sizeof($responseProducts[$i]); $j++) {
-    $productsDTO[$i][$j] = ProductDTO::createFromResponse($responseProducts[$i][$j]);
-  }
+    for ($j = 0; $j < sizeof($responseProducts[$i]); $j++) {
+        $productsDTO[$i][$j] = ProductDTO::createFromResponse($responseProducts[$i][$j]);
+    }
 }
 
 function displayCategoryCards()
@@ -52,8 +52,8 @@ function displayCategoryCards()
     </div>
 </div>
     ';
-  }
-  return $content;
+    }
+    return $content;
 }
 
 $content = '

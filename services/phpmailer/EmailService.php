@@ -124,4 +124,36 @@ class EmailService
             return false;
         }
     }
+
+    public function sendComplaintEmail($name, $email, $message): bool
+    {
+        try {
+            $mail = $this->getMailConfigBase();
+
+            //Recipients
+            $mail->addAddress($email, 'El Chino Cevichería');
+
+            //Content
+            $mail->Subject = "Reclamación";
+            $mail->Body =
+                '<h1> Reclamación </h1>
+                <p> Hola, gracias por contactarnos. <br>
+                <p> Tu reclamación ha sido enviada con éxito. <br>
+                <p> Nos comunicaremos contigo lo más pronto posible. <br>
+                <p> Si no has enviado una reclamación, ignora este mensaje.</p >';
+            $mail->AltBody = 'Correo electrónico de reclamación';
+            $mail->send();
+
+            $mail->addAddress('jhairm064@gmail.com', 'Reclamo');
+            $mail->Body =
+                '<h1> Reclamación </h1>
+                <p> Hola, el usuario <strong>' . $name . '</strong> con correo electrónico <strong>' . $email . '</strong> </p>
+                <p> Ha enviado el siguiente mensaje: </p>
+                <p> <strong>' . $message . '</strong></p>';
+            return $mail->send();
+
+        } catch (Exception $e) {
+            return false;
+        }
+    }
 }
