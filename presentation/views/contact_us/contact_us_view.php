@@ -3,9 +3,16 @@ include_once '../landing/base_landing_view.php';
 require('contact_us.php');
 
 if ($GLOBALS['errorMessageContactUs'] != null) { ?>
-    <style>.display-on-error {
-            display: block;
-        }</style><?php
+  <style>.display-on-error {
+          display: block;
+      }
+  </style><?php
+}
+if ($GLOBALS['successMessageContactUs'] != null) { ?>
+  <style>.display-on-success {
+          display: block;
+      }
+  </style><?php
 }
 $content = '
 <div class="container-fluid wrapper-contact-us">
@@ -58,6 +65,10 @@ $content = '
 
               <div class="alert alert-danger m-2 display-on-error" role="alert">
                 <strong>Error: </strong> ' . $GLOBALS['errorMessageContactUs'] . '
+              </div>              
+              
+              <div class="alert alert-success m-2 display-on-success" role="alert">
+                <strong>Genial: </strong> ' . $GLOBALS['successMessageContactUs'] . '
               </div>
 
           </form>
