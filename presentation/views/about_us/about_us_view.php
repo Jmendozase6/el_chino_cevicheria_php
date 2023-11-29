@@ -1,5 +1,5 @@
 <?php
-include '../landing/base_landing_view.php';
+include_once '../landing/base_landing_view.php';
 $content = '
 <div class="container wrapper-about-us">
     <div class="row pt-3 pb-4">

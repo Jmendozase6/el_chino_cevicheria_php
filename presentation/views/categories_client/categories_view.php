@@ -3,7 +3,7 @@
 use data_transfer_objects\CategoryDTO;
 use data_transfer_objects\ProductDTO;
 
-include '../landing/base_landing_view.php';
+include_once '../landing/base_landing_view.php';
 
 require_once '../../../data_access_objects/ProductDAO.php';
 require_once '../../../data_access_objects/CartDAO.php';
@@ -21,25 +21,25 @@ $categoriesDTO = [];
 $responseProducts = [];
 
 for ($i = 0; $i < sizeof($responseCategories); $i++) {
-    $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
-    $responseProducts[$i] = $productDAO->getProductsByIdCategory($categoriesDTO[$i]->getId());
+  $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
+  $responseProducts[$i] = $productDAO->getProductsByIdCategory($categoriesDTO[$i]->getId());
 }
 
 $productsDTO = [];
 for ($i = 0; $i < sizeof($responseProducts); $i++) {
-    for ($j = 0; $j < sizeof($responseProducts[$i]); $j++) {
-        $productsDTO[$i][$j] = ProductDTO::createFromResponse($responseProducts[$i][$j]);
-    }
+  for ($j = 0; $j < sizeof($responseProducts[$i]); $j++) {
+    $productsDTO[$i][$j] = ProductDTO::createFromResponse($responseProducts[$i][$j]);
+  }
 }
 
 function displayCategoryCards()
 {
-    global $categoriesDTO, $categoryDAO;
-    $content = '';
+  global $categoriesDTO, $categoryDAO;
+  $content = '';
 
-    for ($i = 0; $i < sizeof($categoriesDTO); $i++) {
-        $quantity = $categoryDAO->quantityProductsByCategory($categoriesDTO[$i]->getId());
-        $content .= '
+  for ($i = 0; $i < sizeof($categoriesDTO); $i++) {
+    $quantity = $categoryDAO->quantityProductsByCategory($categoriesDTO[$i]->getId());
+    $content .= '
       <div class="col-12 col-sm-6 col-md-3 col-lg-3 container-card">
     <div class="card card-initial">
         <a href="../categories_client/categories_products_view.php?categoryId=' . $categoriesDTO[$i]->getId() . '">
@@ -52,8 +52,8 @@ function displayCategoryCards()
     </div>
 </div>
     ';
-    }
-    return $content;
+  }
+  return $content;
 }
 
 $content = '
@@ -91,10 +91,13 @@ $content = '
     </div>
 </div>
 <div class="container py-5">
-    <di class="d-flex justify-content-between title-category">
-     <h4 class="fw-bold">Categorias</h4>
-    </di>
-    <div class="row row-cols-1 row-cols-md-3 g-2 pb-3">
+    <div class="row">
+    <div class="col pt-4 d-flex justify-content-center flex-column align-items-center">
+    <h2 class="text-center fw-bold">Catálogo</h2>
+        <img class="pt-2 pb-5" src="../../resources/icons/line.svg" alt="">
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-3 g-3 pb-3">
 
         ' . displayCategoryCards() . '
     </div>

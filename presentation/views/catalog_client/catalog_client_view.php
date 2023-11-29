@@ -3,6 +3,8 @@
 use data_transfer_objects\CategoryDTO;
 use data_transfer_objects\ProductDTO;
 
+include '../landing/base_landing_view.php';
+
 require_once '../../../data_access_objects/CategoryDAO.php';
 require_once '../../../data_access_objects/ProductDAO.php';
 require_once '../../../data_access_objects/CartDAO.php';
@@ -19,104 +21,86 @@ $categoriesDTO = [];
 $responseProducts = [];
 
 for ($i = 0; $i < sizeof($responseCategories); $i++) {
-    $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
-    $responseProducts[$i] = $productDAO->getProductsByIdCategory($categoriesDTO[$i]->getId());
+  $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
+  $responseProducts[$i] = $productDAO->getProductsByIdCategory($categoriesDTO[$i]->getId());
 }
 
 $productsDTO = [];
 for ($i = 0; $i < sizeof($responseProducts); $i++) {
-    for ($j = 0; $j < sizeof($responseProducts[$i]); $j++) {
-        $productsDTO[$i][$j] = ProductDTO::createFromResponse($responseProducts[$i][$j]);
-    }
+  for ($j = 0; $j < sizeof($responseProducts[$i]); $j++) {
+    $productsDTO[$i][$j] = ProductDTO::createFromResponse($responseProducts[$i][$j]);
+  }
 }
-?>
 
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="../../styles/catalog-client-style.css">
-  <title>Carta</title>
-</head>
-<body>
-<div class="container d-flex justify-content-center align-items-center container-catalog">
-  <div class="row">
-    <div class="col">
-      <img
-          src="https://res.cloudinary.com/dgna2mogt/image/upload/v1700630622/El%20Chino%20Cevicher%C3%ADa/yamm5r7l9uvnrrjvwhst.jpg"
-          alt="Logo" width="1080">
-      <div class="row">
-        <h1 class="pt-3"><strong>El Chino Cevichería</strong></h1>
-        <div class="text-end">
-          <a href="../cart_client/cart_client_view.php" class="text-decoration-none">Ir al carrrito <i
-                class="bi bi-bag"></i></a>
+$content = '
+    <div class="container my-2">
+    <div class="row">
+    <div class="col pt-4 d-flex justify-content-center flex-column align-items-center">
+    <h2 class="text-center fw-bold">Catálogo</h2>
+        <img class="pt-2 pb-5" src="../../resources/icons/line.svg" alt="">
         </div>
-      </div>
-
-      <!--    Lista de categorías del menú   -->
-      <header class="header-categories">
-        <div class="row">
-          <strong>Selecciona una categoría</strong>
-          <div class="col pt-2">
-              <?php foreach ($categoriesDTO as $categoryDTO) { ?>
-                <a type="button" class="btn btn-outline-success py-2 px-4 category-link"
-                   data-target="<?= $categoryDTO->getId() ?>"> <?= $categoryDTO->getName() ?></a>
-              <?php } ?>
-          </div>
-        </div>
-      </header>
-
-      <!--    Secciones de Categorías del Menú    -->
-      <div class="container my-2">
-          <?php for ($i = 0;
-                     $i < sizeof($categoriesDTO);
-                     $i++) { ?>
-            <div class="row">
-              <div class="col my-1">
-                <strong id="category-<?= $categoriesDTO[$i]->getId() ?>"
-                        class="mb-3"><?= $categoriesDTO[$i]->getName() ?></strong>
-              </div>
-            </div>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                <?php for ($j = 0;
-                           $j < sizeof($responseProducts[$i]);
-                           $j++) {
-                    $exists = $cartDAO->productAlreadyInCart($productsDTO[$i][$j]->getId(), $productsDTO) ?>
-                  <div class="col mb-3">
-                    <div class="card">
-                      <img src="<?= $productsDTO[$i][$j]->getImage() ?>" class="card-img-top" alt="..." height="150">
-                      <div class="card-body">
-                        <h5 class="card-title"><?= $productsDTO[$i][$j]->getName() ?></h5>
-                        <p class="card-text">Precio: S/<?= $productsDTO[$i][$j]->getPrice() ?></p>
-                        <div class="text-end">
-                            <?php if (!$exists) { ?>
-                              <a id="add" class="btn btn-success"
-                                 href="catalog_client.php?productId=<?= $productsDTO[$i][$j]->getId() ?>">
-                                <i class="bi bi-plus-lg"></i>
-                              </a>
-                            <?php } else { ?>
-                              <a href="../cart_client/delete_product.php?id=<?= $productsDTO[$i][$j]->getId() ?>"
-                                 class="btn btn-danger">
-                                <i class="bi bi-trash3-fill"></i></a>
-                            <?php } ?>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                <?php } ?>
-            </div>
-          <?php } ?>
-      </div>
-
     </div>
-  </div>
-</div>
-<script src="../../resources/script/scrollScript.js"></script>
-</body>
-</html>
+    
+        ' . displayCategoriesAndProducts() . '
+    </div>
+';
+
+function displayCategoriesAndProducts()
+{
+  global $categoriesDTO, $responseProducts, $productsDTO, $cartDAO;
+
+  $content = '';
+
+  for ($i = 0; $i < sizeof($categoriesDTO); $i++) {
+    $content .= '
+            <div class="row">
+                <div class="col mt-4">
+                    <strong id="category-' . $categoriesDTO[$i]->getId() . '" class="mb-3">' . $categoriesDTO[$i]->getName() . '</strong>
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-md-4 g-3 pb-3">
+                ' . displayProductsCards($responseProducts[$i], $productsDTO[$i], $cartDAO) . '
+            </div>';
+  }
+
+  return $content;
+}
+
+function displayProductsCards($products, $productsDTO, $cartDAO)
+{
+  $content = '';
+
+  foreach ($products as $key => $product) {
+    $exists = $cartDAO->productAlreadyInCart($productsDTO[$key]->getId());
+    $icon = $exists
+      ? '<a href="../cart_client/delete_product.php?id=' . $productsDTO[$key]->getId() . '" class="btn-product btn-danger">
+                    <i class="bi bi-trash3-fill"></i>
+                </a>'
+      : '<a id="add" class="btn-product btn-success" href="catalog_client.php?productId=' . $productsDTO[$key]->getId() . '">
+                    <i class="bi bi-plus-lg"></i>
+                </a>';
+
+    $content .= '
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 container-card">
+                <div class="card card-initial m-2">
+                    <img src="' . $productsDTO[$key]->getImage() . '" class="card-img-top card-img-top-initial" alt="...">
+                    <div class="card-body card-body-initial">
+                        <h5 class="card-title name-category-initial fw-bold">' . $productsDTO[$key]->getName() . '</h5>
+                        <p class="card-text card-text-initial fw-bolder">' . $productsDTO[$key]->getDescription() . '</p>
+                    </div>
+                    <div class="mb-4 d-flex justify-content-around">
+                        <h5 class="me-4 ">S/' . $productsDTO[$key]->getPrice() . '</h5>
+                        <div class="text-end">
+                            ' . $icon . '
+                        </div>
+                    </div>
+                </div>
+            </div>';
+  }
+
+  return $content;
+}
+
+displayBaseWeb($content);
+
+?>

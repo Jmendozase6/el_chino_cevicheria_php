@@ -1,5 +1,5 @@
 <?php
-include '../landing/base_landing_view.php';
+include_once '../landing/base_landing_view.php';
 $content = '
 <div class="container my-5">
     <div class="row justify-content-center">

@@ -1,6 +1,6 @@
 <?php
 
-include '../landing/base_landing_view.php';
+include_once '../landing/base_landing_view.php';
 
 
 use data_transfer_objects\ProductDTO;

@@ -1,11 +1,90 @@
 <?php
+ob_start();
+error_reporting(E_ALL & ~E_DEPRECATED);
+
+use data_transfer_objects\ProductDTO;
+use data_transfer_objects\UserDTO;
+use MercadoPago\Item;
+use MercadoPago\Preference;
+
+include_once '../landing/base_landing_view.php';
+include_once '../../../data_access_objects/UserDAO.php';
+require_once '../../../data_access_objects/CartDAO.php';
+require_once '../../../data_access_objects/ProductDAO.php';
+include_once '../../../data_transfer_objects/UserDTO.php';
+require_once '../../../data_transfer_objects/ProductDTO.php';
 global $cartTotal;
 
-function displayIfAuthenticated(): string
+if (!isset($_SESSION)) {
+  session_start();
+  $id = $_SESSION['id'];
+} else {
+  header('Location: ../error/error_view.php');
+}
+
+$isAuthenticated = isset($_SESSION["id"]);
+
+if ($isAuthenticated) {
+  $userDAO = new UserDAO();
+  $currentUser = $userDAO->getUserById($_SESSION["id"]);
+  $currentUserDTO = UserDTO::createFromResponse($currentUser);
+}
+
+$cartDAO = new CartDAO();
+$responseProductsFromCart = $cartDAO->getProductsFromCart();
+$cartTotal = $cartDAO->getTotalFromCart(session_id());
+$productsFromCartDTO = [];
+
+foreach ($responseProductsFromCart as $productFromCart) {
+  $productDAO = new ProductDAO();
+  $product = $productDAO->getProductById($productFromCart['id']);
+  $productDTO = ProductDTO::createFromResponse($product);
+  $productsFromCartDTO[] = $productDTO;
+}
+
+if (sizeof($responseProductsFromCart) > 0) {
+  require_once __DIR__ . '/../../../vendor/autoload.php';
+  include_once __DIR__ . '/../../../datasource/constants.php';
+
+  MercadoPago\SDK::setAccessToken(MERCADO_PAGO_ACCESS_TOKEN);
+
+  $preference = new Preference();
+  $productsDTO = [];
+
+  for ($i = 0; $i < sizeof($productsFromCartDTO); $i++) {
+    $item = new Item();
+    $item->id = $productsFromCartDTO[$i]->getId();
+    $item->title = $productsFromCartDTO[$i]->getName();
+    $item->quantity = $responseProductsFromCart[$i]['quantity'];
+    $item->unit_price = $productsFromCartDTO[$i]->getPrice();
+    $item->currency_id = 'PEN';
+    $productsDTO[$i] = $item;
+  }
+
+  $preference->items = $productsDTO;
+
+  $preference->back_urls = array(
+    "success" => $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "/../success_payment_view.php",
+    "failure" => "/../error/error_view.php",
+    "pending" => "http://localhost:8080/checkout/pending"
+  );
+
+  $preference->auto_return = "approved";
+  $preference->binary_mode = true;
+
+  try {
+    $preference->save();
+  } catch (Exception $e) {
+    echo 'Excepción capturada: ', $e->getMessage(), "\n";
+  }
+
+  ob_end_flush();
+}
+function displayIfAuthenticatedPayment(): string
 {
-    global $isAuthenticated, $preference;
-    if ($isAuthenticated) {
-        $javascriptCode = '
+  global $isAuthenticated, $preference;
+  if ($isAuthenticated) {
+    $javascriptCode = '
         <script type="text/javascript">
             const $id = new MercadoPago("' . MERCADO_PAGO_TEST_PUBLIC_KEY . '", {
                 locale: "es-PE"
@@ -22,21 +101,13 @@ function displayIfAuthenticated(): string
             });
         </script>
     ';
-        $content = '<div class="col-auto checkout-btn"></div>' . $javascriptCode;
-    } else {
-        $content = '
-         <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                  data-bs-target="#sign-in-modal">
-            Para poder pagar, inicia sesión
-          </button> ';
-        include_once '../sign_in/sign_in_view_modal.php';
-    }
+    $content = '<div class="col-auto checkout-btn"></div>' . $javascriptCode;
+  }
 
-    return $content;
+  return $content;
 }
 
-include '../landing/base_landing_view.php';
-$content = '
+$content = $isAuthenticated && '
 <div class="container wrapper-check-information">
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-7 d-flex justify-content-center align-items-center container-user-data">
@@ -48,19 +119,24 @@ $content = '
                             <input type="text" name="txt-name" id="txt-name"
                                    class="txt-user-data border-content"
                                    placeholder="Nombres"
+                                   value="' . $currentUserDTO->getName() . '"
                                    required>
                         </label>
                         <label for="txt-last-name" class="label-content w-100">Apellidos
                             <input type="text" name="txt-user-data txt-last-name" id="txt-last-name"
                                    class="txt-last-name txt-user-data border-content"
-                                   placeholder="Apellidos" required>
+                                   placeholder="Apellidos"
+                                   value="' . $currentUserDTO->getLastName() . '"
+                                   required>
                         </label>
                     </div>
 
                     <div class="">
                         <label for="txt-address" class="label-content">Dirección</label>
                         <input type="text" name="txt-address" id="txt-address" class="txt-user-data border-content"
-                               placeholder="Dirección" required>
+                               placeholder="Dirección"
+                               value="' . $currentUserDTO->getAddress() . '"
+                                required>
                     </div>
                     <div class="info-text">
                         <label for="txt-district" class="label-content label-district w-100">Distrito
@@ -73,7 +149,9 @@ $content = '
 
                         <label for="txt-phone" class="label-content w-100">Teléfono
                             <input type="text" name="txt-phone" id="txt-phone" class="txt-user-data border-content"
-                                   placeholder="Teléfono" required>
+                                   placeholder="Teléfono"
+                                   value="' . $currentUserDTO->getPhone() . '"
+                                   required>
                         </label>
                     </div>
                     <hr class="m-1">
@@ -113,7 +191,7 @@ $content = '
         </div>
         <div class="col-sm-12 col-md-12 col-lg-5">
             <div class="container payment-card-check">
-                <div class="row p-3 ">
+                <div class="row p-3">
                     <div class="col">
                         <div class="col d-flex justify-content-between pt-3">
                             <h6 class="text-card"> Delivery</h6>
@@ -124,7 +202,7 @@ $content = '
                             <h5 class="text-card-t"> Total</h5>
                             <h5 class="text-card-t text-card-t-modified"> S / ' . $cartTotal . '</h5>
                         </div>
-                        ' . displayIfAuthenticated() . '
+                        ' . displayIfAuthenticatedPayment() . '
                     </div>
                 </div>
             </div>
@@ -134,4 +212,3 @@ $content = '
 ';
 displayBaseWeb($content);
 ?>
-

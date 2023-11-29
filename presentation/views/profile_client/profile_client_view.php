@@ -2,27 +2,27 @@
 
 use data_transfer_objects\UserDTO;
 
-include '../landing/base_landing_view.php';
+include_once '../landing/base_landing_view.php';
 include_once '../../../data_access_objects/UserDAO.php';
 include_once '../../../data_transfer_objects/UserDTO.php';
 require('profile_client.php');
 
 if (!isset($_SESSION)) {
-    session_start();
+  session_start();
 }
 
 $isAuthenticated = isset($_SESSION["id"]);
 
 if ($isAuthenticated) {
-    $userDAO = new UserDAO();
-    $currentUser = $userDAO->getUserById($_SESSION["id"]);
-    $currentUserDTO = UserDTO::createFromResponse($currentUser);
+  $userDAO = new UserDAO();
+  $currentUser = $userDAO->getUserById($_SESSION["id"]);
+  $currentUserDTO = UserDTO::createFromResponse($currentUser);
 }
 
 $editable = "";
 
 $content = $isAuthenticated ? '
-<div class="containerd-flex flex-column align-items-center">
+<div class="container d-flex flex-column align-items-center">
   <div class="row">
     <div class="col-md-12">
       <h1 class="fw-bold my-2">Información Personal</h1>
@@ -85,18 +85,28 @@ $content = $isAuthenticated ? '
     </div>
   </div>
 </div>
-' : '<h1>PONER IMÁGEN TRISTE Y ABAJO K INICIE SESIÓN</h1>';
+' : '<div class="container wrapper-error">
+    <div class="row">
+        <div class="col-12 container-img-error-p">
+            <img  class="container-img-error" src="../../resources/images/face.png" alt="Persona pensando">
+        </div>
+        <div class="col d-flex flex-column justify-content-center align-items-center">
+            <h2 class="text-center text-black py-3 fw-bold">Por favor, inicia sesión para acceder a tu perfil.</h2>
+            <button class="btn btn-primary btn-submit  m-3 w-25">iniciar sesión</button>
+        </div>
+    </div>
+</div>';
 displayBaseWeb($content);
 
 ?>
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Información Personal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Información Personal</title>
 </head>
 <body>
 </body>

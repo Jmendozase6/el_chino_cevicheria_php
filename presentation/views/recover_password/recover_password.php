@@ -8,6 +8,9 @@ require_once '../../../services/phpmailer/EmailService.php';
 
 $GLOBALS['nonExistentEmailMessage'] = null;
 
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
 if (isset($_POST['btn-recover-password'])) {
 
 //    Guardamos el email
@@ -24,21 +27,17 @@ if (isset($_POST['btn-recover-password'])) {
     $existsEmail = $userDAO->existsEmail($email);
     if ($existsEmail) {
       $emailService->sendRecoverPasswordEmail($email, 'Recuperación de Contraseña', $randomCode);
-      header('Location:../recover_password/recover_code_view.php');
-      isSessionStarted();
+
       $_SESSION['recover-email'] = $email;
       $_SESSION['recover-code-email'] = $randomCode;
+      header('Location: ../recover_password/recover_code_view.php');
+      exit();
     } else {
       $nonExistentEmailMessage = "El correo electrónico no existe.";
     }
   } catch (Exception $e) {
     $nonExistentEmailMessage = "Error al enviar el correo electrónico.";
     header('Location:javascript://history.go(-1)');
-  }
-}
-function isSessionStarted(): void
-{
-  if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+    exit();
   }
 }

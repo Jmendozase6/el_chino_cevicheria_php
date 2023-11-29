@@ -1,13 +1,13 @@
 <?php
 ob_start();
-session_start();
+if (!isset($_SESSION)) {
+  session_start();
+}
 error_reporting(E_ALL & ~E_DEPRECATED);
 
-include '../landing/base_landing_view.php';
+include_once '../landing/base_landing_view.php';
 
 use data_transfer_objects\ProductDTO;
-use MercadoPago\Item;
-use MercadoPago\Preference;
 
 require_once '../../../data_access_objects/CartDAO.php';
 require_once '../../../data_access_objects/ProductDAO.php';
@@ -20,68 +20,29 @@ $cartTotal = $cartDAO->getTotalFromCart(session_id());
 $productsFromCartDTO = [];
 
 foreach ($responseProductsFromCart as $productFromCart) {
-    $productDAO = new ProductDAO();
-    $product = $productDAO->getProductById($productFromCart['id']);
-    $productDTO = ProductDTO::createFromResponse($product);
-    $productsFromCartDTO[] = $productDTO;
+  $productDAO = new ProductDAO();
+  $product = $productDAO->getProductById($productFromCart['id']);
+  $productDTO = ProductDTO::createFromResponse($product);
+  $productsFromCartDTO[] = $productDTO;
 }
 
 $isAuthenticated = isset($_SESSION["id"]);
 
-if (sizeof($productsFromCartDTO) > 0) {
-    require_once __DIR__ . '/../../../vendor/autoload.php';
-    include_once __DIR__ . '/../../../datasource/constants.php';
-
-    MercadoPago\SDK::setAccessToken(MERCADO_PAGO_ACCESS_TOKEN);
-
-    $preference = new Preference();
-    $productsDTO = [];
-
-    for ($i = 0; $i < sizeof($productsFromCartDTO); $i++) {
-        $item = new Item();
-        $item->id = $productsFromCartDTO[$i]->getId();
-        $item->title = $productsFromCartDTO[$i]->getName();
-        $item->quantity = $responseProductsFromCart[$i]['quantity'];
-        $item->unit_price = $productsFromCartDTO[$i]->getPrice();
-        $item->currency_id = 'PEN';
-        $productsDTO[$i] = $item;
-    }
-
-    $preference->items = $productsDTO;
-
-    $preference->back_urls = array(
-        "success" => $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "/../success_payment_view.php",
-        "failure" => "/../error/error_view.php",
-        "pending" => "http://localhost:8080/checkout/pending"
-    );
-
-    $preference->auto_return = "approved";
-    $preference->binary_mode = true;
-
-    try {
-        $preference->save();
-    } catch (Exception $e) {
-        echo 'Excepción capturada: ', $e->getMessage(), "\n";
-    }
-
-    ob_end_flush();
-}
-
 if (sizeof($productsFromCartDTO) == 0) {
-    header('Location: ../empty_cart/empty_cart_view.php');
-    exit();
+  header('Location: ../empty_cart/empty_cart_view.php');
+  exit();
 }
 
 //mobile
 function displayProducts(): string
 {
-    global $productsFromCartDTO, $responseProductsFromCart;
-    $content = '';
+  global $productsFromCartDTO, $responseProductsFromCart;
+  $content = '';
 
-    for ($i = 0;
-         $i < sizeof($productsFromCartDTO);
-         $i++) {
-        $content .= '
+  for ($i = 0;
+       $i < sizeof($productsFromCartDTO);
+       $i++) {
+    $content .= '
      <div class="col-4 d-flex justify-content-center align-content-center">
                 <img class="mb-2 rounded-1 img-product" src="' . $productsFromCartDTO[$i]->getImage() . '" alt="Producto">
      </div>
@@ -97,7 +58,7 @@ function displayProducts(): string
                 id="btn-increase" 
                 type="button"
                 href="change_quantity.php?id=' . $productsFromCartDTO[$i]->getId() .
-            '&quantity=' . $responseProductsFromCart[$i]['quantity'] . '&type=I"><i class="bi bi-plus-lg"></i></a>
+      '&quantity=' . $responseProductsFromCart[$i]['quantity'] . '&type=I"><i class="bi bi-plus-lg"></i></a>
 
                 <p class="m-0 p-2 text-black"><strong>' . $responseProductsFromCart[$i]['quantity'] . '</strong></p>
                 
@@ -105,19 +66,39 @@ function displayProducts(): string
                   id="btn-decrease" 
                   type="button"
                   href="change_quantity.php?id=' . $productsFromCartDTO[$i]->getId() .
-            '&quantity=' . $responseProductsFromCart[$i]['quantity'] . '&type=D"
+      '&quantity=' . $responseProductsFromCart[$i]['quantity'] . '&type=D"
                 >' . displayIcon($responseProductsFromCart[$i]['quantity'] == 1) . '</a >
             </div >
             </div >
         <hr >
         ';
-    }
-    return $content;
+  }
+  return $content;
 }
 
 function displayIcon($quantity): string
 {
-    return $quantity == 1 ? '<i class="bi bi-trash text-danger"></i > ' : '<i class="bi bi-dash"></i>';
+  return $quantity == 1 ? '<i class="bi bi-trash text-danger"></i > ' : '<i class="bi bi-dash"></i>';
+}
+
+function displayIfAuthenticated(): string
+{
+  $isAuthenticated = isset($_SESSION["id"]);
+  if ($isAuthenticated) {
+    return '
+        <div class="pb-2 d-flex justify-content-center">
+            <a class="btn btn-primary" type="button" href="check_information_view.php">Proceder con el pago</a>
+        </div>
+        ';
+  } else {
+    $content = '
+         <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                  data-bs-target="#sign-in-modal">
+            Para poder pagar, inicia sesión
+          </button> ';
+    include_once '../sign_in/sign_in_view_modal.php';
+  }
+  return $content;
 }
 
 
@@ -161,9 +142,7 @@ $content = '
             </div>
         </div>
               <div class=" pb-4 d-flex justify-content-center" >
-                  <div class="pb-2 d-flex justify-content-center">
-                    <a class="btn" type="button" href="check_information_view.php">Proceder con el pago</a>
-                  </div>
+                  ' . displayIfAuthenticated() . '
           </div >
     </div>
 </div>
@@ -206,9 +185,7 @@ $content = '
             </div >
           </div >
           <div class=" pb-4 d-flex justify-content-center" >
-              <div class="pb-2 d-flex justify-content-center">
-                    <a class="btn" type="button" href="check_information_view.php">Proceder con el pago</a>
-              </div>
+                  ' . displayIfAuthenticated() . '
           </div >
         </div >
       </div >

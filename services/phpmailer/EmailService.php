@@ -8,152 +8,152 @@ include_once __DIR__ . '/../../datasource/constants.php';
 class EmailService
 {
 
-    public function getMailConfigBase(): PHPMailer
-    {
-        $mail = new PHPMailer(true);
-        try {
+  public function getMailConfigBase(): PHPMailer
+  {
+    $mail = new PHPMailer(true);
+    try {
 
-            $mail->setLanguage('es', '/optional/path/to/language/directory/');
-            $mail->CharSet = 'UTF-8';
+      $mail->setLanguage('es', __DIR__ . '/optional/path/to/language/directory/');
+      $mail->CharSet = 'UTF-8';
 
-            //Server settings
-            $mail->SMTPDebug = SMTP::DEBUG_OFF;                  //Enable verbose debug output
-            $mail->isSMTP();                                        //Send using SMTP
-            $mail->Host = 'smtp.gmail.com';                         //Set the SMTP server to send through
-            $mail->SMTPAuth = true;                                 //Enable SMTP authentication
-            $mail->Username = 'jhairm064@gmail.com';                //SMTP username
-            $mail->Password = EMAIL_CRED;                //SMTP password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;        //Enable implicit TLS encryption
-            $mail->Port = 465;
+      //Server settings
+      $mail->SMTPDebug = SMTP::DEBUG_OFF;                  //Enable verbose debug output
+      $mail->isSMTP();                                        //Send using SMTP
+      $mail->Host = 'smtp.gmail.com';                         //Set the SMTP server to send through
+      $mail->SMTPAuth = true;                                 //Enable SMTP authentication
+      $mail->Username = 'jhairm064@gmail.com';                //SMTP username
+      $mail->Password = EMAIL_CRED;                //SMTP password
+      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;        //Enable implicit TLS encryption
+      $mail->Port = 465;
 
-            $mail->setFrom('jhairm064@gmail.com', 'El Chino Cevichería');
-            $mail->addReplyTo('noreply@example.com', 'NoReply');
-            $mail->isHTML();
-            return $mail;
-        } catch (Exception $e) {
-            return $mail;
-        }
+      $mail->setFrom('jhairm064@gmail.com', 'El Chino Cevichería');
+      $mail->addReplyTo('noreply@example.com', 'NoReply');
+      $mail->isHTML();
+      return $mail;
+    } catch (Exception $e) {
+      return $mail;
     }
+  }
 
-    public function sendRecoverPasswordEmail($email, $subject, $randomNumber = 0): bool
-    {
-        try {
-            $mail = $this->getMailConfigBase();
+  public function sendRecoverPasswordEmail($email, $subject, $randomNumber = 0): bool
+  {
+    try {
+      $mail = $this->getMailConfigBase();
 
-            //Recipients
-            $mail->addAddress($email, 'El Chino Cevichería');
+      //Recipients
+      $mail->addAddress($email, 'El Chino Cevichería');
 
-            //Content
-            $mail->Subject = $subject;
-            $mail->Body =
-                '<h1> Recuperación de contraseña </h1>
+      //Content
+      $mail->Subject = $subject;
+      $mail->Body =
+        '<h1> Recuperación de contraseña </h1>
                 <p> Hola <br>
                 Tu código de recuperación es: 
                 <strong>' . $randomNumber . '</strong></p>
                 <p> Si no has solicitado un cambio de contraseña, ignora este mensaje.</p >';
-            $mail->AltBody = 'Correo electrónico de recuperación de contraseña';
-            return $mail->send();
-        } catch (Exception $e) {
-            return false;
-        }
+      $mail->AltBody = 'Correo electrónico de recuperación de contraseña';
+      return $mail->send();
+    } catch (Exception $e) {
+      return false;
     }
+  }
 
-    public function sendContactUsEmail($name, $emailFrom, $subject, $content): bool
-    {
-        try {
-            $mail = $this->getMailConfigBase();
+  public function sendContactUsEmail($name, $emailFrom, $subject, $content): bool
+  {
+    try {
+      $mail = $this->getMailConfigBase();
 
-            //Recipients
-            $mail->addAddress('jhairm064@gmail.com', 'El Chino Cevichería');
+      //Recipients
+      $mail->addAddress('jhairm064@gmail.com', 'El Chino Cevichería');
 
-            //Content
-            $mail->Subject = $subject;
-            $mail->Body =
-                '<h1> Contacto </h1>
+      //Content
+      $mail->Subject = $subject;
+      $mail->Body =
+        '<h1> Contacto </h1>
                 <p> Hola <br>
                 El usuario <strong>' . $name . '</strong> con correo electrónico <strong>' . $emailFrom . '</strong> </p>
                 <p> Ha enviado el siguiente mensaje: </p>
                 <p> <strong>' . $content . '</strong></p>';
-            $mail->AltBody = 'Correo electrónico de contacto';
-            return $mail->send();
-        } catch (Exception $e) {
-            return false;
-        }
+      $mail->AltBody = 'Correo electrónico de contacto';
+      return $mail->send();
+    } catch (Exception $e) {
+      return false;
     }
+  }
 
-    public function sendOrderEmail($email, $subject, $order): bool
-    {
-        try {
-            $mail = $this->getMailConfigBase();
+  public function sendOrderEmail($email, $subject, $order): bool
+  {
+    try {
+      $mail = $this->getMailConfigBase();
 
-            //Recipients
-            $mail->addAddress($email, 'El Chino Cevichería');
+      //Recipients
+      $mail->addAddress($email, 'El Chino Cevichería');
 
-            //Content
-            $mail->Subject = $subject;
-            $mail->Body =
-                '<h1> Orden de compra </h1>
+      //Content
+      $mail->Subject = $subject;
+      $mail->Body =
+        '<h1> Orden de compra </h1>
                 <p> Hola, acabas de realizar una compra en nuestro sitio web. <br>
                 Tu orden entrará en proceso de envío una vez que se confirme el pago. <br> 
                 <strong>' . $order . '</strong></p>
                 <p> Si no has solicitado una orden de compra, ignora este mensaje.</p >';
-            $mail->AltBody = 'Correo electrónico de orden de compra';
-            return $mail->send();
-        } catch (Exception $e) {
-            return false;
-        }
+      $mail->AltBody = 'Correo electrónico de orden de compra';
+      return $mail->send();
+    } catch (Exception $e) {
+      return false;
     }
+  }
 
-    public function sendSignUpEmail($email): bool
-    {
-        try {
-            $mail = $this->getMailConfigBase();
+  public function sendSignUpEmail($email): bool
+  {
+    try {
+      $mail = $this->getMailConfigBase();
 
-            //Recipients
-            $mail->addAddress($email, 'El Chino Cevichería');
+      //Recipients
+      $mail->addAddress($email, 'El Chino Cevichería');
 
-            //Content
-            $mail->Subject = "Bienvenido a El Chino Cevichería";
-            $mail->Body =
-                '<h1> Registro </h1>
+      //Content
+      $mail->Subject = "Bienvenido a El Chino Cevichería";
+      $mail->Body =
+        '<h1> Registro </h1>
                 <p> Hola, gracias por registrarte en nuestro sitio web. <br>
                 <p> Si no te has registrado, ignora este mensaje.</p >';
-            $mail->AltBody = 'Correo electrónico de registro';
-            return $mail->send();
-        } catch (Exception $e) {
-            return false;
-        }
+      $mail->AltBody = 'Correo electrónico de registro';
+      return $mail->send();
+    } catch (Exception $e) {
+      return false;
     }
+  }
 
-    public function sendComplaintEmail($name, $email, $message): bool
-    {
-        try {
-            $mail = $this->getMailConfigBase();
+  public function sendComplaintEmail($name, $email, $message): bool
+  {
+    try {
+      $mail = $this->getMailConfigBase();
 
-            //Recipients
-            $mail->addAddress($email, 'El Chino Cevichería');
+      //Recipients
+      $mail->addAddress($email, 'El Chino Cevichería');
 
-            //Content
-            $mail->Subject = "Reclamación";
-            $mail->Body =
-                '<h1> Reclamación </h1>
+      //Content
+      $mail->Subject = "Reclamación";
+      $mail->Body =
+        '<h1> Reclamación </h1>
                 <p> Hola, gracias por contactarnos. <br>
                 <p> Tu reclamación ha sido enviada con éxito. <br>
                 <p> Nos comunicaremos contigo lo más pronto posible. <br>
                 <p> Si no has enviado una reclamación, ignora este mensaje.</p >';
-            $mail->AltBody = 'Correo electrónico de reclamación';
-            $mail->send();
+      $mail->AltBody = 'Correo electrónico de reclamación';
+      $mail->send();
 
-            $mail->addAddress('jhairm064@gmail.com', 'Reclamo');
-            $mail->Body =
-                '<h1> Reclamación </h1>
+      $mail->addAddress('jhairm064@gmail.com', 'Reclamo');
+      $mail->Body =
+        '<h1> Reclamación </h1>
                 <p> Hola, el usuario <strong>' . $name . '</strong> con correo electrónico <strong>' . $email . '</strong> </p>
                 <p> Ha enviado el siguiente mensaje: </p>
                 <p> <strong>' . $message . '</strong></p>';
-            return $mail->send();
+      return $mail->send();
 
-        } catch (Exception $e) {
-            return false;
-        }
+    } catch (Exception $e) {
+      return false;
     }
+  }
 }

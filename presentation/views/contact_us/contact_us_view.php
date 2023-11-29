@@ -1,11 +1,11 @@
 <?php
-include '../landing/base_landing_view.php';
+include_once '../landing/base_landing_view.php';
 require('contact_us.php');
 
 if ($GLOBALS['errorMessageContactUs'] != null) { ?>
-  <style>.display-on-error {
-          display: block;
-      }</style><?php
+    <style>.display-on-error {
+            display: block;
+        }</style><?php
 }
 $content = '
 <div class="container-fluid wrapper-contact-us">

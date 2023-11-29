@@ -3,7 +3,7 @@
 use data_transfer_objects\CategoryDTO;
 use data_transfer_objects\ProductDTO;
 
-include '../landing/base_landing_view.php';
+include_once '../landing/base_landing_view.php';
 
 require_once '../../../data_access_objects/ProductDAO.php';
 require_once '../../../data_access_objects/CartDAO.php';
@@ -20,26 +20,79 @@ $responseCategories = $categoryDAO->getCategories(12);
 $categoriesDTO = [];
 $responseProducts = [];
 
+$productsFilter = $productDAO->getProducts();
+$productsFilterDTO = [];
+
+for ($i = 0; $i < sizeof($productsFilter); $i++) {
+  $productsFilterDTO[$i] = ProductDTO::createFromResponse($productsFilter[$i]);
+}
+
 for ($i = 0; $i < sizeof($responseCategories); $i++) {
-    $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
-    $responseProducts[$i] = $productDAO->getProductsByIdCategory($categoriesDTO[$i]->getId());
+  $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
+  $responseProducts[$i] = $productDAO->getProductsByIdCategory($categoriesDTO[$i]->getId());
 }
 
 $productsDTO = [];
 for ($i = 0; $i < sizeof($responseProducts); $i++) {
-    for ($j = 0; $j < sizeof($responseProducts[$i]); $j++) {
-        $productsDTO[$i][$j] = ProductDTO::createFromResponse($responseProducts[$i][$j]);
-    }
+  for ($j = 0; $j < sizeof($responseProducts[$i]); $j++) {
+    $productsDTO[$i][$j] = ProductDTO::createFromResponse($responseProducts[$i][$j]);
+  }
+}
+
+function displayProductsCardsInitial()
+{
+  global $productsFilterDTO, $cartDAO;
+  $content = '';
+  for ($i = 0;
+       $i < sizeof($productsFilterDTO);
+       $i++) {
+
+    $exists = $cartDAO->productAlreadyInCart($productsFilterDTO[$i]->getId());
+    $icon = $exists ?
+      '<a href="../cart_client/delete_product.php?id=' . $productsFilterDTO[$i]->getId() . '"
+                                 class="btn-product btn-danger">
+                                <i class="bi bi-trash3-fill"></i></a>'
+      :
+      '<a id="add" class="btn-product btn-success"
+                                 href="categories_client.php?productId=' . $productsFilterDTO[$i]->getId() . '">
+                                <i class="bi bi-plus-lg"></i>
+                              </a>';
+
+    $content .= '
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-3 container-card">
+                <div class="card card-initial m-2">
+                    <img src="' . $productsFilterDTO[$i]->getImage() . '" class="card-img-top card-img-top-initial" alt="...">
+                    <div class="card-body card-body-initial">
+                        <h5 class="card-title name-category-initial fw-bold">' . $productsFilterDTO[$i]->getName() . '</h5>
+                        <p class="card-text card-text-initial fw-bolder">' . $productsFilterDTO[$i]->getDescription() . '</p>
+                    </div>
+                    <div class="mb-4 d-flex justify-content-around">
+                        <h5 class="me-4 ">S/' . $productsFilterDTO[$i]->getPrice() . '</h5>
+                        <div class="text-end">
+                            ' . $icon . '
+                        </div>
+                    </div>
+                </div>
+            </div>
+        ';
+  }
+  return '
+        <div class="container my-2">
+          <div class="row row-cols-1 row-cols-md-5 g-4">
+            ' . $content . '
+          </div>
+        </div>
+    ';
 }
 
 function displayCategoryCards()
 {
-    global $categoriesDTO, $categoryDAO;
-    $content = '';
+  global $categoriesDTO, $categoryDAO;
+  $content = '';
 
-    for ($i = 0; $i < 4; $i++) {
-        $quantity = $categoryDAO->quantityProductsByCategory($categoriesDTO[$i]->getId());
-        $content .= '
+  for ($i = 0; $i < 4; $i++) {
+    $quantity = $categoryDAO->quantityProductsByCategory($categoriesDTO[$i]->getId());
+    $content .= '
       <div class="col-12 col-sm-6 col-md-3 col-lg-3 container-card">
     <div class="card card-initial">
         <a href="../categories_client/categories_products_view.php?categoryId=' . $categoriesDTO[$i]->getId() . '">
@@ -52,8 +105,8 @@ function displayCategoryCards()
     </div>
 </div>
     ';
-    }
-    return $content;
+  }
+  return $content;
 }
 
 $content = '
@@ -103,11 +156,13 @@ $content = '
     
     <di class="d-flex justify-content-between title-category">
      <h4 class="fw-bold">Productos</h4>
-       <a href="" class="d-flex align-items-center">Ver todo <img class="ms-2"
+       <a href="../catalog_client/catalog_client_view.php" class="d-flex align-items-center">Ver todo <img class="ms-2"
             src="../../resources/icons/arrow_02.svg" alt="Flecha"></a>
     </di>
-    <div class="row row-cols-1 row-cols-md-3 g-2 pb-3">
-        ' . displayCategoryCards() . '
+    <div class="container">
+        <div class="row">
+                ' . displayProductsCardsInitial() . '
+        </div>
     </div>
 </div>
 </div>

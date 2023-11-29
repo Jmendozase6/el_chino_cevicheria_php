@@ -1,5 +1,5 @@
 <?php
-include '../landing/base_landing_view.php';
+include_once '../landing/base_landing_view.php';
 $content = '
     <div class="container wrapper-error">
     <div class="row">

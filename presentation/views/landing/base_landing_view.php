@@ -3,7 +3,7 @@
 require_once '../../../data_access_objects/CartDAO.php';
 
 if (!isset($_SESSION)) {
-    session_start();
+  session_start();
 }
 
 $isAuthenticated = isset($_SESSION["id"]);
@@ -11,22 +11,22 @@ $isAuthenticated = isset($_SESSION["id"]);
 $cartDAO = new CartDAO();
 $cartTotal = $cartDAO->getTotalFromCart(session_id());
 
-function displayAuthButton()
+function displayAuthButton(): string
 {
-    global $isAuthenticated;
-    if ($isAuthenticated) {
-        return '<a class="text-decoration-none" href="../components/logout.php">Cerrar sesión</a>';
-    } else {
-        return '<a class="text-decoration" href="../sign_in/sign_in_view.php">Ingresar</a>
+  global $isAuthenticated;
+  if ($isAuthenticated) {
+    return '<a class="text-decoration-none" href="../components/logout.php">Cerrar sesión</a>';
+  } else {
+    return '<a class="text-decoration" href="../sign_in/sign_in_view.php">Ingresar</a>
                 <p class="m-0">/</p>
                 <a class="text-decoration" href="../sign_up/sign_up_view.php">Registro</a>';
-    }
+  }
 }
 
 function displayBaseWeb($content): void
 {
-    global $cartTotal;
-    echo '<!doctype html>
+  global $cartTotal;
+  echo '<!doctype html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -85,7 +85,7 @@ function displayBaseWeb($content): void
                         <a class="nav-link" aria-current="page" href="../initial_client/initial_client_view.php">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../categories_client/categories_view.php">Carta</a>
+                        <a class="nav-link" href="../catalog_client/catalog_client_view.php">Carta</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../about_us/about_us_view.php">Nosotros</a>
