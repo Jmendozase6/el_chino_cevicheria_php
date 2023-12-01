@@ -21,13 +21,14 @@ if (isset($_POST['btn-sign-in']) || isset($_POST['btn-sign-in-modal'])) {
     $password = trim($_POST['password']);
     $userDAO = new UserDAO();
 
-    if (empty($password)) {
+    if (empty($password) || empty($email) || ctype_space($password) || ctype_space($email)) {
         setDependsOnView($from, "Por favor ingrese su correo y contraseña.");
     } else {
         try {
             $currentUser = $userDAO->signIn($email, $password);
 
             if (isset($currentUser['id'])) {
+
                 $rolId = $currentUser['id_role'];
                 $_SESSION["id"] = $currentUser['id'];
                 $_SESSION["id_role"] = $currentUser['id_role'];

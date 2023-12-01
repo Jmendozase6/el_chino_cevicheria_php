@@ -13,17 +13,21 @@ class OrderDAO
         $this->conn = DbConnection::connect();
     }
 
-    public function createOrder(OrderDTO $orderDTO): bool
+    public function createOrder(OrderDTO $orderDTO): string|bool
     {
-        $sql = /** @lang text */
-            "INSERT INTO orders (user_id, payment_id, total, order_status) VALUES (?, ?, ?, ?)";
-        $query = $this->conn->prepare($sql);
-        $query->bindValue(1, $orderDTO->getUserId());
-        $query->bindValue(2, $orderDTO->getPaymentId());
-        $query->bindValue(3, $orderDTO->getTotal());
-        $query->bindValue(4, $orderDTO->getOrderStatus());
-        $query->execute();
-        return $query->rowCount() > 0;
+        try {
+            $sql = /** @lang text */
+                "INSERT INTO `order` (user_id, payment_id, total, order_status) VALUES (?, ?, ?, ?)";
+            $query = $this->conn->prepare($sql);
+            $query->bindValue(1, $orderDTO->getUserId());
+            $query->bindValue(2, $orderDTO->getPaymentId());
+            $query->bindValue(3, $orderDTO->getTotal());
+            $query->bindValue(4, $orderDTO->getOrderStatus());
+            $query->execute();
+            return $this->conn->lastInsertId();
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 
     public function getOrders(): array
@@ -36,6 +40,20 @@ class OrderDAO
             return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             die("Error: " . $e->getMessage());
+        }
+    }
+
+    public function getOrdersByUserId($userId): array
+    {
+        try {
+            $sql = /** @lang text */
+                "SELECT * FROM `order` WHERE user_id = ?";
+            $query = $this->conn->prepare($sql);
+            $query->bindValue(1, $userId);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
         }
     }
 

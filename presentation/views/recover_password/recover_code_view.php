@@ -37,7 +37,9 @@ require('recover_code.php');
                        class="form-control my-3 text-center"
                        id="recover-code"
                        name="recover-code"
-                       placeholder="Código de recuperación" minlength="6"
+                       placeholder="Código de recuperación"
+                       minlength="6"
+                       maxlength="6"
                        required>
               </label>
             </div>

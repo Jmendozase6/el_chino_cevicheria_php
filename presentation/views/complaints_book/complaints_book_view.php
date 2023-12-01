@@ -1,5 +1,25 @@
 <?php
+
+use data_transfer_objects\UserDTO;
+
 include_once '../landing/base_landing_view.php';
+include_once '../../../data_access_objects/UserDAO.php';
+include_once '../../../data_transfer_objects/UserDTO.php';
+
+if (!isset($_SESSION)) {
+    session_start();
+    $id = $_SESSION['id'];
+}
+
+$isAuthenticated = isset($_SESSION["id"]);
+$currentUserDTO = null;
+
+if ($isAuthenticated) {
+    $userDAO = new UserDAO();
+    $currentUser = $userDAO->getUserById($_SESSION["id"]);
+    $currentUserDTO = UserDTO::createFromResponse($currentUser);
+}
+
 $content = '
 <div class="container my-5">
     <div class="row justify-content-center">
@@ -8,12 +28,14 @@ $content = '
             <form action="complaint_book.php" enctype="multipart/form-data">
                 <div class="form-group py-2">
                     <label for="name">Nombre:</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Ingrese su nombre" required>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Ingrese su nombre" required
+                    value="' . ($currentUserDTO ? $currentUserDTO->getName() . " " . $currentUserDTO->getLastName() : '') . '">
                 </div>
 
                 <div class="form-group py-2">
                     <label for="email">Correo Electrónico:</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo electrónico" required>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo electrónico" required
+                    value="' . ($currentUserDTO ? $currentUserDTO->getEmail() : '') . '">
                 </div>
 
                 <div class="form-group py-2">

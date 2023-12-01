@@ -11,7 +11,7 @@ class OrderProductDAO
         $this->conn = DbConnection::connect();
     }
 
-    public function getMostSellProducts()
+    public function getMostSellProducts(): false|array
     {
         try {
             $sql =
@@ -43,8 +43,7 @@ class OrderProductDAO
         }
     }
 
-    public
-    function getOrdersWithUsers($fromDate, $toDate, $limit = 3): false|array
+    public function getOrdersWithUsers($fromDate, $toDate, $limit = 3): false|array
     {
         $sql =
             /** @lang text */
@@ -59,4 +58,41 @@ class OrderProductDAO
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function createOrderProduct($orderId, $productId, $quantity): bool
+    {
+        try {
+            $sql =
+                /** @lang text */
+                "INSERT INTO order_product (order_id, product_id, quantity) VALUES (?, ?, ?)";
+            $query = $this->conn->prepare($sql);
+            $query->bindParam(1, $orderId);
+            $query->bindParam(2, $productId);
+            $query->bindParam(3, $quantity);
+            return $query->execute();
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getOrdersProductsByOrderId($orderId): array
+    {
+        try {
+            $sql =
+                /** @lang text */
+                "SELECT p.name, p.description, p.image, p.price, op.quantity, (p.price * op.quantity) as subtotal
+                    FROM order_product as op
+                             INNER JOIN product as p
+                             ON op.product_id = p.id
+                WHERE op.order_id = ?";
+            $query = $this->conn->prepare($sql);
+            $query->bindParam(1, $orderId);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+
 }

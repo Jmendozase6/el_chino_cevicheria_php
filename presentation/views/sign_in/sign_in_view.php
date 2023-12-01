@@ -49,7 +49,7 @@ require('../recover_password/recover_password.php');
             <div class="input-field">
               <input type="password" class="input" name="password" id="password" required
                      autocomplete="off"
-                     minlength="6">
+                     minlength="6" maxlength="16">
               <label for="password">Contraseña</label>
             </div>
 

@@ -1,32 +1,34 @@
 <?php
 require_once '../../../data_access_objects/UserDAO.php';
 
+if (!isset($_SESSION)) {
+    session_start();
+}
+
 $GLOBALS['successMessageProfile'] = null;
 $GLOBALS['errorMessageProfile'] = null;
 
-if (isset($_POST['btn-update-profile'])) {
-
-    if (!isset($_SESSION)) {
-        session_start();
-    }
+if (isset($_POST['btn-save-profile'])) {
 
     $id = $_SESSION["id"];
 
     $name = trim($_POST['name']);
-    $lastName = $_POST['last-name'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $address = $_POST['address'];
-    $phone = $_POST['phone'];
+    $lastName = trim($_POST['last-name']);
+    $address = trim($_POST['address']);
+    $phone = trim($_POST['phone']);
     $userDAO = new UserDAO();
 
-    $user = $userDAO->updateProfile($id, $name, $lastName, $address, $phone, $email);
-
-    if ($user != null) {
-        $successMessageProfile = "Se actualizaron los datos";
-        echo $successMessageProfile;
+    if (empty($name) || empty($address) || empty($phone) || ctype_space($name) || ctype_space($address) || ctype_space($phone)) {
+        $errorMessageProfile = "Por favor, ingrese todos los datos";
     } else {
-        $errorMessageProfile = "Ocurrió un error al actualizar";
-        echo $errorMessageProfile;
+
+        $user = $userDAO->updateProfile($id, $name, $lastName, $address, $phone);
+
+        if ($user != null) {
+            $successMessageProfile = "Se actualizaron los datos";
+        } else {
+            $errorMessageProfile = "Ocurrió un error al actualizar";
+        }
     }
+
 }

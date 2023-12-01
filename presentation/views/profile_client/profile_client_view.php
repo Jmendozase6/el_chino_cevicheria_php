@@ -5,10 +5,18 @@ use data_transfer_objects\UserDTO;
 include_once '../landing/base_landing_view.php';
 include_once '../../../data_access_objects/UserDAO.php';
 include_once '../../../data_transfer_objects/UserDTO.php';
+require_once '../../../data_access_objects/CartDAO.php';
 require('profile_client.php');
 
 if (!isset($_SESSION)) {
     session_start();
+}
+
+if ($GLOBALS['errorMessageProfile'] != null) { ?>
+  <style>.display-on-error {
+          display: block;
+      }
+  </style><?php
 }
 
 $isAuthenticated = isset($_SESSION["id"]);
@@ -18,8 +26,6 @@ if ($isAuthenticated) {
     $currentUser = $userDAO->getUserById($_SESSION["id"]);
     $currentUserDTO = UserDTO::createFromResponse($currentUser);
 }
-
-$editable = "";
 
 $content = $isAuthenticated ? '
 <div class="container py-5">
@@ -37,12 +43,12 @@ $content = $isAuthenticated ? '
         <div class="row">
             <div class="col-sm-10 col-md-12 p-0 ">
                 <div class="row">
-                    <form action="" method="post" enctype="multipart/form-data">
+                    <form method="post" enctype="multipart/form-data">
                         <div class="mb-2 d-flex justify-content-center align-items-center">
                             <div class="col-sm-12 col-md-8 col-lg-6">
                                 <label for="name" class="form-label">Nombres</label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                       value="' . $currentUserDTO->getName() . '">
+                                       value="' . $currentUserDTO->getName() . '" required>
                             </div>
                         </div>
                         <div class="mb-2 d-flex justify-content-center align-items-centerr">
@@ -57,23 +63,36 @@ $content = $isAuthenticated ? '
                             <div class="col-sm-12 col-md-8 col-lg-6">
                                 <label for="email" class="form-label">Correo electrónico</label>
                                 <input type="email" class="form-control" id="email" name="email"
-                                       value="' . $currentUserDTO->getEmail() . '">
+                                       value="' . $currentUserDTO->getEmail() . '" readonly>
                             </div>
                         </div>
                         <div class="mb-2 d-flex justify-content-center align-items-center">
                             <div class="col-sm-12 col-md-8 col-lg-6">
                                 <label for="address" class="form-label">Dirección</label>
-                                <input type="email" class="form-control" id="address" name="address"
-                                       value="' . $currentUserDTO->getAddress() . '">
+                                <input type="text" class="form-control" id="address" name="address"
+                                       value="' . $currentUserDTO->getAddress() . '" required>
                             </div>
                         </div>
                         <div class="mb-2 d-flex justify-content-center align-items-center">
                             <div class="col-sm-12 col-md-8 col-lg-6">
                                 <label for="phone" class="form-label">Teléfono</label>
                                 <input type="text" class="form-control" id="phone" name="phone"
-                                       value="' . $currentUserDTO->getPhone() . '">
+                                       value="' . $currentUserDTO->getPhone() . '" required>
                             </div>
                         </div>
+                        <div class="mb-2 d-flex justify-content-center align-items-center">
+                            <div class="col-sm-12 col-md-8 col-lg-6">
+                                <button type="submit" class="btn btn-primary btn-submit w-100" id="btn-save-profile" name="btn-save-profile">Guardar</button>
+                            </div>
+                        </div>
+                        <div class="mb-2 d-flex justify-content-center align-items-center">
+                            <div class="col-sm-12 col-md-8 col-lg-6">
+                                <div class="alert alert-danger display-on-error" role="alert">
+                                    Error: ' . $GLOBALS['errorMessageProfile'] . '
+                                </div>
+                            </div>
+                        </div>
+                        
                     </form>
                 </div>
             </div>

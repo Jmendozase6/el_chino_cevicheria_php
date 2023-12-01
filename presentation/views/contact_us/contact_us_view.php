@@ -1,6 +1,13 @@
 <?php
-include_once '../landing/base_landing_view.php';
+
+use data_transfer_objects\UserDTO;
+
 require('contact_us.php');
+
+include_once '../landing/base_landing_view.php';
+include_once '../../../data_access_objects/UserDAO.php';
+include_once '../../../data_transfer_objects/UserDTO.php';
+
 
 if ($GLOBALS['errorMessageContactUs'] != null) { ?>
   <style>.display-on-error {
@@ -14,6 +21,22 @@ if ($GLOBALS['successMessageContactUs'] != null) { ?>
       }
   </style><?php
 }
+
+
+if (!isset($_SESSION)) {
+    session_start();
+    $id = $_SESSION['id'];
+}
+
+$isAuthenticated = isset($_SESSION["id"]);
+$currentUserDTO = null;
+
+if ($isAuthenticated) {
+    $userDAO = new UserDAO();
+    $currentUser = $userDAO->getUserById($_SESSION["id"]);
+    $currentUserDTO = UserDTO::createFromResponse($currentUser);
+}
+
 $content = '
 <div class="container-fluid wrapper-contact-us">
   <div class="row">
@@ -43,11 +66,11 @@ $content = '
             <div class="input-field">
               <label for="name"></label>
               <input type="text" name="name" id="name" class="border-content"
-                     placeholder="Nombre" required>
+                     placeholder="Nombre" required value="' . ($currentUserDTO ? $currentUserDTO->getName() : '') . '">
               <label for="email"></label>
               <input type="email" name="email" id="email"
                      class="border-content email-content" placeholder="Email"
-                     required>
+                     required value="' . ($currentUserDTO ? $currentUserDTO->getEmail() : '') . '">
             </div>
 
             <div class="input-field-2">

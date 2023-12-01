@@ -55,14 +55,14 @@ require('sign_up.php');
             <div class="input-field">
               <input type="password" class="input" name="password" id="password" required
                      autocomplete="off"
-                     minlength="6">
+                     maxlength="16" minlength="6">
               <label for="password">Contraseña</label>
             </div>
 
 
             <div class="input-field">
               <input type="number" class="input" name="phone" id="phone" pattern="[0,9]+"
-                     inputmode="numeric" required autocomplete="off">
+                     inputmode="numeric" required autocomplete="off" maxlength="9" minlength="9">
               <label for="phone">Teléfono</label>
             </div>
 

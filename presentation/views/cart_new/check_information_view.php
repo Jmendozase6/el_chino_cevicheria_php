@@ -16,18 +16,20 @@ require_once '../../../data_transfer_objects/ProductDTO.php';
 global $cartTotal;
 
 if (!isset($_SESSION)) {
-  session_start();
-  $id = $_SESSION['id'];
-} else {
+    session_start();
+    $id = $_SESSION['id'];
+}
+/*
+else {
   header('Location: ../error/error_view.php');
 }
-
+*/
 $isAuthenticated = isset($_SESSION["id"]);
 
 if ($isAuthenticated) {
-  $userDAO = new UserDAO();
-  $currentUser = $userDAO->getUserById($_SESSION["id"]);
-  $currentUserDTO = UserDTO::createFromResponse($currentUser);
+    $userDAO = new UserDAO();
+    $currentUser = $userDAO->getUserById($_SESSION["id"]);
+    $currentUserDTO = UserDTO::createFromResponse($currentUser);
 }
 
 $cartDAO = new CartDAO();
@@ -36,61 +38,62 @@ $cartTotal = $cartDAO->getTotalFromCart(session_id());
 $productsFromCartDTO = [];
 
 foreach ($responseProductsFromCart as $productFromCart) {
-  $productDAO = new ProductDAO();
-  $product = $productDAO->getProductById($productFromCart['id']);
-  $productDTO = ProductDTO::createFromResponse($product);
-  $productsFromCartDTO[] = $productDTO;
+    $productDAO = new ProductDAO();
+    $product = $productDAO->getProductById($productFromCart['id']);
+    $productDTO = ProductDTO::createFromResponse($product);
+    $productsFromCartDTO[] = $productDTO;
 }
 
 if (sizeof($responseProductsFromCart) > 0) {
-  require_once __DIR__ . '/../../../vendor/autoload.php';
-  include_once __DIR__ . '/../../../datasource/constants.php';
+    require_once __DIR__ . '/../../../vendor/autoload.php';
+    include_once __DIR__ . '/../../../datasource/constants.php';
 
-  MercadoPago\SDK::setAccessToken(MERCADO_PAGO_ACCESS_TOKEN);
+    MercadoPago\SDK::setAccessToken(MERCADO_PAGO_ACCESS_TOKEN);
 
-  $preference = new Preference();
-  $productsDTO = [];
+    $preference = new Preference();
+    $productsDTO = [];
 
-  for ($i = 0; $i < sizeof($productsFromCartDTO); $i++) {
-    $item = new Item();
-    $item->id = $productsFromCartDTO[$i]->getId();
-    $item->title = $productsFromCartDTO[$i]->getName();
-    $item->quantity = $responseProductsFromCart[$i]['quantity'];
-    $item->unit_price = $productsFromCartDTO[$i]->getPrice();
-    $item->currency_id = 'PEN';
-    $productsDTO[$i] = $item;
-  }
+    for ($i = 0; $i < sizeof($productsFromCartDTO); $i++) {
+        $item = new Item();
+        $item->id = $productsFromCartDTO[$i]->getId();
+        $item->title = $productsFromCartDTO[$i]->getName();
+        $item->quantity = $responseProductsFromCart[$i]['quantity'];
+        $item->unit_price = $productsFromCartDTO[$i]->getPrice();
+        $item->currency_id = 'PEN';
+        $productsDTO[$i] = $item;
+    }
 
-  $preference->items = $productsDTO;
+    $preference->items = $productsDTO;
 
-  $preference->back_urls = array(
-    "success" => $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "/../success_payment_view.php",
-    "failure" => "/../error/error_view.php",
-    "pending" => "http://localhost:8080/checkout/pending"
-  );
+    $preference->back_urls = array(
+//    "success" => $_SERVER['HTTP_HOST'] . "/../presentation/views/cart_client/success_payment_view.php",
+        "success" => $_SERVER['HTTP_HOST'] . "/../el_chino_cevicheria/presentation/views/cart_client/create_order.php",
+        "failure" => $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "/../error/error_view.php",
+        "pending" => "http://localhost:8080/checkout/pending"
+    );
 
-  $preference->auto_return = "approved";
-  $preference->binary_mode = true;
+    $preference->auto_return = "approved";
+    $preference->binary_mode = true;
 
-  try {
-    $preference->save();
-  } catch (Exception $e) {
-    echo 'Excepción capturada: ', $e->getMessage(), "\n";
-  }
+    try {
+        $preference->save();
+    } catch (Exception $e) {
+        echo 'Excepción capturada: ', $e->getMessage(), "\n";
+    }
 
-  ob_end_flush();
+    ob_end_flush();
 }
 function displayIfAuthenticatedPayment(): string
 {
-  global $isAuthenticated, $preference;
-  if ($isAuthenticated) {
-    $javascriptCode = '
+    global $isAuthenticated, $preference;
+    if ($isAuthenticated) {
+        $javascriptCode = '
         <script type="text/javascript">
-            const $id = new MercadoPago("' . MERCADO_PAGO_TEST_PUBLIC_KEY . '", {
+            const id = new MercadoPago("' . MERCADO_PAGO_TEST_PUBLIC_KEY . '", {
                 locale: "es-PE"
             })
             // bg color: #F6F6F6
-            $id.checkout({
+            id.checkout({
                 preference: {
                     id: "' . $preference->id . '"
                 },
@@ -101,13 +104,13 @@ function displayIfAuthenticatedPayment(): string
             });
         </script>
     ';
-    $content = '<div class="col-auto checkout-btn"></div>' . $javascriptCode;
-  }
+        $content = '<div class="col-auto checkout-btn"></div>' . $javascriptCode;
+    }
 
-  return $content;
+    return $content;
 }
 
-$content = $isAuthenticated && '
+$content = '
 <div class="container wrapper-check-information">
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-7 d-flex justify-content-center align-items-center container-user-data">

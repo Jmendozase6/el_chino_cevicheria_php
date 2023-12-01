@@ -29,27 +29,27 @@ require('sign_in.php');
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <span class="mb-2">Ingresa tus datos para poder realizar el pago</span>
+        <span>Ingresa tus datos para poder realizar el pago</span>
         <form enctype="multipart/form-data" method="post">
 
-          <div class="input-field">
-            <label for="email" class="form-label">
-              <input type="email" class="form-control" id="email" name="email" placeholder="Correo electrónico"
-                     required>
-            </label>
+          <div class="input-field my-3">
+            <label for="email" class="form-label"></label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Correo electrónico"
+                   required>
           </div>
 
           <div class="input-field">
-            <label for="password" class="form-label">
-              <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña"
-                     minlength="6" required>
-            </label>
+            <label for="password" class="form-label"></label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña"
+                   minlength="6" required>
           </div>
 
-          <button type="submit" class="btn btn-primary my-2 col-12" name="btn-sign-in-modal" id="btn-sign-in-modal"
-                  value="sign-in-modal">
-            Ingresar
-          </button>
+          <div class="input-field p-0 m-0 justify-content-center">
+            <button type="submit" class="btn btn-primary my-2" name="btn-sign-in-modal" id="btn-sign-in-modal"
+                    value="sign-in-modal">
+              Ingresar
+            </button>
+          </div>
 
         </form>
         <div class="alert alert-danger display-on-error" role="alert">

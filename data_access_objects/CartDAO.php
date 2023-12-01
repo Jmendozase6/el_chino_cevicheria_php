@@ -28,6 +28,21 @@ class CartDAO
         }
     }
 
+    public function getProductsIdQtyFromCart(): array
+    {
+        try {
+            $idSession = session_id();
+            $sql = /** @lang text */
+                "SELECT id_product, quantity FROM cart WHERE id_session = ?";
+            $query = $this->conn->prepare($sql);
+            $query->bindParam(1, $idSession);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
+
     public function addProductToCart($idProduct, $quantity): void
     {
         try {
@@ -111,11 +126,11 @@ class CartDAO
         return false;
     }
 
-    public function deleteCart($idSession): void
+    public function deleteCart(string $idSession): void
     {
         try {
             $sql = /** @lang text */
-                "DELETE * FROM cart WHERE id_session = ?";
+                "DELETE FROM cart WHERE id_session = ?";
             $query = $this->conn->prepare($sql);
             $query->bindParam(1, $idSession);
             $query->execute();

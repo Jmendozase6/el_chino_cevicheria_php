@@ -3,7 +3,7 @@ $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], "/") + 
 ?>
 
 <div class="side-menu-mobile">
-  <nav class="navbar fixed-bottom bg-body-tertiary px-5">
+  <nav class="navbar fixed-bottom bg-body-tertiary px-5 mb-3 py-3">
     <div class="container-fluid">
       <a class="text-decoration-none color-text <?= $page == "home_view.php" ? 'active-text' : ''; ?>"
          href="../home/home_view.php"

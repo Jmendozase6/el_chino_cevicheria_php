@@ -11,7 +11,7 @@ class OrderDTO
     private string $orderStatus;
     private string $createdAt;
 
-    public function createFromResponse($response): OrderDTO
+    public static function createFromResponse($response): OrderDTO
     {
         $orderDTO = new OrderDTO();
         $orderDTO->setId($response['id']);

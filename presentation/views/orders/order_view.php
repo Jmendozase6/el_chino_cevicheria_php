@@ -85,7 +85,7 @@ if ($_SESSION['id'] == null) {
               <?php foreach ($responseOrders as $order) { ?>
                 <div class="row">
                   <div class="col-3 col-md-4 mb-1">
-                    <img src="../../resources/images/<?= $order['img'] ?>"
+                    <img src="<?= $order['img'] ?>"
                          class="card-img-top rounded-2 object-fit-cover display-on-desktop"
                          style="width: 90px; height: 100px;"
                          alt="Logo usuario">
