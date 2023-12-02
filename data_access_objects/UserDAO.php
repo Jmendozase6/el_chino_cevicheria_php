@@ -66,19 +66,16 @@ class UserDAO
         }
     }
 
-    public function getBettersCustomers()
+    public function getBettersCustomers(): array
     {
         try {
             $sql = /** @lang text */
                 "SELECT user.*, SUM(total) AS total FROM `order` JOIN user ON user.id = `order`.user_id GROUP BY user_id ORDER BY total DESC";
             $query = $this->conn->prepare($sql);
             $query->execute();
-            if ($query->rowCount() == 0) {
-                return "Usuarios no encontrados";
-            }
             return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return [];
         }
     }
 
@@ -122,6 +119,19 @@ class UserDAO
             return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             die("Error: " . $e->getMessage());
+        }
+    }
+
+    public function getQuantityClients()
+    {
+        try {
+            $sql = /** @lang text */
+                "SELECT COUNT(*) AS quantity FROM user WHERE id_role = 2";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            return $query->fetch(PDO::FETCH_ASSOC)['quantity'];
+        } catch (Exception $e) {
+            return 0;
         }
     }
 

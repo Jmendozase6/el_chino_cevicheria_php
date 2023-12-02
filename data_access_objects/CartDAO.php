@@ -114,11 +114,9 @@ class CartDAO
         try {
             $ids = $this->getProductsIdFromCart();
             foreach ($ids as $id) {
-//                foreach ($products as $product) {
                 if ($id['id_product'] == $productId) {
                     return true;
                 }
-//                }
             }
         } catch (Exception $e) {
             return false;

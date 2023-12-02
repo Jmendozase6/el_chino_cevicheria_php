@@ -66,8 +66,8 @@ if (sizeof($responseProductsFromCart) > 0) {
     $preference->items = $productsDTO;
 
     $preference->back_urls = array(
-//    "success" => $_SERVER['HTTP_HOST'] . "/../presentation/views/cart_client/success_payment_view.php",
-        "success" => $_SERVER['HTTP_HOST'] . "/../el_chino_cevicheria/presentation/views/cart_client/create_order.php",
+//    "success" => $_SERVER['HTTP_HOST'] . "/../presentation/views/cart_client/create_order.php",
+        "success" => $_SERVER['HTTP_HOST'] . "/../presentation/views/cart_client/create_order.php",
         "failure" => $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "/../error/error_view.php",
         "pending" => "http://localhost:8080/checkout/pending"
     );

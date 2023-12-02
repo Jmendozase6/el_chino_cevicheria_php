@@ -30,16 +30,33 @@ class OrderDAO
         }
     }
 
-    public function getOrders(): array
+    public function getOrdersDay(): array
     {
         try {
             $sql = /** @lang text */
-                "SELECT * FROM orders";
+                "SELECT *
+                    FROM `order`
+                    WHERE created_at = curdate()";
             $query = $this->conn->prepare($sql);
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             die("Error: " . $e->getMessage());
+        }
+    }
+
+    public function getQuantityOrdersDay(): int
+    {
+        try {
+            $sql = /** @lang text */
+                "SELECT COUNT(*) AS quantity
+                    FROM `order`
+                    WHERE created_at = curdate()";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            return $query->fetch(PDO::FETCH_ASSOC)['quantity'];
+        } catch (PDOException $e) {
+            return 0;
         }
     }
 
