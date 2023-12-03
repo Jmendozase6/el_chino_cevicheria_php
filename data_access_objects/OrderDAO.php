@@ -17,12 +17,18 @@ class OrderDAO
     {
         try {
             $sql = /** @lang text */
-                "INSERT INTO `order` (user_id, payment_id, total, order_status) VALUES (?, ?, ?, ?)";
+                "INSERT INTO `order` (user_id, payment_id, total, order_status, name_order, last_name_order, address_order, district_order, phone_order, comments_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $query = $this->conn->prepare($sql);
             $query->bindValue(1, $orderDTO->getUserId());
             $query->bindValue(2, $orderDTO->getPaymentId());
             $query->bindValue(3, $orderDTO->getTotal());
             $query->bindValue(4, $orderDTO->getOrderStatus());
+            $query->bindValue(5, $orderDTO->getNameOrder());
+            $query->bindValue(6, $orderDTO->getLastNameOrder());
+            $query->bindValue(7, $orderDTO->getAddressOrder());
+            $query->bindValue(8, $orderDTO->getDistrictOrder());
+            $query->bindValue(9, $orderDTO->getPhoneOrder());
+            $query->bindValue(10, $orderDTO->getCommentsOrder());
             $query->execute();
             return $this->conn->lastInsertId();
         } catch (PDOException $e) {
@@ -92,7 +98,6 @@ class OrderDAO
         }
     }
 
-
     public function getQuantityOrdersByDay(): array
     {
         try {
@@ -153,6 +158,20 @@ class OrderDAO
         $query->bindValue(2, $orderId);
         $query->execute();
         return $query->rowCount() > 0;
+    }
+
+    public function getOrderById($orderId): array
+    {
+        try {
+            $sql = /** @lang text */
+                "SELECT * FROM `order` WHERE id = ?";
+            $query = $this->conn->prepare($sql);
+            $query->bindValue(1, $orderId);
+            $query->execute();
+            return $query->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
     }
 
 }

@@ -118,10 +118,10 @@ if ($_SESSION['id'] == null) {
                                 <td><?= (new OrderStatusDTO)::getStatusByCode($order->getOrderStatus()) ?></td>
                                 <td><?= $order->getCreatedAt() ?></td>
                                 <td>
-                                  <form action="../orders_client/orders_client_details_view.php" method="post"
+                                  <form action="order_view_details_admin.php" method="post"
                                         enctype="multipart/form-data">
                                     <input type="hidden" name="order_id" id="order_id"
-                                           value="' . $orderDTO->getId() . '">
+                                           value="<?= $order->getId() ?>">
                                     <input type="submit" class="btn btn-primary" value="Ver">
                                   </form>
                                 </td>

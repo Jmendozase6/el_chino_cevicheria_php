@@ -12,6 +12,12 @@ require_once '../../../data_access_objects/OrderProductDAO.php';
 require_once '../../../data_transfer_objects/OrderDTO.php';
 require_once '../../../data_transfer_objects/ProductDTO.php';
 
+// Data Client
+$nameOrder = $_GET['txt-name'];
+$lastNameOrder = $_GET['txt-last-name'];
+$addressOrder = $_GET['txt-address'];
+$phoneOrder = $_GET['txt-phone'];
+$district = $_GET['district'];
 
 $paymentId = $_GET['payment_id'];
 $paymentStatus = $_GET['status'];
@@ -25,9 +31,14 @@ $orderDTO = new OrderDTO();
 
 $orderDTO->setTotal($cartDAO->getTotalFromCart(session_id()));
 $orderDTO->setUserId($_SESSION['id']);
-// 1 = En revisión
 $orderDTO->setOrderStatus(1);
 $orderDTO->setPaymentId($paymentId);
+$orderDTO->setNameOrder($nameOrder);
+$orderDTO->setLastNameOrder($lastNameOrder);
+$orderDTO->setAddressOrder($addressOrder);
+$orderDTO->setPhoneOrder($phoneOrder);
+$orderDTO->setDistrictOrder($district);
+
 $lastId = $orderDAO->createOrder($orderDTO);
 
 $responseProductsFromCart = $cartDAO->getProductsIdQtyFromCart();

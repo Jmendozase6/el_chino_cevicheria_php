@@ -10,6 +10,12 @@ class OrderDTO
     private float $total;
     private string $orderStatus;
     private string $createdAt;
+    private string $nameOrder;
+    private string $lastNameOrder;
+    private string $addressOrder;
+    private string $districtOrder;
+    private string $phoneOrder;
+    private string $commentsOrder;
 
     public static function createFromResponse($response): OrderDTO
     {
@@ -20,6 +26,12 @@ class OrderDTO
         $orderDTO->setTotal($response['total']);
         $orderDTO->setOrderStatus($response['order_status']);
         $orderDTO->setCreatedAt($response['created_at']);
+        $orderDTO->setNameOrder($response['name_order']);
+        $orderDTO->setLastNameOrder($response['last_name_order']);
+        $orderDTO->setAddressOrder($response['address_order']);
+        $orderDTO->setDistrictOrder($response['district_order']);
+        $orderDTO->setPhoneOrder($response['phone_order']);
+        $orderDTO->setCommentsOrder($response['comments_order']);
         return $orderDTO;
     }
 
@@ -53,6 +65,36 @@ class OrderDTO
         $this->createdAt = $createdAt;
     }
 
+    public function setNameOrder($nameOrder): void
+    {
+        $this->nameOrder = $nameOrder;
+    }
+
+    public function setLastNameOrder($lastNameOrder): void
+    {
+        $this->lastNameOrder = $lastNameOrder;
+    }
+
+    public function setAddressOrder($addressOrder): void
+    {
+        $this->addressOrder = $addressOrder;
+    }
+
+    public function setDistrictOrder($districtOrder): void
+    {
+        $this->districtOrder = $districtOrder;
+    }
+
+    public function setPhoneOrder($phoneOrder): void
+    {
+        $this->phoneOrder = $phoneOrder;
+    }
+
+    public function setCommentsOrder($commentsOrder): void
+    {
+        $this->commentsOrder = $commentsOrder;
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -81,6 +123,36 @@ class OrderDTO
     public function getCreatedAt(): string
     {
         return $this->createdAt;
+    }
+
+    public function getNameOrder(): string
+    {
+        return $this->nameOrder;
+    }
+
+    public function getLastNameOrder(): string
+    {
+        return $this->lastNameOrder;
+    }
+
+    public function getAddressOrder(): string
+    {
+        return $this->addressOrder;
+    }
+
+    public function getDistrictOrder(): string
+    {
+        return $this->districtOrder;
+    }
+
+    public function getPhoneOrder(): string
+    {
+        return $this->phoneOrder;
+    }
+
+    public function getCommentsOrder(): string
+    {
+        return $this->commentsOrder;
     }
 
 }

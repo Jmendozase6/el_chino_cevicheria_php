@@ -118,7 +118,7 @@ function displayIfAuthenticatedPayment(): string
             });
         </script>
     ';
-        $content = '<div class="col-auto checkout-btn" ></div > ' . $javascriptCode;
+        $content = '<div class="col-auto checkout-btn d-flex justify-content-center align-items-center"></div >' . $javascriptCode;
     }
 
     return $content;
@@ -149,47 +149,46 @@ function displayDistrict(): string
 }
 
 $content = '
-    <div class="container wrapper-check-information" >
-    <div class="row" >
+    <div class="container wrapper-check-information">
+    <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-7 d-flex justify-content-center align-items-center container-user-data" >
-            <div class="d-flex flex-column align-items-center w-100" >
+            <div class="d-flex flex-column align-items-center w-100">
                 <h1 class="text-check-information py-3" > Comprobar información </h1 >
                 <div class="input-fields w-100" >
-                    <div class="name-user" >
-                        <label for="txt-name" class="label-content label-name w-100" > Nombres
-                            <input type = "text" name = "txt-name" id = "txt-name"
-                                   class="txt-user-data border-content"
-                                   placeholder = "Nombres"
-                                   value = "' . $currentUserDTO->getName() . '"
-                                   required >
-                        </label >
-                        <label for="txt-last-name" class="label-content w-100" > Apellidos
-                            <input type = "text" name = "txt-user-data txt-last-name" id = "txt-last-name"
-                                   class="txt-last-name txt-user-data border-content"
-                                   placeholder = "Apellidos"
-                                   value = "' . $currentUserDTO->getLastName() . '"
-                                   required >
-                        </label >
-                    </div >
-
-                    <div class="" >
-                        <label for="txt-address" class="label-content" > Dirección</label >
-                        <input type = "text" name = "txt-address" id = "txt-address" class="txt-user-data border-content"
-                               placeholder = "Dirección"
-                               value = "' . $currentUserDTO->getAddress() . '"
-                                required >
-                    </div >
-                    <div class="info-text" >
-                    ' . displayDistrict() . '
-                        <label for="txt-phone" class="label-content w-100" > Teléfono
-                            <input type = "text" name = "txt-phone" id = "txt-phone" class="txt-user-data border-content"
-                                   placeholder = "Teléfono"
-                                   value = "' . $currentUserDTO->getPhone() . '"
-                                   required >
-                        </label >
-                    </div >
-                    <hr class="m-1" >
-                    <div class="" >
+                    <form action="" method="get">
+                        <div class="name-user" >
+                            <label for="txt-name" class="label-content label-name w-100" > Nombres
+                                <input type = "text" name = "txt-name" id = "txt-name"
+                                       class="txt-user-data border-content"
+                                       placeholder = "Nombres"
+                                       value = "' . $currentUserDTO->getName() . '"
+                                       required >
+                            </label >
+                            <label for="txt-last-name" class="label-content w-100" > Apellidos
+                                <input type ="text" name = "txt-last-name" id = "txt-last-name"
+                                       class="txt-last-name txt-user-data border-content"
+                                       placeholder = "Apellidos"
+                                       value = "' . $currentUserDTO->getLastName() . '"
+                                       required >
+                            </label >
+                        </div >
+                        <div class="info-text">
+                            <label for="txt-address" class="label-content" > Dirección</label >
+                            <input type = "text" name="txt-address" id ="txt-address" class="txt-user-data border-content"
+                                   placeholder = "Dirección"
+                                   value = "' . $currentUserDTO->getAddress() . '"
+                                    required >
+                        </div >
+                        <div class="info-text" >
+                        ' . displayDistrict() . '
+                            <label for="txt-phone" class="label-content w-100" > Teléfono
+                                <input type = "text" name = "txt-phone" id = "txt-phone" class="txt-user-data border-content"
+                                       placeholder = "Teléfono"
+                                       value = "' . $currentUserDTO->getPhone() . '"
+                                       required >
+                            </label >
+                        </div >
+                        <hr class="m-1" >
                         <div class="py-2" >
                             <h2 class="text-titles" > Método de pago </h2 >
                             <div class="form-check" >
@@ -219,13 +218,13 @@ $content = '
                         <textarea name = "txt-message" id = "txt-message" class="textarea border-content txt-user-data"
                                   placeholder = "Puedes colocar una referencia, te llamaremos de igual forma."
                                   required ></textarea >
-                    </div >
+                    </form>
                 </div >
             </div >
         </div >
         <div class="col-sm-12 col-md-12 col-lg-5" >
             <div class="container payment-card-check" >
-                <div class="row p-3" >
+                <div class="row p-3 pt-4" >
                     <div class="col" >
                     ' . displayIfDelivery() . '
                         <div class="col d-flex justify-content-between mb-3" >
