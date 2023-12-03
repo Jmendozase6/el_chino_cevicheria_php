@@ -1,7 +1,7 @@
 <?php
 ob_start();
 if (!isset($_SESSION)) {
-    session_start();
+  session_start();
 }
 error_reporting(E_ALL & ~E_DEPRECATED);
 
@@ -20,33 +20,33 @@ $cartTotal = $cartDAO->getTotalFromCart(session_id());
 $productsFromCartDTO = [];
 
 foreach ($responseProductsFromCart as $productFromCart) {
-    $productDAO = new ProductDAO();
-    $product = $productDAO->getProductById($productFromCart['id']);
-    $productDTO = ProductDTO::createFromResponse($product);
-    $productsFromCartDTO[] = $productDTO;
+  $productDAO = new ProductDAO();
+  $product = $productDAO->getProductById($productFromCart['id']);
+  $productDTO = ProductDTO::createFromResponse($product);
+  $productsFromCartDTO[] = $productDTO;
 }
 
 $isAuthenticated = isset($_SESSION["id"]);
 
 if (sizeof($productsFromCartDTO) == 0) {
-    header('Location: ../empty_cart/empty_cart_view.php');
-    exit();
+  header('Location: ../empty_cart/empty_cart_view.php');
+  exit();
 }
 
 //mobile
 function displayProducts(): string
 {
-    global $productsFromCartDTO, $responseProductsFromCart;
-    $content = '';
+  global $productsFromCartDTO, $responseProductsFromCart;
+  $content = '';
 
-    for ($i = 0;
-         $i < sizeof($productsFromCartDTO);
-         $i++) {
-        $content .= '
+  for ($i = 0;
+       $i < sizeof($productsFromCartDTO);
+       $i++) {
+    $content .= '
      <div class="col-4 d-flex justify-content-center align-content-center">
                 <img class="mb-2 rounded-1 img-product" src="' . $productsFromCartDTO[$i]->getImage() . '" alt="Producto">
      </div>
-            <div class="col-4 d-flex flex-column justify-content-start gap-2 p-0">
+            <div class="col-4 d-flex flex-column justify-content-start gap-2 p-1 product-data">
                <h6 class="name-product">' . $productsFromCartDTO[$i]->getName() . '</h6>
                <h6 class="name-type">' . $productsFromCartDTO[$i]->getDescription() . '</h6>
                <h6 class="name-price">S/.' . $productsFromCartDTO[$i]->getPrice() . '</h6>
@@ -58,7 +58,7 @@ function displayProducts(): string
                 id="btn-increase" 
                 type="button"
                 href="change_quantity.php?id=' . $productsFromCartDTO[$i]->getId() .
-            '&quantity=' . $responseProductsFromCart[$i]['quantity'] . '&type=I"><i class="bi bi-plus-lg"></i></a>
+      '&quantity=' . $responseProductsFromCart[$i]['quantity'] . '&type=I"><i class="bi bi-plus-lg"></i></a>
 
                 <p class="m-0 p-2 text-black"><strong>' . $responseProductsFromCart[$i]['quantity'] . '</strong></p>
                 
@@ -66,61 +66,85 @@ function displayProducts(): string
                   id="btn-decrease" 
                   type="button"
                   href="change_quantity.php?id=' . $productsFromCartDTO[$i]->getId() .
-            '&quantity=' . $responseProductsFromCart[$i]['quantity'] . '&type=D"
+      '&quantity=' . $responseProductsFromCart[$i]['quantity'] . '&type=D"
                 >' . displayIcon($responseProductsFromCart[$i]['quantity'] == 1) . '</a >
             </div >
             </div >
         <hr>
         ';
-    }
-    return $content;
+  }
+  return $content;
 }
 
 function displayIcon($quantity): string
 {
-    return $quantity == 1 ? '<i class="bi bi-trash text-danger"></i > ' : '<i class="bi bi-dash"></i>';
+  return $quantity == 1 ? '<i class="bi bi-trash text-danger"></i > ' : '<i class="bi bi-dash"></i>';
 }
 
 function displayIfAuthenticated(): string
 {
-    $isAuthenticated = isset($_SESSION["id"]);
-    if ($isAuthenticated) {
-        return '
+  $isAuthenticated = isset($_SESSION["id"]);
+  if ($isAuthenticated) {
+    return '
         <div class="pb-2 d-flex justify-content-center mb-3">
             <button class="btn btn-primary" type="submit" onclick="sendPaymentForm()">Pagar</button>
         </div>
         ';
-    } else {
-        $content = '
-         <button type="button" class="btn btn-success" data-bs-toggle="modal"
+  } else {
+    $content = '
+        <div class="pb-2 d-flex justify-content-center mb-3">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal"
                   data-bs-target="#sign-in-modal">
             Inicia sesión para pagar
-          </button> ';
-        include_once '../sign_in/sign_in_view_modal.php';
-    }
-    return $content;
+            </button>
+         </div> ';
+    include_once '../sign_in/sign_in_view_modal.php';
+  }
+  return $content;
 }
 
 function displayPaymentForm(): string
 {
-    return '<form action="check_information_view.php" method="get" id="payment-form" name="payment-form">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" value="delivery" id="flexRadioDefault1" name="options"
-                           checked required>
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        Delivery
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" value="storePickup" id="flexRadioDefault2"
-                           name="options" required>
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        Recojo en tienda
-                    </label>
-                </div>
-            </form>';
+  return '<form action="check_information_view.php" method="get" id="payment-form" name="payment-form">
+    <h2 class="text-titles"> Método de pago </h2>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" value="mercadoPago" id="flexRadioDefault1"
+                   name="paymentOption" checked required>
+            <label class="form-check-label" for="flexRadioDefault1">
+                Mercado Pago (Tarjetas)
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" value="plin" id="flexRadioDefault2"
+                   name="paymentOption" required>
+            <label class="form-check-label" for="flexRadioDefault2">
+                Plin
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" value="yape" id="flexRadioDefault3"
+                   name="paymentOption" required>
+            <label class="form-check-label" for="flexRadioDefault3">
+                Yape
+            </label>
+        </div>
+        <h2 class="text-titles"> Tipo de entrega </h2>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" value="delivery" id="flexRadioDefault4" name="options"
+                   checked required>
+            <label class="form-check-label" for="flexRadioDefault4">
+                Delivery
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" value="storePickup" id="flexRadioDefault5"
+                   name="options" required>
+            <label class="form-check-label" for="flexRadioDefault5">
+                Recojo en tienda
+            </label>
+        </div>
+</form>';
 }
-
 
 //$content = '
 //<!--mobile-->
@@ -199,8 +223,8 @@ $content = '
             </div>
         </div>
         <div class="col-lg-5">
-            <div class="container payment-card my-3">
-                <div class="row p-4">
+            <div class="container payment-card">
+                <div class="row pe-4 ps-4 pt-2 pb-4 ">
                     <div class="py-2">
                         ' . displayPaymentForm() . '
                     </div>
@@ -224,5 +248,4 @@ $content = '
 
 ';
 displayBaseWeb($content);
-
 ?>
