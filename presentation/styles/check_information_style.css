@@ -82,7 +82,7 @@
     border-radius: 8px;
     border: 1px solid var(--gray-1, #E6E6E6);
     background: #FFF;
-    height: 14rem;
+    height: 12rem;
 }
 
 .payment-card-check .btn {
