@@ -21,39 +21,39 @@ $categoriesDTO = [];
 $responseProducts = [];
 
 for ($i = 0; $i < sizeof($responseCategories); $i++) {
-  $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
-  $responseProducts[$i] = $productDAO->getProductsByIdCategory($categoriesDTO[$i]->getId());
+    $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);
+    $responseProducts[$i] = $productDAO->getProductsByIdCategory($categoriesDTO[$i]->getId());
 }
 
 $productsDTO = [];
 for ($i = 0; $i < sizeof($responseProducts); $i++) {
-  for ($j = 0; $j < sizeof($responseProducts[$i]); $j++) {
-    $productsDTO[$i][$j] = ProductDTO::createFromResponse($responseProducts[$i][$j]);
-  }
+    for ($j = 0; $j < sizeof($responseProducts[$i]); $j++) {
+        $productsDTO[$i][$j] = ProductDTO::createFromResponse($responseProducts[$i][$j]);
+    }
 }
 
 function displayCategoryCards()
 {
-  global $categoriesDTO, $categoryDAO;
-  $content = '';
+    global $productsDTO, $categoryDAO;
+    $content = '';
 
-  for ($i = 0; $i < sizeof($categoriesDTO); $i++) {
-    $quantity = $categoryDAO->quantityProductsByCategory($categoriesDTO[$i]->getId());
-    $content .= '
+    for ($i = 0; $i < sizeof($productsDTO); $i++) {
+        $quantity = $categoryDAO->quantityProductsByCategory($productsDTO[$i]->getId());
+        $content .= '
       <div class="col-12 col-sm-6 col-md-3 col-lg-3 container-card">
     <div class="card card-initial">
-        <a href="../categories_client/categories_products_view.php?categoryId=' . $categoriesDTO[$i]->getId() . '">
-            <img src="' . $categoriesDTO[$i]->getImg() . '" class="card-img-top card-img-top-initial" alt="...">
+        <a href="../categories_client/categories_products_view.php?categoryId=' . $productsDTO[$i]->getId() . '">
+            <img src="' . $productsDTO[$i]->getImg() . '" class="card-img-top card-img-top-initial" alt="...">
         </a>
         <div class="card-body card-body-initial">
-            <h5 class="card-title name-category-initial fw-bold">' . $categoriesDTO[$i]->getName() . '</h5>
+            <h5 class="card-title name-category-initial fw-bold">' . $productsDTO[$i]->getName() . '</h5>
             <p class="card-text card-text-initial fw-bolder">Cantidad de platos: ' . $quantity["quantity"] . '</p>
         </div>
     </div>
 </div>
     ';
-  }
-  return $content;
+    }
+    return $content;
 }
 
 $content = '
