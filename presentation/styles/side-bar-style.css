@@ -142,6 +142,24 @@
     min-width: 5%;
 }
 
+.side-bar {
+    display: flex;
+}
+
+.side-menu {
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.container-fluid-content {
+    flex: 1;
+    padding-left: 16rem;
+    transition: padding-left 0.3s ease;
+}
+
+
 @media screen and (max-width: 1024px) {
     .side-menu {
         display: none;
@@ -149,5 +167,9 @@
 
     .side-menu-mobile {
         display: block;
+    }
+
+    .container-fluid-content {
+        padding: 0;
     }
 }
