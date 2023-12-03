@@ -29,17 +29,68 @@ class OrderProductDAO
         }
     }
 
+    public function getOrders(): array
+    {
+        try {
+            $sql =
+                /** @lang text */
+                "SELECT *
+                FROM `order`";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+
+    public function getOrdersByDate($fromDate, $toDate)
+    {
+        try {
+            $sql =
+                /** @lang text */
+                "SELECT *
+                FROM `order`
+                WHERE created_at BETWEEN ? AND ?";
+            $query = $this->conn->prepare($sql);
+            $query->bindParam(1, $fromDate);
+            $query->bindParam(2, $toDate);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+
     public function getTotalSell($fromDate, $toDate)
     {
         {
             $sql =
                 /** @lang text */
-                "SELECT SUM(total) as total_sales FROM `order` WHERE created_at BETWEEN ? AND ?";
+                "SELECT COALESCE(SUM(total), 0) AS total_sales
+                FROM `order`
+                WHERE created_at BETWEEN ? AND ?";
             $query = $this->conn->prepare($sql);
             $query->bindParam(1, $fromDate);
             $query->bindParam(2, $toDate);
             $query->execute();
             return $query->fetch(PDO::FETCH_ASSOC);
+        }
+    }
+
+    public function getOrdersByDay(): array
+    {
+        try {
+            $sql =
+                /** @lang text */
+                "SELECT *
+                FROM `order`
+                WHERE created_at = curdate()";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return [];
         }
     }
 

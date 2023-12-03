@@ -105,11 +105,11 @@ class UserDAO
             $query->execute();
             return $query->rowCount() > 0;
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return false;
         }
     }
 
-    public function getClients()
+    public function getClients(): array
     {
         try {
             $sql = /** @lang text */
@@ -118,7 +118,7 @@ class UserDAO
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return [];
         }
     }
 
@@ -132,6 +132,27 @@ class UserDAO
             return $query->fetch(PDO::FETCH_ASSOC)['quantity'];
         } catch (Exception $e) {
             return 0;
+        }
+    }
+
+    public function getQuantityClientsByDays(): array
+    {
+        try {
+            $sql = /** @lang text */
+                "SELECT SUM(IF(DAYOFWEEK(created_at) = 2, 1, 0)) AS Lunes,
+                   SUM(IF(DAYOFWEEK(created_at) = 3, 1, 0)) AS Martes,
+                   SUM(IF(DAYOFWEEK(created_at) = 4, 1, 0)) AS Miércoles,
+                   SUM(IF(DAYOFWEEK(created_at) = 5, 1, 0)) AS Jueves,
+                   SUM(IF(DAYOFWEEK(created_at) = 6, 1, 0)) AS Viernes,
+                   SUM(IF(DAYOFWEEK(created_at) = 7, 1, 0)) AS Sábado,
+                   SUM(IF(DAYOFWEEK(created_at) = 1, 1, 0)) AS Domingo
+                        FROM user;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            $data = $query->fetchAll(PDO::FETCH_ASSOC);
+            return array_values($data[0]);
+        } catch (PDOException $e) {
+            return [0, 0, 0, 0, 0, 0, 0];
         }
     }
 
@@ -162,11 +183,11 @@ class UserDAO
             $query->execute();
             return $query->rowCount() > 0;
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return false;
         }
     }
 
-    public function deleteUserById($id)
+    public function deleteUserById($id): bool
     {
         try {
             $sql = /** @lang text */
@@ -176,7 +197,7 @@ class UserDAO
             $query->execute();
             return $query->rowCount() > 0;
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return false;
         }
     }
 

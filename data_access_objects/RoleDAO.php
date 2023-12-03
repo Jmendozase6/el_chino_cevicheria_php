@@ -27,4 +27,17 @@ class RoleDAO
         }
     }
 
+    public function getRoles(): array
+    {
+        try {
+            $sql = /** @lang text */
+                "SELECT * FROM role";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+
 }

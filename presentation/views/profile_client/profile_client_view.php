@@ -48,14 +48,14 @@ $content = $isAuthenticated ? '
                             <div class="col-sm-12 col-md-8 col-lg-6">
                                 <label for="name" class="form-label">Nombres</label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                       value="' . $currentUserDTO->getName() . '" required>
+                                       value="' . $currentUserDTO->getName() . '" required autocomplete="off">
                             </div>
                         </div>
                         <div class="mb-2 d-flex justify-content-center align-items-centerr">
                             <div class="col-sm-12 col-md-8 col-lg-6">
                                 <label for="last-name" class="form-label">Apellidos</label>
                                 <input type="text" class="form-control" id="last-name" name="last-name"
-                                       value="' . $currentUserDTO->getLastName() . '">
+                                       value="' . $currentUserDTO->getLastName() . '" autocomplete="off">
                             </div>
 
                         </div>
@@ -63,21 +63,21 @@ $content = $isAuthenticated ? '
                             <div class="col-sm-12 col-md-8 col-lg-6">
                                 <label for="email" class="form-label">Correo electrónico</label>
                                 <input type="email" class="form-control" id="email" name="email"
-                                       value="' . $currentUserDTO->getEmail() . '" readonly>
+                                       value="' . $currentUserDTO->getEmail() . '" readonly autocomplete="off">
                             </div>
                         </div>
                         <div class="mb-2 d-flex justify-content-center align-items-center">
                             <div class="col-sm-12 col-md-8 col-lg-6">
                                 <label for="address" class="form-label">Dirección</label>
                                 <input type="text" class="form-control" id="address" name="address"
-                                       value="' . $currentUserDTO->getAddress() . '" required>
+                                       value="' . $currentUserDTO->getAddress() . '" required autocomplete="off">
                             </div>
                         </div>
                         <div class="mb-2 d-flex justify-content-center align-items-center">
                             <div class="col-sm-12 col-md-8 col-lg-6">
                                 <label for="phone" class="form-label">Teléfono</label>
                                 <input type="text" class="form-control" id="phone" name="phone"
-                                       value="' . $currentUserDTO->getPhone() . '" required>
+                                       value="' . $currentUserDTO->getPhone() . '" required autocomplete="off">
                             </div>
                         </div>
                         <div class="mb-2 d-flex justify-content-center align-items-center">

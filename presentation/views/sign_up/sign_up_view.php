@@ -9,16 +9,16 @@ require('sign_up.php');
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Registro</title>
+  <link rel="icon" href="../../resources/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../styles/sign-in-style.css">
   <link rel="stylesheet" href="../../styles/recover-code-style.css">
-  <title>Registro</title>
     <?php if ($GLOBALS['errorMessageSignUp'] != null) { ?>
       <style>.display-on-error {
               display: block;
           }</style><?php
     } ?>
-
 </head>
 <body>
 <div class="wrapper">

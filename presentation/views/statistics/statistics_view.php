@@ -2,7 +2,6 @@
 
 use data_transfer_objects\CategoryDTO;
 use data_transfer_objects\OrderDTO;
-use data_transfer_objects\OrderStatusDTO;
 use data_transfer_objects\ProductDTO;
 use data_transfer_objects\UserDTO;
 
@@ -81,14 +80,17 @@ if ($_SESSION['id'] == null) {
     $labels = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
     $dataEarnsChart = $orderDAO->getEarnedByDays();
     $dataQtyClientsDaily = $userDAO->getQuantityClientsByDays();
+    $dataQtyOrdersByDay = $orderDAO->getQuantityOrdersByDay();
+    $dataQuantityOrdersOfWeek = $orderDAO->getQuantityOrdersOfWeek();
 
 //   Datos a json
-    $jsonDataNewClients = json_encode($dataEarnsChart);
-    $jsonDataQtyClientsDaily = json_encode($dataQtyClientsDaily);
-
     $jsonLabelsDays = json_encode($labels);
 
-    $_SESSION['ordersFilterDTO'] = serialize([]);
+    $jsonDataEarnsDaily = json_encode($dataEarnsChart);
+    $jsonDataQtyClientsDaily = json_encode($dataQtyClientsDaily);
+    $jsonDataQtyOrdersByDay = json_encode($dataQtyOrdersByDay);
+    $jsonDataQuantityOrdersOfWeek = json_encode($dataQuantityOrdersOfWeek);
+
 }
 ?>
 <!doctype html>
@@ -98,9 +100,9 @@ if ($_SESSION['id'] == null) {
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Inicio</title>
-  <link rel="icon" href="../../resources/favicon.ico" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <title>Estadísticas</title>
+  <link rel="icon" href="../../resources/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../styles/side-bar-style.css">
   <link rel="stylesheet" href="../../styles/home-view-style.css">
@@ -108,7 +110,6 @@ if ($_SESSION['id'] == null) {
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-
 <div class="bg-default mx-auto d-flex side-bar">
     <?php include '../components/side_bar.php' ?>
   <div class="container-fluid">
@@ -118,84 +119,12 @@ if ($_SESSION['id'] == null) {
       </div>
     </div>
     <div class="container-fluid container-fluid-content">
-      <div class="row">
-        <div class="col-md-3 mb-3">
-          <div class="card bg-primary text-white h-100">
-            <div class="card-body py-5">Cantidad de clientes</div>
-            <div class="card-footer d-flex">
-                <?= $quantityClients ?> Clientes
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 mb-3">
-          <div class="card bg-warning text-dark h-100">
-            <div class="card-body py-5">Ganancias Mensuales</div>
-            <div class="card-footer d-flex">
-              S/. <?= $monthlySales ?>
-              <span class="ms-auto">
-                  <i class="bi bi-chevron-right"></i>
-                </span>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 mb-3">
-          <div class="card bg-success text-white h-100">
-            <div class="card-body py-5">Cantidad de órdenes del día</div>
-            <div class="card-footer d-flex">
-                <?= $quantityDayOrders ?>
-              <span class="ms-auto">
-                  <i class="bi bi-chevron-right"></i>
-                </span>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 mb-3">
-          <div class="card bg-danger text-white h-100">
-            <div class="card-body py-5">Ganancias del día</div>
-            <div class="card-footer d-flex">
-              S./ <?= $dailySales ?>
-              <span class="ms-auto">
-                  <i class="bi bi-chevron-right"></i>
-                </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 d-flex flex-column">
-          <div class="p-4 bg-white rounded-4 shadow-sm content-menu">
-            <h2>Menú</h2>
-            <div class="row">
-              <div class="col">
-                <p>Selecciona tu comida favorita</p>
-              </div>
-              <div class="col-auto">
-                <a href="categories_view.php">Editar</a>
-              </div>
-            </div>
-            <div class="row">
-                <?php foreach ($categoriesDTO as $categoryDTO) { ?>
-                  <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                    <div class="card border-0">
-                      <img src="<?= $categoryDTO->getImg() ?>" class="card-img-top rounded-2"
-                           alt="Categoría" width="30">
-                      <div class="card-body">
-                        <p class="card-text text-center fw-bold category-title">
-                            <?= $categoryDTO->getName() ?></p>
-                      </div>
-                    </div>
-                  </div>
-                <?php } ?>
-            </div>
-          </div>
-        </div
-      </div>
-      <div class="row pe-0">
+      <div class="row pe-0 mb-5">
         <div class="col-md-6 mb-3">
           <div class="card h-100">
             <div class="card-header">
               <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
-              Ganancias por día
+              Ganancias Diarias
             </div>
             <div class="card-body">
               <canvas class="chart" width="1052" height="526"
@@ -204,17 +133,26 @@ if ($_SESSION['id'] == null) {
               <script type="text/javascript">
                   const chartWeekly = document.getElementById("weekly-earnings-chart");
                   const labelsWeekly = <?= $jsonLabelsDays ?>;
-                  const dataWeeklyEarnings = {
+                  const dataWeeklyEarningsLine = {
+                      type: 'line',
                       label: "Ganancias Diarias",
-                      data: <?= $jsonDataNewClients?>,
+                      data: <?= $jsonDataEarnsDaily?>,
                       borderWidth: 1,
+                      borderColor: '#80ed99',
+                  };
+                  const dataWeeklyEarningsBar = {
+                      type: 'bar',
+                      label: "Ganancias Diarias",
+                      data: <?= $jsonDataEarnsDaily?>,
+                      borderWidth: 1,
+                      borderColor: '#80ed99',
                   };
                   new Chart(chartWeekly, {
-                      type: 'line',
                       data: {
                           labels: labelsWeekly,
                           datasets: [
-                              dataWeeklyEarnings,
+                              dataWeeklyEarningsLine,
+                              dataWeeklyEarningsBar,
                           ]
                       },
                       options: {
@@ -229,11 +167,11 @@ if ($_SESSION['id'] == null) {
             </div>
           </div>
         </div>
-        <div class="col-md-6 mb-3 pe-0">
+        <div class="col-md-6 mb-3">
           <div class="card h-100">
             <div class="card-header">
               <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
-              Clientes Nuevos
+              Cantidad de Clientes
             </div>
             <div class="card-body">
               <canvas class="chart" width="1052" height="526"
@@ -245,6 +183,7 @@ if ($_SESSION['id'] == null) {
                       label: "Cantidad de Clientes por Día",
                       data: <?= $jsonDataQtyClientsDaily?>,
                       borderWidth: 1,
+                      borderColor: '#ef476f',
                   };
                   new Chart(chartQtyClients, {
                       type: 'line',
@@ -266,53 +205,78 @@ if ($_SESSION['id'] == null) {
             </div>
           </div>
         </div>
-      </div>
-      <div class="row pe-0">
-        <div class="col-md-12 mb-3 pe-0">
-          <div class="card mb-5">
+        <div class="col-md-6 mb-3">
+          <div class="card h-100">
             <div class="card-header">
-              <span><i class="bi bi-table me-2"></i></span> Órdenes del día
+              <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+              Cantidad de Órdenes por Día
             </div>
             <div class="card-body">
-              <div class="table-responsive-xl">
-                <div id="example_wrapper">
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <table id="example" class="table"
-                             style="width: 100%;" role="grid" aria-describedby="example_info">
-                        <thead>
-                        <tr role="row">
-                          <th>ID</th>
-                          <th>ID Usuario</th>
-                          <th>ID Pago</th>
-                          <th>Total</th>
-                          <th>Estado</th>
-                          <th>Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($ordersDTO as $order) { ?>
-                          <tr>
-                            <td><?= $order->getId() ?></td>
-                            <td><?= $order->getUserId() ?></td>
-                            <td><?= $order->getPaymentId() ?></td>
-                            <td>S/. <?= $order->getTotal() ?></td>
-                            <td><?= (new OrderStatusDTO)::getStatusByCode($order->getOrderStatus()) ?></td>
-                            <td>
-                              <form action="../orders_client/orders_client_details_view.php" method="post"
-                                    enctype="multipart/form-data">
-                                <input type="hidden" name="order_id" id="order_id" value="<?= $order->getId() ?>">
-                                <input type="submit" class="btn btn-primary" value="Ver">
-                              </form>
-                            </td>
-                          </tr>
-                        <?php } ?>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <canvas class="chart" width="1052" height="526"
+                      style="display: block; box-sizing: border-box; height: 100%; width: 100%;"
+                      id="orders-chart"></canvas>
+              <script type="text/javascript">
+                  const ordersChart = document.getElementById("orders-chart");
+                  const dataOrders = {
+                      label: "Cantidad de Órdenes por Día",
+                      data: <?= $jsonDataQtyOrdersByDay?>,
+                      borderWidth: 1,
+                      borderColor: '#ff7d00',
+                  };
+                  new Chart(ordersChart, {
+                      type: 'line',
+                      data: {
+                          labels: labelsWeekly,
+                          datasets: [
+                              dataOrders,
+                          ]
+                      },
+                      options: {
+                          scales: {
+                              y: {
+                                  beginAtZero: true
+                              }
+                          },
+                      }
+                  });
+              </script>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="card h-100">
+            <div class="card-header">
+              <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+              Cantidad de Órdenes de esta semana
+            </div>
+            <div class="card-body" style="width: 50%; height: 50%">
+              <canvas class="chart" width="1052" height="320"
+                      style="display: block; box-sizing: border-box; height: 100%; width: 100%;"
+                      id="orders-week-chart"></canvas>
+              <script type="text/javascript">
+                  const chartOrdersWeekly = document.getElementById("orders-week-chart");
+                  const dataOrdersWeekly = {
+                      label: "Cantidad de Órdenes por Semana",
+                      data: <?= $jsonDataQuantityOrdersOfWeek?>,
+                      borderWidth: 1,
+                  };
+                  new Chart(chartOrdersWeekly, {
+                      type: 'pie',
+                      data: {
+                          labels: labelsWeekly,
+                          datasets: [
+                              dataOrdersWeekly,
+                          ]
+                      },
+                      options: {
+                          scales: {
+                              y: {
+                                  beginAtZero: true
+                              }
+                          },
+                      }
+                  });
+              </script>
             </div>
           </div>
         </div>

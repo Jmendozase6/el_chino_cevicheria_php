@@ -119,7 +119,7 @@ $content = '
                 <p class="ps-1 pt-2">Integridad de los platos.</p>
             </div>
             <div class="pb-4 d-flex justify-content-center btn-content">
-                <button class="btn">Comprar ahora <img src="../../resources/icons/arrow.svg" alt="Flecha"></button>
+                <a class="btn" href="../catalog_client/catalog_client_view.php"> Comprar ahora <img src="../../resources/icons/arrow.svg" alt="Comprar"></a>
             </div>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-6 d-flex align-items-center">

@@ -4,7 +4,7 @@ $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], "/") + 
 <div class="side-menu bg-white vh-100">
   <img class="mx-auto d-flex justify-content-center" src="../../resources/images/logo.png" alt="logo"/>
   <section
-      class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start  <?= $page == "home_view.php" ? 'active' : ''; ?>">
+      class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start <?= $page == "home_view.php" ? 'active' : ''; ?>">
     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 48 48"
          class="text-lg" height="1em" width="1em"
          xmlns="http://www.w3.org/2000/svg">
@@ -21,6 +21,25 @@ $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], "/") + 
     </svg>
     <a class="text-decoration-none color-text <?= $page == "home_view.php" ? 'active-text' : ''; ?>"
        href="../home/home_view.php"><p>Inicio</p></a>
+  </section>
+  <section
+      class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start <?= $page == "categories_view.php" ? 'active' : ''; ?>">
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 48 48"
+         class="text-lg" height="1em" width="1em"
+         xmlns="http://www.w3.org/2000/svg">
+      <polygon fill="#E8EAF6" points="42,39 6,39 6,23 24,6 42,23"></polygon>
+      <g fill="#C5CAE9">
+        <polygon points="39,21 34,16 34,9 39,9"></polygon>
+        <rect x="6" y="39" width="36" height="5"></rect>
+      </g>
+      <polygon fill="#B71C1C" points="24,4.3 4,22.9 6,25.1 24,8.4 42,25.1 44,22.9"></polygon>
+      <rect x="18" y="28" fill="#D84315" width="12" height="16"></rect>
+      <rect x="21" y="17" fill="#01579B" width="6" height="6"></rect>
+      <path fill="#FF8A65"
+            d="M27.5,35.5c-0.3,0-0.5,0.2-0.5,0.5v2c0,0.3,0.2,0.5,0.5,0.5S28,38.3,28,38v-2C28,35.7,27.8,35.5,27.5,35.5z"></path>
+    </svg>
+    <a class="text-decoration-none color-text <?= $page == "categories_view.php" ? 'active-text' : ''; ?>"
+       href="../home/categories_view.php"><p>Categorías</p></a>
   </section>
   <section
       class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start <?= $page == "order_view.php" ? 'active' : ''; ?> ">
@@ -78,7 +97,7 @@ $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], "/") + 
     </a>
   </section>
   <section
-      class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start">
+      class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start <?= $page == "statistics_view.php" ? 'active' : ''; ?>">
     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 48 48"
          class="text-lg" height="1em" width="1em"
          xmlns="http://www.w3.org/2000/svg">
@@ -88,8 +107,25 @@ $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], "/") + 
         <rect x="32" y="6" width="10" height="36"></rect>
       </g>
     </svg>
-    <a class="text-decoration-none color-text <?= $page == "...." ? 'active-text' : ''; ?>" href="#"><p>
+    <a class="text-decoration-none color-text <?= $page == "statistics_view.php" ? 'active-text' : ''; ?>"
+       href="../statistics/statistics_view.php"><p>
         Estadísticas</p>
+    </a>
+  </section>
+  <section
+      class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start <?= $page == "profile_admin_view.php" ? 'active' : ''; ?>">
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 48 48"
+         class="text-lg" height="1em" width="1em"
+         xmlns="http://www.w3.org/2000/svg">
+      <g fill="#00BCD4">
+        <rect x="19" y="22" width="10" height="20"></rect>
+        <rect x="6" y="12" width="10" height="30"></rect>
+        <rect x="32" y="6" width="10" height="36"></rect>
+      </g>
+    </svg>
+    <a class="text-decoration-none color-text <?= $page == "profile_admin_view.php" ? 'active-text' : ''; ?>"
+       href="../profile_admin/profile_admin_view.php"><p>
+        Cuenta</p>
     </a>
   </section>
   <section

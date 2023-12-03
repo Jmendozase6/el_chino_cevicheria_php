@@ -30,22 +30,7 @@ class OrderDAO
         }
     }
 
-    public function getOrdersDay(): array
-    {
-        try {
-            $sql = /** @lang text */
-                "SELECT *
-                    FROM `order`
-                    WHERE created_at = curdate()";
-            $query = $this->conn->prepare($sql);
-            $query->execute();
-            return $query->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            die("Error: " . $e->getMessage());
-        }
-    }
-
-    public function getQuantityOrdersDay(): int
+    public function getQuantityOrdersDay(): array
     {
         try {
             $sql = /** @lang text */
@@ -54,9 +39,78 @@ class OrderDAO
                     WHERE created_at = curdate()";
             $query = $this->conn->prepare($sql);
             $query->execute();
-            return $query->fetch(PDO::FETCH_ASSOC)['quantity'];
+            return $query->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            return 0;
+            die("Error: " . $e->getMessage());
+        }
+    }
+
+    public function getEarnedByDays(): array
+    {
+        try {
+            $sql = /** @lang text */
+                "SELECT 
+                    SUM(IF(DAYOFWEEK(created_at) = 2 AND WEEK(created_at) = WEEK(NOW()), total, 0)) AS Lunes,
+                    SUM(IF(DAYOFWEEK(created_at) = 3 AND WEEK(created_at) = WEEK(NOW()), total, 0)) AS Martes,
+                    SUM(IF(DAYOFWEEK(created_at) = 4 AND WEEK(created_at) = WEEK(NOW()), total, 0)) AS Miércoles,
+                    SUM(IF(DAYOFWEEK(created_at) = 5 AND WEEK(created_at) = WEEK(NOW()), total, 0)) AS Jueves,
+                    SUM(IF(DAYOFWEEK(created_at) = 6 AND WEEK(created_at) = WEEK(NOW()), total, 0)) AS Viernes,
+                    SUM(IF(DAYOFWEEK(created_at) = 7 AND WEEK(created_at) = WEEK(NOW()), total, 0)) AS Sábado,
+                    SUM(IF(DAYOFWEEK(created_at) = 1 AND WEEK(created_at) = WEEK(NOW()), total, 0)) AS Domingo
+                        FROM `order`";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            $data = $query->fetchAll(PDO::FETCH_ASSOC);
+            return array_values($data[0]);
+        } catch (PDOException $e) {
+            return [0, 0, 0, 0, 0, 0, 0];
+        }
+    }
+
+    public function getQuantityOrdersOfWeek(): array
+    {
+        try {
+            $sql = /** @lang text */
+                "SELECT
+                    SUM(IF(DAYOFWEEK(created_at) = 2, 1, 0)) AS Lunes,
+                    SUM(IF(DAYOFWEEK(created_at) = 3, 1, 0)) AS Martes,
+                    SUM(IF(DAYOFWEEK(created_at) = 4, 1, 0)) AS Miércoles,
+                    SUM(IF(DAYOFWEEK(created_at) = 5, 1, 0)) AS Jueves,
+                    SUM(IF(DAYOFWEEK(created_at) = 6, 1, 0)) AS Viernes,
+                    SUM(IF(DAYOFWEEK(created_at) = 7, 1, 0)) AS Sábado,
+                    SUM(IF(DAYOFWEEK(created_at) = 1, 1, 0)) AS Domingo
+                FROM `order`
+                WHERE created_at = CURDATE();";
+
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            $data = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            return array_values($data[0]);
+        } catch (PDOException $e) {
+            return [0, 0, 0, 0, 0, 0, 0];
+        }
+    }
+
+
+    public function getQuantityOrdersByDay(): array
+    {
+        try {
+            $sql = /** @lang text */
+                "SELECT SUM(IF(DAYOFWEEK(created_at) = 2, 1, 0)) AS Lunes,
+                   SUM(IF(DAYOFWEEK(created_at) = 3, 1, 0)) AS Martes,
+                   SUM(IF(DAYOFWEEK(created_at) = 4, 1, 0)) AS Miércoles,
+                   SUM(IF(DAYOFWEEK(created_at) = 5, 1, 0)) AS Jueves,
+                   SUM(IF(DAYOFWEEK(created_at) = 6, 1, 0)) AS Viernes,
+                   SUM(IF(DAYOFWEEK(created_at) = 7, 1, 0)) AS Sábado,
+                   SUM(IF(DAYOFWEEK(created_at) = 1, 1, 0)) AS Domingo
+                        FROM `order`";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            $data = $query->fetchAll(PDO::FETCH_ASSOC);
+            return array_values($data[0]);
+        } catch (PDOException $e) {
+            return [0, 0, 0, 0, 0, 0, 0];
         }
     }
 
@@ -69,6 +123,22 @@ class OrderDAO
             $query->bindValue(1, $userId);
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public function getDailySales(): array
+    {
+        try {
+            $sql = /** @lang text */
+                "SELECT COALESCE(SUM(total), 0) AS total
+                FROM `order`
+                WHERE created_at = CURDATE()
+                LIMIT 1";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            return $query->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return [];
         }
