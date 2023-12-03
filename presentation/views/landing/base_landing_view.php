@@ -139,6 +139,7 @@ function displayBaseWeb($content): void
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="../../resources/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../resources/script/navbarInteractionsScript.js"></script>
+<script src="../../resources/script/formScript.js"></script>
 </body>
 </html>';
 }

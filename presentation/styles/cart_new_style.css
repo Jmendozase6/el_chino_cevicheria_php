@@ -92,7 +92,18 @@ i {
     font-size: 1rem;
 }
 
-@media screen and (max-width: 370px) {
+@media screen and (max-width: 510px) {
+    .cart-title {
+        font-size: 1.5rem;
+    }
+
+    .img-product {
+        width: 8rem;
+        height: 6rem;
+    }
+}
+
+@media screen and (max-width: 373px) {
     .cart-title {
         font-size: 1.5rem;
     }

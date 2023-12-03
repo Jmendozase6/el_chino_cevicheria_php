@@ -70,7 +70,7 @@ function displayProducts(): string
                 >' . displayIcon($responseProductsFromCart[$i]['quantity'] == 1) . '</a >
             </div >
             </div >
-        <hr >
+        <hr>
         ';
     }
     return $content;
@@ -86,36 +86,24 @@ function displayIfAuthenticated(): string
     $isAuthenticated = isset($_SESSION["id"]);
     if ($isAuthenticated) {
         return '
-        <div class="pb-2 d-flex justify-content-center">
-            <a class="btn btn-primary" type="button" href="check_information_view.php">Pagar</a>
+        <div class="pb-2 d-flex justify-content-center mb-3">
+            <button class="btn btn-primary" type="submit" onclick="sendPaymentForm()">Pagar</button>
         </div>
         ';
     } else {
         $content = '
          <button type="button" class="btn btn-success" data-bs-toggle="modal"
                   data-bs-target="#sign-in-modal">
-            Para poder pagar, inicia sesión
+            Inicia sesión para pagar
           </button> ';
         include_once '../sign_in/sign_in_view_modal.php';
     }
     return $content;
 }
 
-
-$content = '
-<!--mobile-->
-<div class="wrapper-cart">
-    <div class="container">
-        <div class="row">
-            <h1 class="pt-3 pb-5 text-center fw-bold cart-title"> Carrito de compras </h1>
-            ' . displayProducts() . '
-        </div>
-    </div>
-</div>
-<div class="wrapper-payment-card">
-    <div class="container payment-card">
-        <div class="row p-4">
-            <div class="py-2">
+function displayPaymentForm(): string
+{
+    return '<form action="check_information_view.php" method="get" id="payment-form" name="payment-form">
                 <div class="form-check">
                     <input class="form-check-input" type="radio" value="delivery" id="flexRadioDefault1" name="options"
                            checked required>
@@ -130,68 +118,110 @@ $content = '
                         Recojo en tienda
                     </label>
                 </div>
-            </div>
-            <div class="col d-flex justify-content-between py-3">
-                <h6 class="text-card"> Delivery</h6>
-                <h6 class="text-card"> S / 2.00</h6>
-            </div>
-            <hr class="p-1">
-            <div class="col d-flex justify-content-between">
-                <h5 class="text-card-t"> Total</h5>
-                <h5 class="text-card-t text-card-t-modified"> S / ' . $cartTotal . '</h5>
+            </form>';
+}
+
+
+//$content = '
+//<!--mobile-->
+//<div class="wrapper-cart">
+//    <div class="container">
+//        <div class="row">
+//            <h1 class="pt-3 pb-5 text-center fw-bold cart-title"> Carrito de compras </h1>
+//            ' . displayProducts() . '
+//        </div>
+//    </div>
+//</div>
+//<div class="wrapper-payment-card">
+//    <div class="container payment-card">
+//        <div class="row p-4">
+//            <div class="py-2">
+//                ' . displayPaymentForm() . '
+//            </div>
+//            <div class="col d-flex justify-content-between py-3">
+//                <h6 class="text-card"> Delivery</h6>
+//                <h6 class="text-card"> S / 2.00</h6>
+//            </div>
+//            <hr class="p-1">
+//            <div class="col d-flex justify-content-between">
+//                <h5 class="text-card-t"> Total</h5>
+//                <h5 class="text-card-t text-card-t-modified"> S / ' . $cartTotal . '</h5>
+//            </div>
+//        </div>
+//        <div class="row">
+//                  ' . displayIfAuthenticated() . '
+//        </div>
+//    </div>
+//</div>
+//
+//<!--desktop-->
+//<div class="wrapper-cart-desktop" >
+//  <h1 class="pt-3 pb-5 text-center fw-bold"> Carrito de compras </h1 >
+//  <div class="container">
+//    <div class="row">
+//      <div class="col-lg-7">
+//        <div class="row">
+//            ' . displayProducts() . '
+//        </div >
+//      </div >
+//      <div class="col-lg-5" >
+//        <div class="container payment-card" >
+//          <div class="row p-4" >
+//          <div class="py-2">
+//                ' . displayPaymentForm() . '
+//             </div>
+//             <div class="col d-flex justify-content-between py-3" >
+//               <h6 class="text-card" > Delivery</h6 >
+//               <h6 class="text-card" > S / 2.00</h6 >
+//             </div >
+//             <hr class="p-1" >
+//             <div class="col d-flex justify-content-between" >
+//              <h5 class="text-card-t"> Total:</h5 >
+//              <h5 class="text-card-t text-card-t-modified"> S/ ' . $cartTotal . '</h5 >
+//            </div>
+//          </div>
+//            <div class="row">
+//              ' . displayIfAuthenticated() . '
+//            </div>
+//        </div >
+//      </div >
+//    </div >
+//  </div >
+//</div >
+//';
+$content = '
+<div class="container">
+    <h1 class="pt-3 pb-5 text-center fw-bold">Carrito de compras</h1>
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="row">
+              ' . displayProducts() . '
             </div>
         </div>
-              <div class=" pb-4 d-flex justify-content-center" >
-                  ' . displayIfAuthenticated() . '
-          </div >
+        <div class="col-lg-5">
+            <div class="container payment-card my-3">
+                <div class="row p-4">
+                    <div class="py-2">
+                        ' . displayPaymentForm() . '
+                    </div>
+                    <div class="col d-flex justify-content-between py-3">
+                        <h6 class="text-card">Delivery</h6>
+                        <h6 class="text-card">S/ 2.00</h6>
+                    </div>
+                    <hr class="p-1">
+                    <div class="col d-flex justify-content-between">
+                        <h5 class="text-card-t">Total:</h5>
+                        <h5 class="text-card-t text-card-t-modified">S/ ' . $cartTotal . '</h5>
+                    </div>
+                </div>
+                <div class="row">
+                      ' . displayIfAuthenticated() . '
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<!--desktop-->
-<div class="wrapper-cart-desktop" >
-  <h1 class="pt-3 pb-5 text-center fw-bold" > Carrito de compras </h1 >
-  <div class="container" >
-    <div class="row" >
-      <div class="col-lg-7" >
-        <div class="row">
-            ' . displayProducts() . '
-        </div >
-      </div >
-      <div class="col-lg-5" >
-        <div class="container payment-card" >
-          <div class="row p-4" >
-  <div class="py-2">
-             <div class="form-check">
-                <input class="form-check-input" type="radio" value="delivery" id="flexRadioDefault1" name="options" checked required>
-                <label class="form-check-label" for="flexRadioDefault1">
-                    Delivery
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" value="storePickup" id="flexRadioDefault2" name="options" required>
-                <label class="form-check-label" for="flexRadioDefault2">
-                    Recojo en tienda
-                </label>
-            </div>
-            </div>
-            <div class="col d-flex justify-content-between py-3" >
-              <h6 class="text-card" > Delivery</h6 >
-              <h6 class="text-card" > S / 2.00</h6 >
-            </div >
-            <hr class="p-1" >
-            <div class="col d-flex justify-content-between" >
-              <h5 class="text-card-t" > Total:</h5 >
-              <h5 class="text-card-t text-card-t-modified" > S / ' . $cartTotal . '</h5 >
-            </div >
-          </div >
-          <div class=" pb-4 d-flex justify-content-center" >
-                  ' . displayIfAuthenticated() . '
-          </div >
-        </div >
-      </div >
-    </div >
-  </div >
-</div >
 ';
 displayBaseWeb($content);
 
