@@ -7,11 +7,12 @@ require_once '../../../data_access_objects/OrderDAO.php';
 require_once '../../../data_access_objects/CategoryDAO.php';
 require_once '../../../data_access_objects/OrderProductDAO.php';
 require_once '../../../data_access_objects/ProductDAO.php';
+require_once '../../../data_access_objects/OrderStatusDAO.php';
 
 require_once '../../../data_transfer_objects/OrderProductDTO.php';
 require_once '../../../data_transfer_objects/OrderStatusDTO.php';
 require_once '../../../data_transfer_objects/OrderDTO.php';
-
+require_once '../../../data_transfer_objects/OrderStatusDTO.php';
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -31,6 +32,13 @@ if ($_SESSION['id'] == null) {
 
     if ($isAuthenticated) {
         $orders = $orderProductDAO->getOrdersProductsByOrderId($orderId);
+    }
+
+    $orderStatusDAO = new OrderStatusDAO();
+    $orderStatusResponse = $orderStatusDAO->getOrderStatus();
+    $orderStatusDTO = [];
+    for ($i = 0; $i < count($orderStatusResponse); $i++) {
+        $orderStatusDTO[$i] = OrderStatusDTO::createFromResponse($orderStatusResponse[$i]);
     }
 
 }
@@ -65,22 +73,28 @@ if ($_SESSION['id'] == null) {
         <div class="card-body">
           <div class="row mb-3">
             <div class="col-md-6">
-              <h6 class="card-subtitle mb-2 text-muted">Datos del Cliente</h6>
+              <h6 class="card-subtitle mb-4 text-muted">Datos del Cliente</h6>
+              <input type="hidden" id="orderIdInput" value="<?= $order['id'] ?>">
               <p class="card-text">
-                <strong>Nombre: </strong> <?= $order['name_order'] ?><br>
-                <strong>Apellidos: </strong> <?= $order['last_name_order'] ?><br>
-                <strong>Correo: </strong> <?= $order['address_order'] ?><br>
-                <strong>Teléfono: </strong> <?= $order['phone_order'] ?><br>
-                <strong>Comentarios: </strong> <?= $order['comments_order'] ?><br>
+                <strong>Nombre: </strong> <?= $order['name_order'] ?><br><br>
+                <strong>Apellidos: </strong> <?= $order['last_name_order'] ?><br><br>
+                <strong>Dirección: </strong> <?= $order['address_order'] ?><br><br>
+                <strong>Teléfono: </strong> <?= $order['phone_order'] ?><br><br>
+                <strong>Comentarios: </strong> <?= $order['comments_order'] ?><br><br>
               </p>
             </div>
             <div class="col-md-6">
-              <h6 class="card-subtitle mb-2 text-muted">Datos del Pedido</h6>
-              <p class="card-text">
-                <strong>Fecha:</strong> <?= $order['created_at'] ?><br>
-                <strong>Estado:</strong> <?= (new OrderStatusDTO)::getStatusByCode($order['order_status']) ?><br>
-                <strong>Total:</strong> S/.<?= $order['total'] ?><br>
-              </p>
+              <h6 class="card-subtitle mb-4 text-muted">Datos del Pedido</h6>
+              <div class="card-text">
+                <strong>Fecha:</strong> <?= $order['created_at'] ?> <br><br>
+                <strong>Estado:</strong> <?= (new OrderStatusDTO)::getStatusByCode($order['order_status']) ?> <br><br>
+                <strong>Total:</strong> S/.<?= $order['total'] ?> <br><br>
+                <select class="form-select" aria-label="Estado de la Órden" id="orderStatusSelect">
+                    <?php foreach ($orderStatusDTO as $orderStatus) { ?>
+                      <option value="<?= $orderStatus->getId() ?>"><?= $orderStatus->getStatus() ?></option>
+                    <?php } ?>
+                </select>
+              </div>
             </div>
           </div>
           <div class="row">
@@ -117,5 +131,7 @@ if ($_SESSION['id'] == null) {
     </div>
   </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="../../resources/script/updateOrderStatus.js"></script>
 </body>
 </html>

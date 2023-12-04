@@ -152,7 +152,7 @@ class OrderDAO
     public function updateOrderStatus($orderId, $orderStatus): bool
     {
         $sql = /** @lang text */
-            "UPDATE orders SET order_status = ? WHERE id = ?";
+            "UPDATE `order` SET order_status = ? WHERE id = ?";
         $query = $this->conn->prepare($sql);
         $query->bindValue(1, $orderStatus);
         $query->bindValue(2, $orderId);

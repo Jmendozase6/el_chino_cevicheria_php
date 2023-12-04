@@ -44,17 +44,22 @@ class OrderProductDAO
         }
     }
 
-    public function getOrdersByDate($fromDate, $toDate)
+    public function getOrdersByDate($fromDate = null, $toDate = null): array
     {
         try {
-            $sql =
-                /** @lang text */
-                "SELECT *
-                FROM `order`
-                WHERE created_at BETWEEN ? AND ?";
-            $query = $this->conn->prepare($sql);
-            $query->bindParam(1, $fromDate);
-            $query->bindParam(2, $toDate);
+            if ($fromDate == null && $toDate == null) {
+                $sql =
+                    /** @lang text */
+                    "SELECT * FROM `order`";
+                $query = $this->conn->prepare($sql);
+            } else {
+                $sql =
+                    /** @lang text */
+                    "SELECT * FROM `order` WHERE created_at BETWEEN ? AND ?";
+                $query = $this->conn->prepare($sql);
+                $query->bindParam(1, $fromDate);
+                $query->bindParam(2, $toDate);
+            }
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {

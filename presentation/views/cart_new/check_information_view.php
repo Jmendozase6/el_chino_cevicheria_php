@@ -15,28 +15,28 @@ include_once '../../../data_transfer_objects/UserDTO.php';
 require_once '../../../data_transfer_objects/ProductDTO.php';
 
 if (!isset($_SESSION)) {
-  session_start();
-  $id = $_SESSION['id'];
+    session_start();
+    $id = $_SESSION['id'];
 }
 $isAuthenticated = isset($_SESSION["id"]);
 //obtener el check seleccionado mandado en el post pero si es nulo que no se rompa
-$checkDelivery = $_GET['options'] ?? null;
-$checkPayment = $_GET['paymentOption'] ?? null;
+$checkDelivery = $_POST['options'] ?? null;
+$checkPayment = $_POST['paymentOption'] ?? null;
 
 if ($checkDelivery == null) {
-  header('Location: ../cart_new/cart_new_view.php');
-  exit();
+    header('Location: ../cart_new/cart_new_view.php');
+    exit();
 }
 echo 'PAYMENT METHOD = ' . $checkPayment . '<br>';
 echo 'DELIVERY METHOD = ' . $checkDelivery . '<br>';
 
 if ($isAuthenticated) {
-  $userDAO = new UserDAO();
-  $currentUser = $userDAO->getUserById($_SESSION["id"]);
-  $currentUserDTO = UserDTO::createFromResponse($currentUser);
+    $userDAO = new UserDAO();
+    $currentUser = $userDAO->getUserById($_SESSION["id"]);
+    $currentUserDTO = UserDTO::createFromResponse($currentUser);
 } else {
-  header('Location: ../sign_in/sign_in_view.php');
-  exit();
+    header('Location: ../sign_in/sign_in_view.php');
+    exit();
 }
 
 $cartDAO = new CartDAO();
@@ -45,64 +45,64 @@ $cartTotal = $cartDAO->getTotalFromCart(session_id());
 $productsFromCartDTO = [];
 
 foreach ($responseProductsFromCart as $productFromCart) {
-  $productDAO = new ProductDAO();
-  $product = $productDAO->getProductById($productFromCart['id']);
-  $productDTO = ProductDTO::createFromResponse($product);
-  $productsFromCartDTO[] = $productDTO;
+    $productDAO = new ProductDAO();
+    $product = $productDAO->getProductById($productFromCart['id']);
+    $productDTO = ProductDTO::createFromResponse($product);
+    $productsFromCartDTO[] = $productDTO;
 }
 
 if ($cartTotal == 0) {
-  header('Location: ../empty_cart/empty_cart_view.php');
-  exit();
+    header('Location: ../empty_cart/empty_cart_view.php');
+    exit();
 }
 
 if ($checkDelivery == 'delivery') {
-  $cartTotal += 2;
+    $cartTotal += 2;
 }
 
 if (sizeof($responseProductsFromCart) > 0) {
-  require_once __DIR__ . '/../../../vendor/autoload.php';
-  include_once __DIR__ . '/../../../datasource/constants.php';
+    require_once __DIR__ . '/../../../vendor/autoload.php';
+    include_once __DIR__ . '/../../../datasource/constants.php';
 
-  MercadoPago\SDK::setAccessToken(MERCADO_PAGO_ACCESS_TOKEN);
+    MercadoPago\SDK::setAccessToken(MERCADO_PAGO_ACCESS_TOKEN);
 
-  $preference = new Preference();
-  $productsDTO = [];
+    $preference = new Preference();
+    $productsDTO = [];
 
-  for ($i = 0; $i < sizeof($productsFromCartDTO); $i++) {
-    $item = new Item();
-    $item->id = $productsFromCartDTO[$i]->getId();
-    $item->title = $productsFromCartDTO[$i]->getName();
-    $item->quantity = $responseProductsFromCart[$i]['quantity'];
-    $item->unit_price = $productsFromCartDTO[$i]->getPrice();
-    $item->currency_id = 'PEN';
-    $productsDTO[$i] = $item;
-  }
+    for ($i = 0; $i < sizeof($productsFromCartDTO); $i++) {
+        $item = new Item();
+        $item->id = $productsFromCartDTO[$i]->getId();
+        $item->title = $productsFromCartDTO[$i]->getName();
+        $item->quantity = $responseProductsFromCart[$i]['quantity'];
+        $item->unit_price = $productsFromCartDTO[$i]->getPrice();
+        $item->currency_id = 'PEN';
+        $productsDTO[$i] = $item;
+    }
 
-  $preference->items = $productsDTO;
+    $preference->items = $productsDTO;
 
-  $preference->back_urls = array(
+    $preference->back_urls = array(
 //    "success" => $_SERVER['HTTP_HOST'] . "/../presentation/views/cart_client/create_order.php",
-    "success" => $_SERVER['HTTP_HOST'] . "/../presentation/views/cart_client/create_order.php",
-    "failure" => $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "/../error/error_view.php",
-    "pending" => "http://localhost:8080/checkout/pending"
-  );
+        "success" => $_SERVER['HTTP_HOST'] . "/../presentation/views/cart_client/create_order.php",
+        "failure" => $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "/../error/error_view.php",
+        "pending" => "http://localhost:8080/checkout/pending"
+    );
 
-  $preference->auto_return = "approved";
-  $preference->binary_mode = true;
+    $preference->auto_return = "approved";
+    $preference->binary_mode = true;
 
-  try {
-    $preference->save();
-  } catch (Exception $e) {
-    echo 'Excepción capturada: ', $e->getMessage(), "\n";
-  }
+    try {
+        $preference->save();
+    } catch (Exception $e) {
+        echo 'Excepción capturada: ', $e->getMessage(), "\n";
+    }
 
-  ob_end_flush();
+    ob_end_flush();
 }
 
 function generatePaymentMethodHTML($method, $image, $alt)
 {
-  return '<div class="col-auto checkout-btn d-flex justify-content-center align-items-center">
+    return '<div class="col-auto checkout-btn d-flex justify-content-center align-items-center">
                 <button type="button" class="btn mt-0" data-bs-toggle="modal" data-bs-target="#' . ucfirst($method) . '">
                     ' . ucfirst($method) . ' QR
                 </button>
@@ -123,29 +123,29 @@ function generatePaymentMethodHTML($method, $image, $alt)
 
 function displayByPaymentMethod()
 {
-  global $checkPayment;
+    global $checkPayment;
 
-  if ($checkPayment == 'mercadoPago') {
-    return displayIfAuthenticatedPayment();
-  }
+    if ($checkPayment == 'mercadoPago') {
+        return displayIfAuthenticatedPayment();
+    }
 
-  $paymentMethods = ['yape', 'plin'];
+    $paymentMethods = ['yape', 'plin'];
 
-  if (in_array($checkPayment, $paymentMethods)) {
-    $image = $checkPayment == 'yape' ? 'YAPE-QR.jpg' : 'PLIN-QR.png';
-    $alt = ucfirst($checkPayment);
-    return generatePaymentMethodHTML($checkPayment, $image, $alt);
-  }
+    if (in_array($checkPayment, $paymentMethods)) {
+        $image = $checkPayment == 'yape' ? 'YAPE-QR.jpg' : 'PLIN-QR.png';
+        $alt = ucfirst($checkPayment);
+        return generatePaymentMethodHTML($checkPayment, $image, $alt);
+    }
 
-  return '';
+    return '';
 }
 
 
 function displayIfAuthenticatedPayment(): string
 {
-  global $isAuthenticated, $preference;
-  if ($isAuthenticated) {
-    $javascriptCode = '
+    global $isAuthenticated, $preference;
+    if ($isAuthenticated) {
+        $javascriptCode = '
     <script type = "text/javascript" >
             const id = new MercadoPago("' . MERCADO_PAGO_TEST_PUBLIC_KEY . '", {
         locale:"es-PE"
@@ -162,16 +162,16 @@ function displayIfAuthenticatedPayment(): string
             });
         </script>
     ';
-    $content = '<div class="col-auto checkout-btn d-flex justify-content-center align-items-center"></div >' . $javascriptCode;
-  }
+        $content = '<div class="col-auto checkout-btn d-flex justify-content-center align-items-center"></div >' . $javascriptCode;
+    }
 
-  return $content;
+    return $content;
 }
 
 function displayIfDelivery(): string
 {
-  global $checkDelivery;
-  return $checkDelivery == 'delivery' ? '<div class="col d-flex justify-content-between pt-3">
+    global $checkDelivery;
+    return $checkDelivery == 'delivery' ? '<div class="col d-flex justify-content-between pt-3">
                   <h6 class="text-card"> Delivery</h6 >
                   <h6 class="text-card"> S / 2.00</h6 >
                 </div >
@@ -180,11 +180,11 @@ function displayIfDelivery(): string
 
 function displayDistrict(): string
 {
-  global $checkDelivery;
-  if ($checkDelivery !== 'delivery') {
-    return '';
-  }
-  return '<label for="txt-district" class="label-content label-district w-100" > Distrito
+    global $checkDelivery;
+    if ($checkDelivery !== 'delivery') {
+        return '';
+    }
+    return '<label for="txt-district" class="label-content label-district w-100" > Distrito
                             <select class="form-select txt-user-data mb-2" id = "txt-district" name = "txt-district">
                                 <option value = "1" > Vichayal - S / 2.00</option >
                                 <option value = "2" selected > Querecotillo - S / 2.00</option >

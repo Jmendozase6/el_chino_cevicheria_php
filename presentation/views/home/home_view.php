@@ -87,8 +87,6 @@ if ($_SESSION['id'] == null) {
     $jsonDataQtyClientsDaily = json_encode($dataQtyClientsDaily);
 
     $jsonLabelsDays = json_encode($labels);
-
-    $_SESSION['ordersFilterDTO'] = serialize([]);
 }
 ?>
 <!doctype html>

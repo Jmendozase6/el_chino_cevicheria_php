@@ -104,7 +104,7 @@ function displayIfAuthenticated(): string
 
 function displayPaymentForm(): string
 {
-    return '<form action="check_information_view.php" method="get" id="payment-form" name="payment-form">
+    return '<form action="check_information_view.php" method="post" id="payment-form" name="payment-form">
     <h2 class="text-titles"> Método de pago </h2>
         <div class="form-check">
             <input class="form-check-input" type="radio" value="mercadoPago" id="flexRadioDefault1"
@@ -145,73 +145,6 @@ function displayPaymentForm(): string
 </form>';
 }
 
-//$content = '
-//<!--mobile-->
-//<div class="wrapper-cart">
-//    <div class="container">
-//        <div class="row">
-//            <h1 class="pt-3 pb-5 text-center fw-bold cart-title"> Carrito de compras </h1>
-//            ' . displayProducts() . '
-//        </div>
-//    </div>
-//</div>
-//<div class="wrapper-payment-card">
-//    <div class="container payment-card">
-//        <div class="row p-4">
-//            <div class="py-2">
-//                ' . displayPaymentForm() . '
-//            </div>
-//            <div class="col d-flex justify-content-between py-3">
-//                <h6 class="text-card"> Delivery</h6>
-//                <h6 class="text-card"> S / 2.00</h6>
-//            </div>
-//            <hr class="p-1">
-//            <div class="col d-flex justify-content-between">
-//                <h5 class="text-card-t"> Total</h5>
-//                <h5 class="text-card-t text-card-t-modified"> S / ' . $cartTotal . '</h5>
-//            </div>
-//        </div>
-//        <div class="row">
-//                  ' . displayIfAuthenticated() . '
-//        </div>
-//    </div>
-//</div>
-//
-//<!--desktop-->
-//<div class="wrapper-cart-desktop" >
-//  <h1 class="pt-3 pb-5 text-center fw-bold"> Carrito de compras </h1 >
-//  <div class="container">
-//    <div class="row">
-//      <div class="col-lg-7">
-//        <div class="row">
-//            ' . displayProducts() . '
-//        </div >
-//      </div >
-//      <div class="col-lg-5" >
-//        <div class="container payment-card" >
-//          <div class="row p-4" >
-//          <div class="py-2">
-//                ' . displayPaymentForm() . '
-//             </div>
-//             <div class="col d-flex justify-content-between py-3" >
-//               <h6 class="text-card" > Delivery</h6 >
-//               <h6 class="text-card" > S / 2.00</h6 >
-//             </div >
-//             <hr class="p-1" >
-//             <div class="col d-flex justify-content-between" >
-//              <h5 class="text-card-t"> Total:</h5 >
-//              <h5 class="text-card-t text-card-t-modified"> S/ ' . $cartTotal . '</h5 >
-//            </div>
-//          </div>
-//            <div class="row">
-//              ' . displayIfAuthenticated() . '
-//            </div>
-//        </div >
-//      </div >
-//    </div >
-//  </div >
-//</div >
-//';
 $content = '
 <div class="container">
     <h1 class="pt-3 pb-5 text-center fw-bold">Carrito de compras</h1>

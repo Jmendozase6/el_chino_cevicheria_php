@@ -1,5 +1,6 @@
 <?php
 
+use data_transfer_objects\OrderDTO;
 use data_transfer_objects\OrderStatusDTO;
 
 require_once '../../../data_access_objects/UserDAO.php';
@@ -11,7 +12,6 @@ require_once '../../../data_transfer_objects/OrderProductDTO.php';
 require_once '../../../data_transfer_objects/OrderStatusDTO.php';
 require_once '../../../data_transfer_objects/OrderDTO.php';
 
-include_once 'orders_filter.php';
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -26,11 +26,14 @@ if ($_SESSION['id'] == null) {
 
     $currentDate = (new DateTime('now'))->format('Y-m-d');
     $previousMonthDate = (new DateTime())->modify('-1 month')->format('Y-m-d');
+    $responseOrders = $orderProductDAO->getOrdersByDate();
 
+    $ordersFilterDTO = [];
+
+    foreach ($responseOrders as $responseOrder) {
+        $ordersFilterDTO[] = OrderDTO::createFromResponse($responseOrder);
+    }
     $totalSales = $orderProductDAO->getTotalSell($previousMonthDate, $currentDate);
-
-    $ordersFilterDTO = unserialize($_SESSION['ordersFilterDTO']) ?? [];
-
 }
 ?>
 
@@ -58,32 +61,6 @@ if ($_SESSION['id'] == null) {
     <div class="container-fluid container-fluid-content">
       <div class="row">
         <div class="col-md-12 mb-3">
-          <div class="card">
-            <div class="card-header">
-              <span><i class="bi bi-calendar3 me-2"></i></span> Filtro de fechas
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <form action="orders_filter.php" method="post" enctype="multipart/form-data">
-                  <div class="col-md-6 col-lg-12 mb-3">
-                    <label for="date-from" class="form-label">Desde</label>
-                    <input type="date" class="form-control" id="date-from" name="date-from"
-                           value="<?= $currentDate ?>">
-                  </div>
-                  <div class="col-md-6 col-lg-12 mb-3">
-                    <label for="date-to" class="form-label">Hasta</label>
-                    <input type="date" class="form-control" id="date-to" name="date-to"
-                           value="<?= $currentDate ?>">
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 mb-3">
-                      <input type="submit" class="btn btn-primary" id="filter" value="Filtrar">
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
           <div class="row pe-0">
             <div class="col-md-12 mb-3 pe-0">
               <div class="card mb-5">

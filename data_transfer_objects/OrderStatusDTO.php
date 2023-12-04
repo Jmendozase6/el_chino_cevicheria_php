@@ -7,6 +7,14 @@ class OrderStatusDTO
     private int $id;
     private string $status;
 
+    public static function createFromResponse($response): OrderStatusDTO
+    {
+        $orderStatusDTO = new OrderStatusDTO();
+        $orderStatusDTO->setId($response['id']);
+        $orderStatusDTO->setStatus($response['status']);
+        return $orderStatusDTO;
+    }
+
     public static function getStatusByCode($code): string
     {
         return match ($code) {
@@ -14,7 +22,7 @@ class OrderStatusDTO
             "2" => 'Pagado',
             "3" => 'Rechazado',
             "4" => 'Enviado',
-            "5" => 'Recibido',
+            "5" => 'Finalizado',
             default => $code . ' Desconocido',
         };
     }
