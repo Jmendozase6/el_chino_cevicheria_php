@@ -55,6 +55,18 @@
     width: 40%;
 }
 
+.btn:hover {
+    border-radius: 43px;
+    border: #00B207;
+    background: #00B207;
+    color: #FFF;
+    font-size: .6rem;;
+    font-weight: 600;
+    line-height: 120%;
+    width: 40%;
+}
+
+
 .btn img {
     width: 13px;
     height: 10px;
