@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-12-2023 a las 20:26:20
+-- Tiempo de generación: 04-12-2023 a las 01:06:03
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -37,6 +37,14 @@ CREATE TABLE `cart`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `cart`
+--
+
+INSERT INTO `cart` (`id`, `id_session`, `id_product`, `quantity`, `created_at`)
+VALUES (119, 'ph9k2i1gn3uisqqa6a51tb4jtk', 31, 1, '2023-12-03'),
+       (120, 'lhk935c30vm8l948rsuk4rurn5', 3, 1, '2023-12-03');
 
 -- --------------------------------------------------------
 
@@ -82,12 +90,18 @@ VALUES (1, 'Ceviches', '2023-10-31',
 
 CREATE TABLE `order`
 (
-    `id`           int(11) NOT NULL,
-    `user_id`      int(11)          DEFAULT NULL,
-    `payment_id`   int(11)          DEFAULT NULL,
-    `total`        decimal(10, 0)   DEFAULT NULL,
-    `created_at`   date    NOT NULL DEFAULT curdate(),
-    `order_status` varchar(11)      DEFAULT NULL
+    `id`              int(11) NOT NULL,
+    `user_id`         int(11)          DEFAULT NULL,
+    `payment_id`      int(11)          DEFAULT NULL,
+    `total`           decimal(10, 0)   DEFAULT NULL,
+    `created_at`      date    NOT NULL DEFAULT curdate(),
+    `order_status`    varchar(11)      DEFAULT NULL,
+    `name_order`      varchar(100)     DEFAULT '',
+    `last_name_order` varchar(100)     DEFAULT '',
+    `address_order`   varchar(255)     DEFAULT '',
+    `district_order`  varchar(255)     DEFAULT '',
+    `phone_order`     varchar(20)      DEFAULT '',
+    `comments_order`  varchar(255)     DEFAULT ''
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
@@ -96,9 +110,10 @@ CREATE TABLE `order`
 -- Volcado de datos para la tabla `order`
 --
 
-INSERT INTO `order` (`id`, `user_id`, `payment_id`, `total`, `created_at`, `order_status`)
-VALUES (21, 22, 1319897481, 60, '2023-12-01', '1'),
-       (22, 22, 1316137044, 85, '2023-12-03', '1');
+INSERT INTO `order` (`id`, `user_id`, `payment_id`, `total`, `created_at`, `order_status`, `name_order`,
+                     `last_name_order`, `address_order`, `district_order`, `phone_order`, `comments_order`)
+VALUES (21, 22, 1319897481, 60, '2023-12-01', '1', 'Jhair', 'Wright', 'Sux', 'Que', '102030', 'Con fe llegan'),
+       (22, 22, 1316137044, 85, '2023-12-03', '1', 'Manuel', 'Antoncin', 'Sux M', 'So', '543454', 'SDdsjfdf');
 
 -- --------------------------------------------------------
 
@@ -550,7 +565,7 @@ ALTER TABLE `user`
 --
 ALTER TABLE `cart`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 117;
+    AUTO_INCREMENT = 121;
 
 --
 -- AUTO_INCREMENT de la tabla `category`
