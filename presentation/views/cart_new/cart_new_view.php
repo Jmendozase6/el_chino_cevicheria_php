@@ -1,7 +1,7 @@
 <?php
 ob_start();
 if (!isset($_SESSION)) {
-  session_start();
+    session_start();
 }
 error_reporting(E_ALL & ~E_DEPRECATED);
 
@@ -20,29 +20,28 @@ $cartTotal = $cartDAO->getTotalFromCart(session_id());
 $productsFromCartDTO = [];
 
 foreach ($responseProductsFromCart as $productFromCart) {
-  $productDAO = new ProductDAO();
-  $product = $productDAO->getProductById($productFromCart['id']);
-  $productDTO = ProductDTO::createFromResponse($product);
-  $productsFromCartDTO[] = $productDTO;
+    $productDAO = new ProductDAO();
+    $product = $productDAO->getProductById($productFromCart['id']);
+    $productDTO = ProductDTO::createFromResponse($product);
+    $productsFromCartDTO[] = $productDTO;
 }
 
 $isAuthenticated = isset($_SESSION["id"]);
 
 if (sizeof($productsFromCartDTO) == 0) {
-  header('Location: ../empty_cart/empty_cart_view.php');
-  exit();
+    header('Location: ../empty_cart/empty_cart_view.php');
+    exit();
 }
 
-//mobile
 function displayProducts(): string
 {
-  global $productsFromCartDTO, $responseProductsFromCart;
-  $content = '';
+    global $productsFromCartDTO, $responseProductsFromCart;
+    $content = '';
 
-  for ($i = 0;
-       $i < sizeof($productsFromCartDTO);
-       $i++) {
-    $content .= '
+    for ($i = 0;
+         $i < sizeof($productsFromCartDTO);
+         $i++) {
+        $content .= '
      <div class="col-4 d-flex justify-content-center align-content-center">
                 <img class="mb-2 rounded-1 img-product" src="' . $productsFromCartDTO[$i]->getImage() . '" alt="Producto">
      </div>
@@ -58,7 +57,7 @@ function displayProducts(): string
                 id="btn-increase" 
                 type="button"
                 href="change_quantity.php?id=' . $productsFromCartDTO[$i]->getId() .
-      '&quantity=' . $responseProductsFromCart[$i]['quantity'] . '&type=I"><i class="bi bi-plus-lg"></i></a>
+            '&quantity=' . $responseProductsFromCart[$i]['quantity'] . '&type=I"><i class="bi bi-plus-lg"></i></a>
 
                 <p class="m-0 p-2 text-black"><strong>' . $responseProductsFromCart[$i]['quantity'] . '</strong></p>
                 
@@ -66,46 +65,46 @@ function displayProducts(): string
                   id="btn-decrease" 
                   type="button"
                   href="change_quantity.php?id=' . $productsFromCartDTO[$i]->getId() .
-      '&quantity=' . $responseProductsFromCart[$i]['quantity'] . '&type=D"
+            '&quantity=' . $responseProductsFromCart[$i]['quantity'] . '&type=D"
                 >' . displayIcon($responseProductsFromCart[$i]['quantity'] == 1) . '</a >
             </div >
             </div >
         <hr>
         ';
-  }
-  return $content;
+    }
+    return $content;
 }
 
 function displayIcon($quantity): string
 {
-  return $quantity == 1 ? '<i class="bi bi-trash text-danger"></i > ' : '<i class="bi bi-dash"></i>';
+    return $quantity == 1 ? '<i class="bi bi-trash text-danger"></i > ' : '<i class="bi bi-dash"></i>';
 }
 
 function displayIfAuthenticated(): string
 {
-  $isAuthenticated = isset($_SESSION["id"]);
-  if ($isAuthenticated) {
-    return '
+    $isAuthenticated = isset($_SESSION["id"]);
+    if ($isAuthenticated) {
+        return '
         <div class="pb-2 d-flex justify-content-center mb-3">
             <button class="btn btn-primary" type="submit" onclick="sendPaymentForm()">Pagar</button>
         </div>
         ';
-  } else {
-    $content = '
+    } else {
+        $content = '
         <div class="pb-2 d-flex justify-content-center mb-3">
             <button type="button" class="btn btn-success" data-bs-toggle="modal"
                   data-bs-target="#sign-in-modal">
             Inicia sesión para pagar
             </button>
          </div> ';
-    include_once '../sign_in/sign_in_view_modal.php';
-  }
-  return $content;
+        include_once '../sign_in/sign_in_view_modal.php';
+    }
+    return $content;
 }
 
 function displayPaymentForm(): string
 {
-  return '<form action="check_information_view.php" method="get" id="payment-form" name="payment-form">
+    return '<form action="check_information_view.php" method="get" id="payment-form" name="payment-form">
     <h2 class="text-titles"> Método de pago </h2>
         <div class="form-check">
             <input class="form-check-input" type="radio" value="mercadoPago" id="flexRadioDefault1"
@@ -248,4 +247,3 @@ $content = '
 
 ';
 displayBaseWeb($content);
-?>

@@ -20,11 +20,15 @@ if (!isset($_SESSION)) {
 }
 $isAuthenticated = isset($_SESSION["id"]);
 //obtener el check seleccionado mandado en el post pero si es nulo que no se rompa
-$checkSelected = $_GET['options'] ?? null;
-if ($checkSelected == null) {
+$checkDelivery = $_GET['options'] ?? null;
+$checkPayment = $_GET['paymentOption'] ?? null;
+
+if ($checkDelivery == null) {
     header('Location: ../cart_new/cart_new_view.php');
     exit();
 }
+echo 'PAYMENT METHOD = ' . $checkPayment . '<br>';
+echo 'DELIVERY METHOD = ' . $checkDelivery . '<br>';
 
 if ($isAuthenticated) {
     $userDAO = new UserDAO();
@@ -52,7 +56,7 @@ if ($cartTotal == 0) {
     exit();
 }
 
-if ($checkSelected == 'delivery') {
+if ($checkDelivery == 'delivery') {
     $cartTotal += 2;
 }
 
@@ -95,6 +99,25 @@ if (sizeof($responseProductsFromCart) > 0) {
 
     ob_end_flush();
 }
+
+function displayByPaymentMethod()
+{
+    global $checkPayment;
+    if ($checkPayment == 'mercadoPago') {
+        return displayIfAuthenticatedPayment();
+    } else if ($checkPayment == 'yape') {
+        return '<div class="col-auto checkout-btn d-flex justify-content-center align-items-center">
+                    <img src="../../resources/images/YAPE-QR.jpg" alt="Yape" class="img-yape">
+                </div>';
+    } else if ($checkPayment == 'plin') {
+        return '<div class="col-auto checkout-btn d-flex justify-content-center align-items-center">
+                    <img src="../../resources/images/PLIN-QR.png" alt="Plin" class="img-plin">
+                </div>';
+    } else {
+        return '';
+    }
+}
+
 function displayIfAuthenticatedPayment(): string
 {
     global $isAuthenticated, $preference;
@@ -102,18 +125,16 @@ function displayIfAuthenticatedPayment(): string
         $javascriptCode = '
     <script type = "text/javascript" >
             const id = new MercadoPago("' . MERCADO_PAGO_TEST_PUBLIC_KEY . '", {
-        locale:
-        "es-PE"
+        locale:"es-PE"
             })
-            // bg color: #F6F6F6
-            id . checkout({
+            id.checkout({
                 preference: {
                     id: "' . $preference->id . '"
                 },
                 render: {
         container:
                 ".checkout-btn",
-                    label: "Pagar con MercadoPago"
+                    label: "Pagar con MercadoPago",
                 }
             });
         </script>
@@ -126,8 +147,8 @@ function displayIfAuthenticatedPayment(): string
 
 function displayIfDelivery(): string
 {
-    global $checkSelected;
-    return $checkSelected == 'delivery' ? '<div class="col d-flex justify-content-between pt-3">
+    global $checkDelivery;
+    return $checkDelivery == 'delivery' ? '<div class="col d-flex justify-content-between pt-3">
                   <h6 class="text-card"> Delivery</h6 >
                   <h6 class="text-card"> S / 2.00</h6 >
                 </div >
@@ -136,8 +157,8 @@ function displayIfDelivery(): string
 
 function displayDistrict(): string
 {
-    global $checkSelected;
-    if ($checkSelected !== 'delivery') {
+    global $checkDelivery;
+    if ($checkDelivery !== 'delivery') {
         return '';
     }
     return '<label for="txt-district" class="label-content label-district w-100" > Distrito
@@ -172,7 +193,7 @@ $content = '
                                        required >
                             </label >
                         </div >
-                        <div class="info-text">
+                        <div class="info-text flex-column">
                             <label for="txt-address" class="label-content" > Dirección</label >
                             <input type = "text" name="txt-address" id ="txt-address" class="txt-user-data border-content"
                                    placeholder = "Dirección"
@@ -189,30 +210,6 @@ $content = '
                             </label >
                         </div >
                         <hr class="m-1" >
-                        <div class="py-2" >
-                            <h2 class="text-titles" > Método de pago </h2 >
-                            <div class="form-check" >
-                                <input class="form-check-input" type = "radio" value = "delivery" id = "flexRadioDefault1"
-                                       name = "options" checked required >
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                Mercado Pago(Tarjetas)
-                                </label >
-                            </div >
-                            <div class="form-check" >
-                                <input class="form-check-input" type = "radio" value = "storePickup" id = "flexRadioDefault2"
-                                       name = "options" required >
-                                <label class="form-check-label" for="flexRadioDefault2" >
-                                Plin
-                                </label >
-                            </div >
-                            <div class="form-check" >
-                                <input class="form-check-input" type = "radio" value = "storePickup" id = "flexRadioDefault3"
-                                       name = "options" required >
-                                <label class="form-check-label" for="flexRadioDefault3" >
-                                Yape
-                                </label >
-                            </div >
-                        </div >
                         <h2 class="text-titles" > Comentarios</h2 >
                         <label for="txt-message" class="label-content-comment p-0 pb-1" > (Opcional)</label >
                         <textarea name = "txt-message" id = "txt-message" class="textarea border-content txt-user-data"
@@ -231,7 +228,7 @@ $content = '
                             <h5 class="text-card-t" > Total</h5 >
                             <h5 class="text-card-t text-card-t-modified" > S / ' . $cartTotal . '</h5 >
                         </div >
-                    ' . displayIfAuthenticatedPayment() . '
+                    ' . displayByPaymentMethod() . '
                     </div >
                 </div >
             </div >
