@@ -8,21 +8,6 @@ include_once '../landing/base_landing_view.php';
 include_once '../../../data_access_objects/UserDAO.php';
 include_once '../../../data_transfer_objects/UserDTO.php';
 
-global $errorMessageContactUs, $successMessageContactUs;
-
-if ($errorMessageContactUs != null) { ?>
-  <style>.display-on-error {
-          display: block;
-      }
-  </style><?php
-}
-if ($successMessageContactUs != null) { ?>
-  <style>.display-on-success {
-          display: block;
-      }
-  </style><?php
-}
-
 if (!isset($_SESSION)) {
     session_start();
     $id = $_SESSION['id'];
@@ -80,17 +65,18 @@ $content = '
               <textarea name="content" id="content" class="border-content"
                         placeholder="Mensaje"
                         required></textarea>
+                        
               <div class="input-field">
                 <button type="submit" class="btn" name="btn-contact-us" id="btn-contact-us">Contactar
                 </button>
               </div>
 
-              <div class="alert alert-danger m-2 display-on-error" role="alert">
-                <strong>Error: </strong> ' . $errorMessageContactUs . '
+              <div class="alert alert-danger mt-2 display-on-error" role="alert">
+                <strong>Error: </strong> ' . $_SESSION['errorMessageContactUs'] . '
               </div>              
               
-              <div class="alert alert-success m-2 display-on-success" role="alert">
-                <strong>Genial: </strong> ' . $successMessageContactUs . '
+              <div class="alert alert-success mt-2 display-on-success" role="alert">
+                <strong>Genial: </strong> ' . $_SESSION['successMessageContactUs'] . '
               </div>
 
           </form>
@@ -108,4 +94,3 @@ $content = '
 </div>
 ';
 displayBaseWeb($content);
-?>

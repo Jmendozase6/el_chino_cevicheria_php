@@ -26,6 +26,10 @@ function displayAuthButton(): string
 function displayBaseWeb($content): void
 {
     global $cartTotal;
+    $displayOnError = isset($_SESSION['errorMessageContactUs']) ? 'block' : 'none';
+    $displayOnSuccess = isset($_SESSION['successMessageContactUs']) ? 'block' : 'none';
+    $displayOnErrorComplaints = isset($_SESSION['errorMessageComplaintsBook']) ? 'block' : 'none';
+    $displayOnSuccessComplaints = isset($_SESSION['successMessageComplaintsBook']) ? 'block' : 'none';
     echo '<!doctype html>
 <html lang="es">
 <head>
@@ -47,6 +51,20 @@ function displayBaseWeb($content): void
     <link rel="stylesheet" href="../../styles/profile_client_style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <style>
+        .display-on-error {
+            display: ' . $displayOnError . ';
+        }
+        .display-on-success {
+            display: ' . $displayOnSuccess . ';
+        }
+        .display-on-error-complaints {
+            display: ' . $displayOnErrorComplaints . ';
+        }
+        .display-on-success-complaints {
+            display: ' . $displayOnSuccessComplaints . ';
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -136,10 +154,11 @@ function displayBaseWeb($content): void
         </div>
     </div>
 </footer>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="../../resources/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../resources/script/navbarInteractionsScript.js"></script>
 <script src="../../resources/script/formScript.js"></script>
+<script src="../../resources/script/deleteSessionMessages.js"></script>
 </body>
 </html>';
 }

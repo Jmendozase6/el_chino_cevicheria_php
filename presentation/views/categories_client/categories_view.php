@@ -26,7 +26,7 @@ for ($i = 0; $i < sizeof($responseCategories); $i++) {
 
 function displayCategoryCards(): string
 {
-    global $categoriesDTO, $categoryDAO;
+    global $categoriesDTO;
     $content = '';
 
     for ($i = 0; $i < sizeof($categoriesDTO); $i++) {
