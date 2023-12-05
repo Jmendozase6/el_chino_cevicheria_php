@@ -8,20 +8,20 @@ include_once '../landing/base_landing_view.php';
 include_once '../../../data_access_objects/UserDAO.php';
 include_once '../../../data_transfer_objects/UserDTO.php';
 
+global $errorMessageContactUs, $successMessageContactUs;
 
-if ($GLOBALS['errorMessageContactUs'] != null) { ?>
+if ($errorMessageContactUs != null) { ?>
   <style>.display-on-error {
           display: block;
       }
   </style><?php
 }
-if ($GLOBALS['successMessageContactUs'] != null) { ?>
+if ($successMessageContactUs != null) { ?>
   <style>.display-on-success {
           display: block;
       }
   </style><?php
 }
-
 
 if (!isset($_SESSION)) {
     session_start();
@@ -64,34 +64,33 @@ $content = '
           <form enctype="multipart/form-data" method="post">
 
             <div class="input-field">
-              <label for="name"></label>
-              <input type="text" name="name" id="name" class="border-content"
+
+              <input type="text" name="name" id="name" class="border-content" aria-label="Nombre"
                      placeholder="Nombre" required value="' . ($currentUserDTO ? $currentUserDTO->getName() : '') . '">
-              <label for="email"></label>
+
               <input type="email" name="email" id="email"
                      class="border-content email-content" placeholder="Email"
-                     required value="' . ($currentUserDTO ? $currentUserDTO->getEmail() : '') . '">
+                     required value="' . ($currentUserDTO ? $currentUserDTO->getEmail() : '') . '" aria-label="Correo">
             </div>
 
             <div class="input-field-2">
-              <label for="subject"></label>
               <input type="text" name="subject" id="subject" class="border-content"
-                     placeholder="Asunto" required>
-              <label for="content"></label>
+                     placeholder="Asunto" required aria-label="Asunto">
+              
               <textarea name="content" id="content" class="border-content"
                         placeholder="Mensaje"
                         required></textarea>
               <div class="input-field">
-                <button type="submit" class="submit btn" name="btn-contact-us" id="btn-contact-us">Contactar
+                <button type="submit" class="btn" name="btn-contact-us" id="btn-contact-us">Contactar
                 </button>
               </div>
 
               <div class="alert alert-danger m-2 display-on-error" role="alert">
-                <strong>Error: </strong> ' . $GLOBALS['errorMessageContactUs'] . '
+                <strong>Error: </strong> ' . $errorMessageContactUs . '
               </div>              
               
               <div class="alert alert-success m-2 display-on-success" role="alert">
-                <strong>Genial: </strong> ' . $GLOBALS['successMessageContactUs'] . '
+                <strong>Genial: </strong> ' . $successMessageContactUs . '
               </div>
 
           </form>
@@ -99,6 +98,7 @@ $content = '
       </div>
     </div>
   </div>
+</div>
 </div>
 <div class="container-fluid container-map">
   <iframe

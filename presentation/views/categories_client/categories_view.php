@@ -15,7 +15,7 @@ $categoryDAO = new CategoryDAO();
 $cartDAO = new CartDAO();
 $productDAO = new ProductDAO();
 
-$responseCategories = $categoryDAO->getCategories(12);
+$responseCategories = $categoryDAO->getCategoriesWithProducts(12);
 $categoriesDTO = [];
 $responseProducts = [];
 
@@ -30,7 +30,6 @@ function displayCategoryCards(): string
     $content = '';
 
     for ($i = 0; $i < sizeof($categoriesDTO); $i++) {
-        $quantity = $categoryDAO->quantityProductsByCategory($categoriesDTO[$i]->getId());
         $content .= '
       <div class="col-12 col-sm-6 col-md-3 col-lg-3 container-card">
     <div class="card card-initial">
@@ -39,7 +38,7 @@ function displayCategoryCards(): string
         </a>
         <div class="card-body card-body-initial">
             <h5 class="card-title name-category-initial fw-bold">' . $categoriesDTO[$i]->getName() . '</h5>
-            <p class="card-text card-text-initial fw-bolder">Cantidad de platos: ' . $quantity["quantity"] . '</p>
+            <p class="card-text card-text-initial fw-bolder">Cantidad de platos: ' . $categoriesDTO[$i]->getProductCount() . '</p>
         </div>
     </div>
 </div>

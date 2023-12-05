@@ -4,8 +4,6 @@ error_reporting(E_ALL & ~E_DEPRECATED);
 
 use data_transfer_objects\ProductDTO;
 use data_transfer_objects\UserDTO;
-use MercadoPago\Item;
-use MercadoPago\Preference;
 
 include_once '../landing/base_landing_view.php';
 include_once '../../../data_access_objects/UserDAO.php';
@@ -19,7 +17,6 @@ if (!isset($_SESSION)) {
     $id = $_SESSION['id'];
 }
 $isAuthenticated = isset($_SESSION["id"]);
-//obtener el check seleccionado mandado en el post pero si es nulo que no se rompa
 $checkDelivery = $_POST['options'] ?? null;
 $checkPayment = $_POST['paymentOption'] ?? null;
 
@@ -27,8 +24,6 @@ if ($checkDelivery == null) {
     header('Location: ../cart_new/cart_new_view.php');
     exit();
 }
-echo 'PAYMENT METHOD = ' . $checkPayment . '<br>';
-echo 'DELIVERY METHOD = ' . $checkDelivery . '<br>';
 
 if ($isAuthenticated) {
     $userDAO = new UserDAO();
@@ -56,118 +51,6 @@ if ($cartTotal == 0) {
     exit();
 }
 
-if ($checkDelivery == 'delivery') {
-    $cartTotal += 2;
-}
-
-if (sizeof($responseProductsFromCart) > 0) {
-    require_once __DIR__ . '/../../../vendor/autoload.php';
-    include_once __DIR__ . '/../../../datasource/constants.php';
-
-    MercadoPago\SDK::setAccessToken(MERCADO_PAGO_ACCESS_TOKEN);
-
-    $preference = new Preference();
-    $productsDTO = [];
-
-    for ($i = 0; $i < sizeof($productsFromCartDTO); $i++) {
-        $item = new Item();
-        $item->id = $productsFromCartDTO[$i]->getId();
-        $item->title = $productsFromCartDTO[$i]->getName();
-        $item->quantity = $responseProductsFromCart[$i]['quantity'];
-        $item->unit_price = $productsFromCartDTO[$i]->getPrice();
-        $item->currency_id = 'PEN';
-        $productsDTO[$i] = $item;
-    }
-
-    $preference->items = $productsDTO;
-
-    $preference->back_urls = array(
-//    "success" => $_SERVER['HTTP_HOST'] . "/../presentation/views/cart_client/create_order.php",
-        "success" => $_SERVER['HTTP_HOST'] . "/../presentation/views/cart_client/create_order.php",
-        "failure" => $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "/../error/error_view.php",
-        "pending" => "http://localhost:8080/checkout/pending"
-    );
-
-    $preference->auto_return = "approved";
-    $preference->binary_mode = true;
-
-    try {
-        $preference->save();
-    } catch (Exception $e) {
-        echo 'Excepción capturada: ', $e->getMessage(), "\n";
-    }
-
-    ob_end_flush();
-}
-
-function generatePaymentMethodHTML($method, $image, $alt)
-{
-    return '<div class="col-auto checkout-btn d-flex justify-content-center align-items-center">
-                <button type="button" class="btn mt-0" data-bs-toggle="modal" data-bs-target="#' . ucfirst($method) . '">
-                    ' . ucfirst($method) . ' QR
-                </button>
-                <div class="modal fade" id="' . ucfirst($method) . '" tabindex="-1" aria-labelledby="' . ucfirst($method) . '" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <img src="../../resources/images/' . strtoupper($image) . '" alt="' . ucfirst($alt) . '" class="img-' . strtolower($method) . ' w-100">
-                            </div>
-                            <div class="modal-footer d-flex justify-content-center align-items-center">
-                                <button type="button" class="btn m-0">Confirmar pago</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>';
-}
-
-function displayByPaymentMethod()
-{
-    global $checkPayment;
-
-    if ($checkPayment == 'mercadoPago') {
-        return displayIfAuthenticatedPayment();
-    }
-
-    $paymentMethods = ['yape', 'plin'];
-
-    if (in_array($checkPayment, $paymentMethods)) {
-        $image = $checkPayment == 'yape' ? 'YAPE-QR.jpg' : 'PLIN-QR.png';
-        $alt = ucfirst($checkPayment);
-        return generatePaymentMethodHTML($checkPayment, $image, $alt);
-    }
-
-    return '';
-}
-
-
-function displayIfAuthenticatedPayment(): string
-{
-    global $isAuthenticated, $preference;
-    if ($isAuthenticated) {
-        $javascriptCode = '
-    <script type = "text/javascript" >
-            const id = new MercadoPago("' . MERCADO_PAGO_TEST_PUBLIC_KEY . '", {
-        locale:"es-PE"
-            })
-            id.checkout({
-                preference: {
-                    id: "' . $preference->id . '"
-                },
-                render: {
-        container:
-                ".checkout-btn",
-                    label: "Pagar con MercadoPago",
-                }
-            });
-        </script>
-    ';
-        $content = '<div class="col-auto checkout-btn d-flex justify-content-center align-items-center"></div >' . $javascriptCode;
-    }
-
-    return $content;
-}
-
 function displayIfDelivery(): string
 {
     global $checkDelivery;
@@ -186,8 +69,8 @@ function displayDistrict(): string
     }
     return '<label for="txt-district" class="label-content label-district w-100" > Distrito
                             <select class="form-select txt-user-data mb-2" id = "txt-district" name = "txt-district">
-                                <option value = "1" > Vichayal - S / 2.00</option >
-                                <option value = "2" selected > Querecotillo - S / 2.00</option >
+                                <option value = "Vichayal" > Vichayal - S / 2.00</option >
+                                <option value = "Querecotillo" selected > Querecotillo - S / 2.00</option >
                             </select >
                         </label>';
 }
@@ -199,7 +82,8 @@ $content = '
             <div class="d-flex flex-column align-items-center w-100">
                 <h1 class="text-check-information py-3" > Comprobar información </h1 >
                 <div class="input-fields w-100" >
-                    <form action="" method="get">
+                    <form method="post" id="checkFormUser" 
+                    action="send_form_user.php?delivery=' . $checkDelivery . '&typePayment=' . $checkPayment . '">
                         <div class="name-user" >
                             <label for="txt-name" class="label-content label-name w-100" > Nombres
                                 <input type = "text" name = "txt-name" id = "txt-name"
@@ -237,7 +121,8 @@ $content = '
                         <label for="txt-message" class="label-content-comment p-0 pb-1" > (Opcional)</label >
                         <textarea name = "txt-message" id = "txt-message" class="textarea border-content txt-user-data"
                                   placeholder = "Puedes colocar una referencia, te llamaremos de igual forma."
-                                  required ></textarea >
+                                  ></textarea >
+                        <input type="submit" class="btn btn-primary p-2" value="Continuar">
                     </form>
                 </div >
             </div >
@@ -251,7 +136,6 @@ $content = '
                             <h5 class="text-card-t" > Total</h5 >
                             <h5 class="text-card-t text-card-t-modified" > S / ' . $cartTotal . '</h5 >
                         </div >
-                    ' . displayByPaymentMethod() . '
                     </div >
                 </div >
             </div >

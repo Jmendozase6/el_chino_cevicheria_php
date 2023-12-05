@@ -32,7 +32,7 @@ if ($_SESSION['id'] == null) {
     $responseUser = $userDAO->getUserById($id);
 
     $categoryDAO = new CategoryDAO();
-    $responseCategories = $categoryDAO->getCategories();
+    $responseCategories = $categoryDAO->getCategoriesWithProducts();
     $categoriesDTO = [];
     for ($i = 0; $i < sizeof($responseCategories); $i++) {
         $categoriesDTO[$i] = CategoryDTO::createFromResponse($responseCategories[$i]);

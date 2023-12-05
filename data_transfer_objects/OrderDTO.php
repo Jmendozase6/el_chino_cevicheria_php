@@ -6,7 +6,7 @@ class OrderDTO
 {
     private int $id;
     private int $userId;
-    private int $paymentId;
+    private string $paymentId;
     private float $total;
     private string $orderStatus;
     private string $createdAt;
@@ -45,7 +45,7 @@ class OrderDTO
         $this->userId = $userId;
     }
 
-    public function setPaymentId($paymentId): void
+    public function setPaymentId($paymentId = ''): void
     {
         $this->paymentId = $paymentId;
     }
@@ -105,7 +105,7 @@ class OrderDTO
         return $this->userId;
     }
 
-    public function getPaymentId(): int
+    public function getPaymentId(): string
     {
         return $this->paymentId;
     }

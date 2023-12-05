@@ -8,6 +8,7 @@ class CategoryDTO
     private string $name;
     private string $img;
     private string $createdAt;
+    private int $productCount;
 
     public static function createFromResponse($response): CategoryDTO
     {
@@ -16,6 +17,7 @@ class CategoryDTO
         $modelCategory->setName($response['name']);
         $modelCategory->setImg($response['img']);
         $modelCategory->setCreatedAt($response['created_at']);
+        $modelCategory->setProductCount($response['product_count'] ?? 0);
         return $modelCategory;
     }
 
@@ -40,6 +42,11 @@ class CategoryDTO
         $this->createdAt = $createdAt;
     }
 
+    public function setProductCount($productCount): void
+    {
+        $this->productCount = $productCount;
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -60,8 +67,9 @@ class CategoryDTO
         return $this->createdAt;
     }
 
-    public function __toString()
+    public function getProductCount(): int
     {
-        return "id=" . $this->id . ", name=" . $this->name . ", images=" . $this->getImg() . ", createdAt=" . $this->createdAt;
+        return $this->productCount;
     }
+
 }

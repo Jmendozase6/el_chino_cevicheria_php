@@ -25,7 +25,7 @@ $categoryDTO = CategoryDTO::createFromResponse($categoryDAO->getCategoryById($id
 <body>
 <main class="p-2">
   <form
-      action="edit_category.php?name=<?= $categoryDTO->getName() ?>&image=<?= $categoryDTO->getImg() ?>&id=<?= $categoryDTO->getId() ?>"
+      action="edit_category.php?image=<?= $categoryDTO->getImg() ?>&id=<?= $categoryDTO->getId() ?>"
       method="post" enctype="multipart/form-data">
 
     <div class="container">

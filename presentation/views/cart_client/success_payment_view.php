@@ -10,11 +10,12 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../styles/success_payment_view_style.css">
   <title>Pago Correcto</title>
 </head>
 <body>
-<div class="container">
-  <div class="row justify-content-center align-items-center">
+<div class="container success-container">
+  <div class="row">
     <div class="col-auto">
       <div class="card p-4">
         <div class="card-body">

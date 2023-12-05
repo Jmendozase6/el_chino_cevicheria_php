@@ -1,14 +1,15 @@
 <?php
 include '../../../data_access_objects/UserDAO.php';
 
-require_once __DIR__ . '/../../../services/phpmailer/EmailService.php';
+require_once '../../../services/phpmailer/EmailService.php';
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-$GLOBALS['errorMessageContactUs'] = null;
-$GLOBALS['successMessageContactUs'] = null;
+//$GLOBALS['errorMessageContactUs'] = null;
+//$GLOBALS['successMessageContactUs'] = null;
+global $errorMessageContactUs, $successMessageContactUs;
 
 if (isset($_POST['btn-contact-us'])) {
 
@@ -26,11 +27,14 @@ if (isset($_POST['btn-contact-us'])) {
             $emailResponse = $emailService->sendContactUsEmail($name, $email, $subject, $content);
             if ($emailResponse) {
                 $successMessageContactUs = "Correo electrónico enviado correctamente.";
+                $errorMessageContactUs = null;
                 header('Location: contact_us_view.php');
             } else {
                 $errorMessageContactUs = "Error al enviar el correo electrónico.";
+                $successMessageContactUs = null;
             }
         } catch (Exception $e) {
+            $successMessageContactUs = null;
             $errorMessageContactUs = "Error de la base de datos.";
         }
     }

@@ -43,11 +43,10 @@ $content = '
                     <textarea class="form-control form-control-textarea" id="message" name="message" rows="4" placeholder="Ingrese su reclamación" required></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-submit">Enviar Reclamación</button>
+                <button type="submit" class="btn" style="font-size: 0.9rem;">Enviar Reclamación</button>
             </form>
         </div>
     </div>
 </div>
 ';
 displayBaseWeb($content);
-?>

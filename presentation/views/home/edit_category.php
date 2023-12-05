@@ -3,10 +3,9 @@
 require_once __DIR__ . '/../../../services/cloudinary/CloudinaryService.php';
 require_once '../../../data_access_objects/CategoryDAO.php';
 
-$name = $_GET['name'];
+$name = $_POST['name'];
 $id = $_GET['id'];
 $photo = $_FILES['image']['tmp_name'];
-
 $cloudinary = new CloudinaryService();
 $categoryDAO = new CategoryDAO();
 $secureUrl = '';

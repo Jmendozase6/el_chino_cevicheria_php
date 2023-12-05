@@ -66,8 +66,7 @@ class CategoryDAO
         }
     }
 
-    public
-    function getCategories($limit = 6)
+    public function getCategories($limit = 6): array
     {
         try {
             $sql =
@@ -75,12 +74,27 @@ class CategoryDAO
                 "SELECT * FROM category LIMIT $limit";
             $query = $this->conn->prepare($sql);
             $query->execute();
-            if ($query->rowCount() == 0) {
-                return null;
-            }
             return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function getCategoriesWithProducts($limit = 6): false|array
+    {
+        try {
+            $sql =
+                /** @lang text */
+                "SELECT c.id, c.name, c.created_at, c.img, COUNT(p.id) AS product_count
+                FROM category c
+                         LEFT JOIN product p ON c.id = p.id_category
+                GROUP BY c.id
+                HAVING product_count > 0 LIMIT $limit";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return [];
         }
     }
 
@@ -97,12 +111,18 @@ class CategoryDAO
 
     public function quantityProductsByCategory($id)
     {
-        $sql =
-            /** @lang text */
-            "SELECT COUNT(*) AS quantity FROM product WHERE id_category = ?";
-        $query = $this->conn->prepare($sql);
-        $query->bindParam(1, $id);
-        $query->execute();
-        return $query->fetch(PDO::FETCH_ASSOC);
+        try {
+            $sql =
+                /** @lang text */
+                "SELECT COALESCE(COUNT(*), 0) AS quantity
+                FROM product
+                WHERE id_category = ?";
+            $query = $this->conn->prepare($sql);
+            $query->bindParam(1, $id);
+            $query->execute();
+            return $query->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return 0;
+        }
     }
 }

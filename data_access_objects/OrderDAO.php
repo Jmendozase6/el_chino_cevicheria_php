@@ -13,11 +13,11 @@ class OrderDAO
         $this->conn = DbConnection::connect();
     }
 
-    public function createOrder(OrderDTO $orderDTO): string|bool
+    public function createOrder(OrderDTO $orderDTO, $paymentStatus, $paymentType, $orderId): string|bool
     {
         try {
             $sql = /** @lang text */
-                "INSERT INTO `order` (user_id, payment_id, total, order_status, name_order, last_name_order, address_order, district_order, phone_order, comments_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "INSERT INTO `order` (user_id, payment_id, total, order_status, name_order, last_name_order, address_order, district_order, phone_order, comments_order, mp_payment_status, mp_payment_type, mp_merchant_order_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $query = $this->conn->prepare($sql);
             $query->bindValue(1, $orderDTO->getUserId());
             $query->bindValue(2, $orderDTO->getPaymentId());
@@ -29,6 +29,9 @@ class OrderDAO
             $query->bindValue(8, $orderDTO->getDistrictOrder());
             $query->bindValue(9, $orderDTO->getPhoneOrder());
             $query->bindValue(10, $orderDTO->getCommentsOrder());
+            $query->bindValue(11, $paymentStatus);
+            $query->bindValue(12, $paymentType);
+            $query->bindValue(13, $orderId);
             $query->execute();
             return $this->conn->lastInsertId();
         } catch (PDOException $e) {
@@ -77,16 +80,14 @@ class OrderDAO
     {
         try {
             $sql = /** @lang text */
-                "SELECT
-                    SUM(IF(DAYOFWEEK(created_at) = 2, 1, 0)) AS Lunes,
-                    SUM(IF(DAYOFWEEK(created_at) = 3, 1, 0)) AS Martes,
-                    SUM(IF(DAYOFWEEK(created_at) = 4, 1, 0)) AS Miércoles,
-                    SUM(IF(DAYOFWEEK(created_at) = 5, 1, 0)) AS Jueves,
-                    SUM(IF(DAYOFWEEK(created_at) = 6, 1, 0)) AS Viernes,
-                    SUM(IF(DAYOFWEEK(created_at) = 7, 1, 0)) AS Sábado,
-                    SUM(IF(DAYOFWEEK(created_at) = 1, 1, 0)) AS Domingo
-                FROM `order`
-                WHERE created_at = CURDATE();";
+                "SELECT SUM(IF(DAYOFWEEK(created_at) = 2, 1, 0)) AS Lunes,
+                   SUM(IF(DAYOFWEEK(created_at) = 3, 1, 0)) AS Martes,
+                   SUM(IF(DAYOFWEEK(created_at) = 4, 1, 0)) AS Miércoles,
+                   SUM(IF(DAYOFWEEK(created_at) = 5, 1, 0)) AS Jueves,
+                   SUM(IF(DAYOFWEEK(created_at) = 6, 1, 0)) AS Viernes,
+                   SUM(IF(DAYOFWEEK(created_at) = 7, 1, 0)) AS Sábado,
+                   SUM(IF(DAYOFWEEK(created_at) = 1, 1, 0)) AS Domingo
+                        FROM `order`";
 
             $query = $this->conn->prepare($sql);
             $query->execute();

@@ -72,7 +72,7 @@ if ($_SESSION['id'] == null) {
                     <div id="example_wrapper">
                       <div class="row">
                         <div class="col-sm-12">
-                          <table id="example" class="table"
+                          <table id="example" class="data-table table"
                                  style="width: 100%;" role="grid" aria-describedby="example_info">
                             <thead>
                             <tr role="row">
@@ -117,5 +117,9 @@ if ($_SESSION['id'] == null) {
         </div>
       </div>
     </div>
+    <script src="../../resources/js/jquery-3.7.0.js"></script>
+    <script src="../../resources/js/jquery.dataTables.min.js"></script>
+    <script src="../../resources/js/dataTables.bootstrap5.min.js"></script>
+    <script src="../../resources/js/script.js"></script>
 </body>
 </html>

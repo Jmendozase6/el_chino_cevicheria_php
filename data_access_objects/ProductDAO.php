@@ -77,16 +77,6 @@ class ProductDAO
         return $query->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getProductByName($name)
-    {
-        $sql =
-            /** @lang text */
-            "SELECT * FROM product WHERE name LIKE '%?%'";
-        $query = $this->conn->prepare($sql);
-        $query->bindParam(1, $name);
-        $query->execute();
-        return $query->fetch(PDO::FETCH_ASSOC);
-    }
 
     public function deleteProductById($id): bool
     {
@@ -104,13 +94,17 @@ class ProductDAO
 
     public function getProductsByIdCategory($id): array
     {
-        $sql =
-            /** @lang text */
-            "SELECT * FROM product WHERE id_category = ?";
-        $query = $this->conn->prepare($sql);
-        $query->bindParam(1, $id);
-        $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $sql =
+                /** @lang text */
+                "SELECT * FROM product WHERE id_category = ?";
+            $query = $this->conn->prepare($sql);
+            $query->bindParam(1, $id);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return [];
+        }
     }
 
     public function getProducts($limit = 4): array
@@ -118,7 +112,7 @@ class ProductDAO
         try {
             $sql =
                 /** @lang text */
-                "SELECT DISTINCT name, id, id_category, description, image, price, active, created_at, discount FROM product ORDER BY id_category LIMIT $limit";
+                "SELECT DISTINCT name, id, id_category, description, image, price, active, created_at, discount FROM product WHERE active = 1 ORDER BY id_category LIMIT $limit";
             $query = $this->conn->prepare($sql);
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);

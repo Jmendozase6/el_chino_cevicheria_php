@@ -16,7 +16,7 @@ $categoryDAO = new CategoryDAO();
 $cartDAO = new CartDAO();
 $productDAO = new ProductDAO();
 
-$responseCategories = $categoryDAO->getCategories(12);
+$responseCategories = $categoryDAO->getCategoriesWithProducts(12);
 $categoriesDTO = [];
 $responseProducts = [];
 
@@ -85,26 +85,23 @@ function displayProductsCardsInitial()
     ';
 }
 
-function displayCategoryCards()
+function displayCategoryCards(): string
 {
-    global $categoriesDTO, $categoryDAO;
+    global $categoriesDTO;
     $content = '';
-
     for ($i = 0; $i < 4; $i++) {
-        $quantity = $categoryDAO->quantityProductsByCategory($categoriesDTO[$i]->getId());
         $content .= '
       <div class="col-12 col-sm-6 col-md-3 col-lg-3 container-card">
-    <div class="card card-initial">
-        <a href="../categories_client/categories_products_view.php?categoryId=' . $categoriesDTO[$i]->getId() . '">
-            <img src="' . $categoriesDTO[$i]->getImg() . '" class="card-img-top card-img-top-initial" alt="...">
-        </a>
-        <div class="card-body card-body-initial">
-            <h5 class="card-title name-category-initial fw-bold">' . $categoriesDTO[$i]->getName() . '</h5>
-            <p class="card-text card-text-initial fw-bolder">Cantidad de platos: ' . $quantity["quantity"] . '</p>
+        <div class="card card-initial">
+            <a href="../categories_client/categories_products_view.php?categoryId=' . $categoriesDTO[$i]->getId() . '">
+                <img src="' . $categoriesDTO[$i]->getImg() . '" class="card-img-top card-img-top-initial" alt="...">
+            </a>
+            <div class="card-body card-body-initial">
+                <h5 class="card-title name-category-initial fw-bold">' . $categoriesDTO[$i]->getName() . '</h5>
+                <p class="card-text card-text-initial fw-bolder">Cantidad de platos: ' . $categoriesDTO[$i]->getProductCount() . '</p>
+            </div>
         </div>
-    </div>
-</div>
-    ';
+    </div>';
     }
     return $content;
 }
