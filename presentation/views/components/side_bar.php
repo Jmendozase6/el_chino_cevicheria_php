@@ -113,7 +113,7 @@ $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], "/") + 
        href="../home/admins_admin_view.php"><p>Administradores</p></a>
   </section>
   <section
-      class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start">
+      class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start <?= $page == "products_admin_view.php" ? 'active' : ''; ?>">
     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 48 48"
          class="text-lg" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"
          data-darkreader-inline-stroke=""

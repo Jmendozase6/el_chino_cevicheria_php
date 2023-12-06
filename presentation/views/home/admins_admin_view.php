@@ -20,7 +20,7 @@ if ($_SESSION['id'] == null) {
 } else {
     $userDAO = new UserDAO();
     $roleDAO = new RoleDAO();
-    $responseAdmins = $userDAO->getAdmins();
+    $responseAdmins = $userDAO->getAdmins($_SESSION['id']);
     $responseAdminsDTO = [];
 
     for ($i = 0; $i < sizeof($responseAdmins); $i++) {
@@ -43,7 +43,7 @@ if ($_SESSION['id'] == null) {
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Categorías</title>
+  <title>Administradores</title>
   <link rel="icon" href="../../resources/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../../resources/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">

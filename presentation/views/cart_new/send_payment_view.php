@@ -189,7 +189,7 @@ function generatePaymentMethodHTML($method, $image, $alt): string
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-body">
-                                <img src="../../resources/images/' . strtoupper($image) . '" alt="' . ucfirst($alt) . '" class="img-' . strtolower($method) . ' w-100">
+                                <img src="' . $image . '" alt="' . ucfirst($alt) . '" class="img-' . strtolower($method) . ' w-100">
                             </div>
                             <div class="modal-footer d-flex justify-content-center align-items-center">
                                 <a type="button" class="btn m-0" href="../cart_client/create_order.php">Confirmar pago</a>
@@ -210,7 +210,7 @@ function displayByPaymentMethod(): string
     $paymentMethods = ['yape', 'plin'];
 
     if (in_array($checkPayment, $paymentMethods)) {
-        $image = $checkPayment == 'yape' ? 'YAPE-QR.jpg' : 'PLIN-QR.png';
+        $image = $checkPayment == 'yape' ? 'https://res.cloudinary.com/di9iaerbb/image/upload/v1701851116/Payment/yape_imj0y1.png' : 'https://res.cloudinary.com/di9iaerbb/image/upload/v1701850968/Payment/PLIN_qxvvx6.jpg';
         $alt = ucfirst($checkPayment);
         return generatePaymentMethodHTML($checkPayment, $image, $alt);
     }

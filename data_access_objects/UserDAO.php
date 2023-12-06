@@ -156,11 +156,11 @@ class UserDAO
         }
     }
 
-    public function getAdmins()
+    public function getAdmins($id)
     {
         try {
             $sql = /** @lang text */
-                "SELECT * FROM user WHERE id != 1 AND id_role = 1";
+                "SELECT * FROM user WHERE id != 1 AND id_role = 1 AND id != $id";
             $query = $this->conn->prepare($sql);
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
