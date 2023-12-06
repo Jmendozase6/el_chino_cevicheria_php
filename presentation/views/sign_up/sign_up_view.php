@@ -39,35 +39,35 @@ require('sign_up.php');
             <div class="input-field">
               <input type="text" class="input" name="name" id="name" required autocomplete="off"
                      autofocus>
-              <label for="name">Nombre</label>
+              <label for="name">Nombre *</label>
             </div>
 
             <div class="input-field">
               <input type="text" class="input" name="last_name" id="last_name" required
                      autocomplete="off">
-              <label for="last_name">Apellido</label>
+              <label for="last_name">Apellido *</label>
             </div>
             <div class="input-field">
               <input type="email" class="input" name="email" id="email" required autocomplete="off">
-              <label for="email">Correo electrónico</label>
+              <label for="email">Correo electrónico *</label>
             </div>
 
             <div class="input-field">
               <input type="password" class="input" name="password" id="password" required
                      autocomplete="off"
                      maxlength="16" minlength="6">
-              <label for="password">Contraseña</label>
+              <label for="password">Contraseña *</label>
             </div>
 
 
             <div class="input-field">
               <input type="number" class="input" name="phone" id="phone" pattern="[0,9]+"
-                     inputmode="numeric" required autocomplete="off" maxlength="9" minlength="9">
+                     inputmode="numeric" autocomplete="off" maxlength="9" minlength="9">
               <label for="phone">Teléfono</label>
             </div>
 
             <div class="input-field">
-              <input type="text" class="input" name="address" id="address" required autocomplete="off">
+              <input type="text" class="input" name="address" id="address" autocomplete="off">
               <label for="address">Dirección</label>
             </div>
             <div class="input-field">

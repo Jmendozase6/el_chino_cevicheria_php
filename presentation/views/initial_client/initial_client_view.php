@@ -20,7 +20,7 @@ $responseCategories = $categoryDAO->getCategoriesWithProducts(12);
 $categoriesDTO = [];
 $responseProducts = [];
 
-$productsFilter = $productDAO->getProducts();
+$productsFilter = $productDAO->getProducts(4, true);
 $productsFilterDTO = [];
 
 for ($i = 0; $i < sizeof($productsFilter); $i++) {

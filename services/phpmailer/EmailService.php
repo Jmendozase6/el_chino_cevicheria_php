@@ -77,6 +77,7 @@ class EmailService
             $mail->AltBody = 'Correo electrónico de contacto';
             $mail->send();
 
+            $mail->addAddress($emailFrom, 'El Chino Cevichería');
             $mail->Subject = "Contacto";
             $mail->Body =
                 '<h1> El Chino Cevichería </h1>
@@ -106,8 +107,8 @@ class EmailService
                 '<h1> Orden de compra </h1>
                 <p> Hola, acabas de realizar una compra en nuestro sitio web. <br>
                 Tu orden entrará en proceso de envío una vez que se confirme el pago. <br> 
-                Tu ID es: S./ <strong>' . $orderId . '</strong></p>
-                <p> El monto total de tu compra es: <strong>' . $total . '</strong></p>
+                Tu ID es: <strong>' . $orderId . '</strong></p>
+                <p> El monto total de tu compra es:  S./ <strong>' . $total . '</strong></p>
                 <p> Si no has solicitado una orden de compra, ignora este mensaje.</p >';
             $mail->AltBody = 'Correo electrónico de orden de compra';
             return $mail->send();

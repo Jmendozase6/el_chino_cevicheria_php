@@ -97,7 +97,7 @@ class ProductDAO
         try {
             $sql =
                 /** @lang text */
-                "SELECT * FROM product WHERE id_category = ?";
+                "SELECT * FROM product WHERE id_category = ? AND active = 1";
             $query = $this->conn->prepare($sql);
             $query->bindParam(1, $id);
             $query->execute();
@@ -107,12 +107,18 @@ class ProductDAO
         }
     }
 
-    public function getProducts($limit = 4): array
+    public function getProducts($limit = 4, $active = true): array
     {
         try {
-            $sql =
-                /** @lang text */
-                "SELECT DISTINCT name, id, id_category, description, image, price, active, created_at, discount FROM product WHERE active = 1 ORDER BY id_category LIMIT $limit";
+            if ($active) {
+                $sql =
+                    /** @lang text */
+                    "SELECT DISTINCT name, id, id_category, description, image, price, active, created_at, discount FROM product WHERE active = 1 ORDER BY id_category LIMIT $limit";
+            } else {
+                $sql =
+                    /** @lang text */
+                    "SELECT DISTINCT name, id, id_category, description, image, price, active, created_at, discount FROM product ORDER BY id_category LIMIT $limit";
+            }
             $query = $this->conn->prepare($sql);
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);

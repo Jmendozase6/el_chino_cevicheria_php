@@ -8,7 +8,6 @@ use MercadoPago\Item;
 use MercadoPago\Payer;
 use MercadoPago\Preference;
 
-
 include_once '../landing/base_landing_view.php';
 require_once '../../../data_access_objects/CartDAO.php';
 require_once '../../../data_access_objects/ProductDAO.php';
@@ -47,64 +46,70 @@ if ($cartTotal == 0) {
     exit();
 }
 
+
 if (sizeof($responseProductsFromCart) > 0) {
     require_once __DIR__ . '/../../../vendor/autoload.php';
     include_once __DIR__ . '/../../../datasource/constants.php';
 
-    MercadoPago\SDK::setAccessToken(MERCADO_PAGO_ACCESS_TOKEN);
-
-    $preference = new Preference();
-    $payer = new Payer();
-    $productsDTO = [];
-
-    for ($i = 0; $i < sizeof($productsFromCartDTO); $i++) {
-        $item = new Item();
-        $item->id = $productsFromCartDTO[$i]->getId();
-        $item->title = $productsFromCartDTO[$i]->getName();
-        $item->quantity = $responseProductsFromCart[$i]['quantity'];
-        $item->unit_price = $productsFromCartDTO[$i]->getPrice();
-        $item->currency_id = 'PEN';
-        $item->picture_url = $productsFromCartDTO[$i]->getImage();
-        $productsDTO[$i] = $item;
-    }
-
-    $delivery = $_SESSION['check-delivery'] ?? '';
-
-    if ($delivery == 'delivery') {
-        $cartTotal += 2;
-        $productsDTO[sizeof($productsDTO)] = [
-            "id" => "delivery",
-            "title" => "Delivery",
-            "quantity" => 1,
-            "unit_price" => 2,
-            "currency_id" => "PEN"];
-    }
-
-    $preference->payment_methods = array(
-        "installments" => 1
-    );
-
-    $preference->items = $productsDTO;
-
-    $payer->name = $currentUserDTO->getName();
-    $payer->surname = $currentUserDTO->getLastName();
-    $payer->email = $currentUserDTO->getEmail();
-    $payer->phone = array(
-        "area_code" => "51",
-        "number" => $currentUserDTO->getPhone()
-    );
-    $preference->payer = $payer;
-
-    $preference->back_urls = array(
-//    "success" => $_SERVER['HTTP_HOST'] . "/../presentation/views/cart_client/create_order.php",
-        "success" => $_SERVER['HTTP_HOST'] . "/../presentation/views/cart_client/create_order.php",
-        "failure" => $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "/../error/error_view.php",
-    );
-
-    $preference->auto_return = "approved";
-    $preference->binary_mode = true;
-
     try {
+        MercadoPago\SDK::setAccessToken(MERCADO_PAGO_ACCESS_TOKEN);
+//        MercadoPago\SDK::setPublicKey(MERCADO_PAGO_PROD_PUBLIC_KEY);
+//        MercadoPago\SDK::setClientId(MERCADO_PAGO_PROD_CLIENT_ID);
+//        MercadoPago\SDK::setClientSecret(MERCADO_PAGO_CLIENT_SECRET);
+
+        $preference = new Preference();
+        $payer = new Payer();
+        $productsDTO = [];
+
+        for ($i = 0; $i < sizeof($productsFromCartDTO); $i++) {
+            $item = new Item();
+            $item->id = $productsFromCartDTO[$i]->getId();
+            $item->title = $productsFromCartDTO[$i]->getName();
+            $item->description = $productsFromCartDTO[$i]->getDescription();
+            $item->category_id = $productsFromCartDTO[$i]->getIdCategory();
+            $item->quantity = $responseProductsFromCart[$i]['quantity'];
+            $item->unit_price = $productsFromCartDTO[$i]->getPrice();
+            $item->currency_id = 'PEN';
+            $item->picture_url = $productsFromCartDTO[$i]->getImage();
+            $productsDTO[$i] = $item;
+        }
+
+        $delivery = $_SESSION['check-delivery'] ?? '';
+
+        if ($delivery == 'delivery') {
+            $cartTotal += 2;
+            $productsDTO[sizeof($productsDTO)] = [
+                "id" => "delivery",
+                "title" => "Delivery",
+                "quantity" => 1,
+                "unit_price" => 2,
+                "currency_id" => "PEN"];
+        }
+
+        $preference->payment_methods = array(
+            "installments" => 1
+        );
+
+        $preference->items = $productsDTO;
+
+        $payer->name = $currentUserDTO->getName();
+        $payer->surname = $currentUserDTO->getLastName();
+        $payer->email = $currentUserDTO->getEmail();
+        $payer->phone = array(
+            "area_code" => "51",
+            "number" => $currentUserDTO->getPhone()
+        );
+        $preference->payer = $payer;
+
+        $preference->back_urls = array(
+//    "success" => $_SERVER['HTTP_HOST'] . "/../presentation/views/cart_client/create_order.php",
+            "success" => $_SERVER['HTTP_HOST'] . "/../el_chino_cevicheria/presentation/views/cart_client/create_order.php",
+            "failure" => $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "/../error/error_view.php",
+        );
+
+        $preference->auto_return = "approved";
+        $preference->binary_mode = true;
+
         $preference->save();
     } catch (Exception $e) {
         echo 'Excepción capturada: ', $e->getMessage(), "\n";
@@ -172,46 +177,6 @@ function displayIfAuthenticatedPayment(): string
     }
 
     return $content;
-}
-
-if (sizeof($responseProductsFromCart) > 0) {
-    require_once __DIR__ . '/../../../vendor/autoload.php';
-    include_once __DIR__ . '/../../../datasource/constants.php';
-
-    MercadoPago\SDK::setAccessToken(MERCADO_PAGO_ACCESS_TOKEN);
-
-    $preference = new Preference();
-    $productsDTO = [];
-
-    for ($i = 0; $i < sizeof($productsFromCartDTO); $i++) {
-        $item = new Item();
-        $item->id = $productsFromCartDTO[$i]->getId();
-        $item->title = $productsFromCartDTO[$i]->getName();
-        $item->quantity = $responseProductsFromCart[$i]['quantity'];
-        $item->unit_price = $productsFromCartDTO[$i]->getPrice();
-        $item->currency_id = 'PEN';
-        $productsDTO[$i] = $item;
-    }
-
-    $preference->items = $productsDTO;
-
-    $preference->back_urls = array(
-//    "success" => $_SERVER['HTTP_HOST'] . "/../presentation/views/cart_client/create_order.php",
-        "success" => $_SERVER['HTTP_HOST'] . "/../presentation/views/cart_client/create_order.php",
-        "failure" => $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "/../error/error_view.php",
-        "pending" => "http://localhost:8080/checkout/pending"
-    );
-
-    $preference->auto_return = "approved";
-    $preference->binary_mode = true;
-
-    try {
-        $preference->save();
-    } catch (Exception $e) {
-        echo 'Excepción capturada: ', $e->getMessage(), "\n";
-    }
-
-    ob_end_flush();
 }
 
 function generatePaymentMethodHTML($method, $image, $alt): string
@@ -287,30 +252,3 @@ $content = '
 ';
 
 displayBaseWeb($content);
-?>
-
-<!--<!doctype html>-->
-<!--<html lang="es">-->
-<!--<head>-->
-<!--  <meta charset="UTF-8">-->
-<!--  <meta name="viewport"-->
-<!--        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
-<!--  <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
-<!--  <title>Document</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div class="container">-->
-<!--  <div class="row">-->
-<!--    <div class="col-12">-->
-<!--      <div class="card">-->
-<!--        <h5 class="card-header">Datos de la orden</h5>-->
-<!--        <div class="card-body">-->
-<!--          <h5 class="card-title">Datos del pago</h5>-->
-<!---->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->

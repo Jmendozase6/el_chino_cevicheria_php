@@ -17,16 +17,16 @@ if (isset($_SESSION["id"])) {
 
 if (isset($_POST['btn-sign-up'])) {
 
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
-    $name = trim($_POST['name']);
-    $lastName = trim($_POST['last_name']);
-    $phone = trim($_POST['phone']);
-    $address = trim($_POST['address']);
+    $email = trim($_POST['email'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+    $name = trim($_POST['name'] ?? '');
+    $lastName = trim($_POST['last_name'] ?? '');
+    $phone = trim($_POST['phone'] ?? '');
+    $address = trim($_POST['address'] ?? '');
     $userDAO = new UserDAO();
 
 //    if (strlen($password) < 6 || strlen($email) == 0 || strlen($name) == 0 || strlen($phone) == 0 || strlen($address) == 0 || strlen($lastName) == 0) {
-    if (empty($password) || empty($email) || empty($name) || empty($phone) || empty($address) || empty($lastName) || ctype_space($password) || ctype_space($email) || ctype_space($name) || ctype_space($phone) || ctype_space($address) || ctype_space($lastName)) {
+    if (empty($password) || empty($email) || empty($name) || empty($lastName) || ctype_space($password) || ctype_space($email) || ctype_space($name) || ctype_space($lastName)) {
         $errorMessageSignUp = "Por favor, ingrese todos los campos.";
     } else {
         try {
