@@ -21,6 +21,10 @@ $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], "/") + 
          href="../home/clients_admin_view.php"
          type="button"><i class="bi bi-person-fill"></i>
       </a>
+      <a class="text-decoration-none color-text <?= $page == "admins_admin_view.php" ? 'active-text' : ''; ?>"
+         href="../home/admins_admin_view.php"
+         type="button"><i class="bi bi-person-fill-check"></i>
+      </a>
       <a class="text-decoration-none color-text <?= $page == "statistics_view.php" ? 'active-text' : ''; ?> "
          href="../statistics/statistics_view.php"
          type="button"><i class="bi bi-bar-chart-line-fill"></i>

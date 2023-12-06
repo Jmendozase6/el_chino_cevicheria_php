@@ -20,11 +20,11 @@ if ($_SESSION['id'] == null) {
 } else {
     $userDAO = new UserDAO();
     $roleDAO = new RoleDAO();
-    $responseClients = $userDAO->getClients();
-    $responseClientsDTO = [];
+    $responseAdmins = $userDAO->getAdmins();
+    $responseAdminsDTO = [];
 
-    for ($i = 0; $i < sizeof($responseClients); $i++) {
-        $responseClientsDTO[$i] = UserDTO::createFromResponse($responseClients[$i]);
+    for ($i = 0; $i < sizeof($responseAdmins); $i++) {
+        $responseAdminsDTO[$i] = UserDTO::createFromResponse($responseAdmins[$i]);
     }
     $roles = $roleDAO->getRoles();
     $rolesDTO = [];
@@ -60,12 +60,12 @@ if ($_SESSION['id'] == null) {
       </div>
     </div>
     <main class="container-fluid container-fluid-content">
-      <div class="col"><h1 class="py-2 fw-bold">Clientes</h1></div>
+      <div class="col"><h1 class="py-2 fw-bold">Administradores</h1></div>
       <div class="row">
         <div class="col-md-12 mb-3">
           <div class="card">
             <div class="card-header">
-              <span><i class="bi bi-table me-2"></i></span> Clientes
+              <span><i class="bi bi-table me-2"></i></span> Administradores
             </div>
             <div class="card-body">
               <div class="table-responsive-xl">
@@ -88,7 +88,7 @@ if ($_SESSION['id'] == null) {
                         </tr>
                         </thead>
                         <tbody id="content" name="content">
-                        <?php foreach ($responseClientsDTO as $client) { ?>
+                        <?php foreach ($responseAdminsDTO as $client) { ?>
                           <tr>
                             <th class="align-middle"
                                 scope="row"><?= $client->getId() ?></th>
@@ -136,7 +136,7 @@ if ($_SESSION['id'] == null) {
                               </a>
                               <label for="id_category"></label>
                               <a href="update_user.php?id=
-                                <?= $client->getId() ?>&role=1"
+                                <?= $client->getId() ?>&role=2"
                                  class="col me-2 btn btn-outline-secondary"><i class="bi bi-award"></i>
                               </a>
                             </td>

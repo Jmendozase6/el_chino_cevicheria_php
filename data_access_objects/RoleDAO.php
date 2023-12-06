@@ -13,7 +13,7 @@ class RoleDAO
         $this->conn = DbConnection::connect();
     }
 
-    public function changeRole($userId, $roleId): void
+    public function changeRole($userId, $roleId): bool
     {
         try {
             $sql = /** @lang text */
@@ -21,9 +21,9 @@ class RoleDAO
             $query = $this->conn->prepare($sql);
             $query->bindParam(1, $roleId);
             $query->bindParam(2, $userId);
-            $query->execute();
+            return $query->execute();
         } catch (Exception $e) {
-            die("Error: " . $e->getMessage());
+            return false;
         }
     }
 

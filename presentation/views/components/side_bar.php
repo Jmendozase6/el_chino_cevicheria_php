@@ -92,6 +92,27 @@ $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], "/") + 
        href="../home/clients_admin_view.php"><p>Clientes</p></a>
   </section>
   <section
+      class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start <?= $page == "admins_admin_view.php" ? 'active' : ''; ?> ">
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 48 48"
+         class="text-lg" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"
+         data-darkreader-inline-stroke=""
+         style="--darkreader-inline-stroke: currentColor; --darkreader-inline-fill: currentColor;"
+         data-darkreader-inline-fill="">
+      <rect x="6" y="38" fill="#2196F3" width="4" height="4" data-darkreader-inline-fill=""
+            style="--darkreader-inline-fill: #33a2f4;"></rect>
+      <rect x="6" y="30" fill="#2196F3" width="12" height="4" data-darkreader-inline-fill=""
+            style="--darkreader-inline-fill: #33a2f4;"></rect>
+      <rect x="6" y="22" fill="#2196F3" width="20" height="4" data-darkreader-inline-fill=""
+            style="--darkreader-inline-fill: #33a2f4;"></rect>
+      <rect x="6" y="14" fill="#2196F3" width="28" height="4" data-darkreader-inline-fill=""
+            style="--darkreader-inline-fill: #33a2f4;"></rect>
+      <rect x="6" y="6" fill="#2196F3" width="36" height="4" data-darkreader-inline-fill=""
+            style="--darkreader-inline-fill: #33a2f4;"></rect>
+    </svg>
+    <a class="text-decoration-none color-text <?= $page == "admins_admin_view.php" ? 'active-text' : ''; ?>"
+       href="../home/admins_admin_view.php"><p>Administradores</p></a>
+  </section>
+  <section
       class="d-flex ps-8 gap-4 py-3 justify-content-start align-items-center btn-start">
     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 48 48"
          class="text-lg" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"
